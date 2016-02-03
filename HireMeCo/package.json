@@ -1,0 +1,15 @@
+{
+  "author": {
+    "name": "Jarrett",
+    "email": "jarrett.a.long@gmail.com"
+  },
+  "description": "HireMeCo",
+  "main": "server.js",
+  "name": "HireMeCo",
+  "version": "0.0.0",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.4",
+    "mongoose": "^4.3.7"
+  }
+}
