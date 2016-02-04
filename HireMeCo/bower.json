@@ -1,0 +1,11 @@
+{
+    "name": "HireMeCo",
+    "version": "1.7.2",
+    "dependencies": {
+        "bootstrap": "latest",
+        "font-awesome": "latest",
+        "animate.css": "latest",
+        "angular": "latest",
+        "angular-route": "latest"   
+    }
+}
