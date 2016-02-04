@@ -1,0 +1,10 @@
+{
+  "name": "HireMeCo",
+  "version": "0.0.0",
+  "description": "HireMeCo",
+  "main": "server.js",
+  "author": {
+    "name": "Jarrett",
+    "email": ""
+  }
+}
