@@ -352,9 +352,19 @@
     <Content Include="public\libs\jquery\LICENSE.txt" />
     <Content Include="public\libs\jquery\README.md" />
     <Content Include="public\libs\jquery\src\.jshintrc" />
+    <Content Include="public\views\employee\editEmployeeProfile.html" />
+    <Content Include="public\views\employee\employeeDashboard.html" />
+    <Content Include="public\views\employer\editEmployerProfile.html" />
+    <Content Include="public\views\employee\employeeProfile.html" />
+    <Content Include="public\views\employer\employerDashboard.html" />
+    <Content Include="public\views\employer\employerProfile.html" />
     <Content Include="public\views\home.html" />
     <Content Include="public\views\index.html" />
+    <Content Include="public\views\job.html" />
+    <Content Include="public\views\modules\login.html" />
     <Content Include="public\views\person.html" />
+    <Content Include="public\views\modules\regristration.html" />
+    <Content Include="public\views\searchResults.html" />
     <Content Include="README.md" />
     <Content Include="public\views\AngularJS.html" />
     <Content Include="public\views\MoviesList.html" />
@@ -410,6 +420,9 @@
     <Folder Include="public\libs\jquery\src\traversing\var\" />
     <Folder Include="public\libs\jquery\src\var\" />
     <Folder Include="public\views\" />
+    <Folder Include="public\views\employer\" />
+    <Folder Include="public\views\employee\" />
+    <Folder Include="public\views\modules\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
