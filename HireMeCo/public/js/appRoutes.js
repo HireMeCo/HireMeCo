@@ -4,30 +4,53 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
         
         $routeProvider
 
-        // home page
+        // ===== MAIN FRONT END ===========================
         .when('/', {
             templateUrl: 'views/home.html',
             controller: 'MainController'
         })
-
-        // movies example
-        .when('/movies', {
-            templateUrl: 'views/MoviesList.html',
-            controller: 'MoviesController'
+        .when('/about', {
+            templateUrl: 'views/global/about.html'
         })
-
-        // angular test
-        .when('/test', {
-            templateUrl: 'views/AngularJS.html',
-            controller: 'TestController'
+        .when('/contact', {
+            templateUrl: 'views/global/contact.html'
         })
+        .when('/login', {
+            templateUrl: 'views/modules/login.html'
+        })
+        .when('/signup', {
+            templateUrl: 'views/global/signup.html'
+        })
+        .when('/profile', {
+            templateUrl: 'views/employee/employeeProfile.html',
+            controller: 'EmployeeController'
+        })
+        .when('/search', {
+            templateUrl: 'views/global/searchResults.html'
+        })
+        //.when('/movies', {
+        //    templateUrl: 'views/MoviesList.html',
+        //    controller: 'MoviesController'
+        //})
+        //============================================================
 
-        // people page that will use the people
-        .when('/person', {
-            templateUrl: 'views/person.html',
-            controller: 'PersonController'
+
+        
+        // ============ ADMIN BACKEND ================================
+        .when('/admin/employees', {
+            templateUrl: 'views/admin/viewEmployees.html',
+            controller: 'employeeController'
+        })
+        .when('/admin/employers', {
+            templateUrl: 'views/admin/viewEmployers.html',
+            controller: 'employerController'
+        })
+        .when('/admin/jobs', {
+            templateUrl: 'views/admin/viewJobs.html',
+            controller: 'JobsController'
         });
-                
+        //==============================================================
+        
         $locationProvider.html5Mode(true);
 
     }]);

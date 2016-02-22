@@ -1,0 +1,27 @@
+body {
+	margin-top: auto;
+	margin-bottom: auto;
+	background: #4d4d4d;
+	color: #ffffff;
+}
+
+.container {
+	padding-top: 200px;
+}
+
+.col-md-4 h3 {
+	font-family: "Trebuchet MS";
+	text-align: center;
+}
+
+.col-md-4 img {
+	display: block;
+    margin: 0 auto;
+}
+
+.col-md-4 .btn-default {
+	display: block;
+	text-align; center;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}

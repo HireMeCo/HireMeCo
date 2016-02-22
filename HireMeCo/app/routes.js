@@ -1,44 +1,74 @@
-﻿// this is for server-side routing 
-//   (api calls, or anything you don't want the user to nav to)
-// routes is in the app folder so when you require stuff it can use
-//   relative paths to find the file
-
-// need path to route to public html files correctly
-var path = require("path");
-
-// setup models
-var Person = require('./models/personModel.js');
-var Movie = require('./models/movieModel.js');
-
+﻿var path = require("path");
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 module.exports = function (app) {
-    // get shit
-    app.get('/api/people', function (request, response) {
-        //use mongoose to get all people in database
-        Person.find(function (err, people) {
-            if (err) {
-                res.send(err);
-            }
-            else {
-                res.json(people); // send back all person data in json
-            }
-        });
+    
+    app.use(function (req, res, next) {
+        console.log("Using the API... not sure what this little snippet is for, honestly.");
+        next();
     });
 
-    // create shit
+    //=========================================================
+    //      PERSON CRUD (in case we need to consolidate employee/employer)
+    //=========================================================
+    //var Person = require('./models/personModel.js');
+    //app.get('/api/people', Person.fetch);
+    //app.post('/api/people', Person.add);
+    //app.put('/api/epeople/:people', Person.modify);
     
-    // delete shit
+    //=========================================================
+    //      EMPLOYEE CRUD
+    //=========================================================
+    var Employee = require('./models/employeeModel.js');
+    app.get('/api/employees', Employee.fetch);
+    app.post('/api/employees', Employee.add);
+    app.put('/api/employees/:employeeId', Employee.modify);
+    
+    //=========================================================
+    //      EMPLOYER CRUD
+    //=========================================================
+    //var Employer= require('./models/employerModel.js');
+    //app.get('/api/employers', Employer.fetch);
+    //app.post('/api/employers', Employer.add);
+    //app.put('/api/employers/:employerId', Employer.modify);
+    
+    //=========================================================
+    //      JOB CRUD (?) or should this be a part of the employer schema?
+    //=========================================================
+    
+    //=========================================================
+    //      ADDITUDINAL SURVEY CRUD (?) or should this be a part of the employee schema?
+    //=========================================================
+    
+    //=========================================================
+    //      JOB CRUD (?) or should this be a part of the employer schema?
+    //=========================================================
 
-    // old
+
+
+    //=========================================================
+    //      MOVIE CRUD (test stuff)
+    //=========================================================
+    var Movie = require('./models/movieModel.js');
     app.get('/api/movies', Movie.fetch);
-    
     app.post('/api/movies', Movie.add);
-    
     app.put('/api/movies/:movieId', Movie.modify);
+    
 
+    //=========================================================
+    //      ADMIN SECTION
+    //=========================================================
+
+    app.get("/admin/*", function (request, response) {
+        response.sendFile(path.join(__dirname, '../public', '/views/admin/adminDashboard.html'));
+    });
+    
+    //=========================================================
+    //      MAIN USER SPA CATCH-ALL FOR ANGULAR ROUTES
+    //=========================================================
     // frontend routes (this is for a single page application,
     // so everything routes to the main page)
-    //this should be in the angular routes i think
-    app.get('*', function (request, response) {
+    app.get('/', function (request, response) {
         response.sendFile(path.join(__dirname, '../public', '/views/index.html'));
         //these two do the same thing
         //response.sendFile('index1.html', { root: path.join(__dirname, '../public') });

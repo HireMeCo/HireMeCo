@@ -1,0 +1,12 @@
+﻿
+<div class="jumbotron text-center" ng-controller="employeeController" >
+
+    <h1>{{ title }}</h1>
+
+    <ul id="employeeList">
+        <li ng-repeat="employee in employees"> {{employee.lastname}}, {{employee.firstname}} </li>
+    </ul>
+
+    <p>End of the list!</p>
+
+</div>

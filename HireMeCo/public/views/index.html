@@ -3,13 +3,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="images/favicon.png">
     <base href="/">
-
-    <title>I really, really hope this works</title>
+    <title>HireMe.co</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+    <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
     <!-- JS -->
     <script src="libs/angular/angular.min.js"></script>
     <script src="libs/angular-route/angular-route.min.js"></script>
@@ -17,29 +22,84 @@
     <!-- ANGULAR CUSTOM -->
     <script src="js/controllers/MainModule.js"></script>
     <script src="js/controllers/PersonModule.js"></script>
+    <script src="js/controllers/EmployeeModule.js"></script>
+    <script src="js/services/EmployeeService.js"></script>
     <script src="js/services/PersonService.js"></script>
     <script src="js/appRoutes.js"></script>
     <script src="js/app.js"></script>
 </head>
-<body ng-app="sampleApp">
-    <div class="container">
+<body id="home" ng-app="sampleApp">
 
-        <!-- HEADER -->
-        <nav class="navbar navbar-inverse">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">Home Page</a>
-            </div>
+    <!-- ============ PAGE LOADER START ============ -->
 
-            <!-- LINK TO OUR PAGES. ANGULAR HANDLES THE ROUTING HERE -->
-            <ul class="nav navbar-nav">
-                <li><a href="/person">Person Page</a></li>
-                <li><a href="/test">Angular Test Page</a></li>
-            </ul>
-        </nav>
-
-        <!-- ANGULAR DYNAMIC CONTENT -->
-        <div ng-view></div>
-
+    <div id="loader">
+        <i class="fa fa-cog fa-4x fa-spin"></i>
     </div>
+
+    <!-- ============ PAGE LOADER END ============ -->
+
+    <!-- ============ NAVBAR START ============ -->
+
+    <div class="fm-container">
+        <!-- Menu -->
+        <div class="menu">
+            <div class="button-close text-right">
+                <a class="fm-button"><i class="fa fa-close fa-2x"></i></a>
+            </div>
+            <ul class="nav">
+                <li class="active"><a href="#home">Home</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
+                <li><a href="post-a-job.html">Post a job</a></li>
+                <li><a href="candidates.html">Candidates</a></li>
+                <li><a href="post-a-resume.html">Post a Resume</a></li>
+                <li>
+                    <a href="#">Pages</a>
+                    <ul>
+                        <li><a href="job-details.html">Job Details</a></li>
+                        <li><a href="resume.html">Resume</a></li>
+                        <li><a href="company.html">Company</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="post.html">Single Post</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="options.html">Options</a></li>
+                    </ul>
+                </li>
+                <li><a class="link-register">Register</a></li>
+                <li><a class="link-login">Login</a></li>
+            </ul>
+        </div>
+        <!-- end Menu -->
+    </div>
+
+    <!-- ============ NAVBAR END ============ -->
+
+    <!-- ============ HEADER START ============ -->
+
+    <header>
+        <div id="header-background"></div>
+        <div class="container">
+            <div class="pull-left">
+                <div id="logo"><a href="index.html"><img src="images/logo.png" alt="Jobseek - Job Board Responsive HTML Template" /></a></div>
+            </div>
+            <div id="menu-open" class="pull-right">
+                <a class="fm-button"><i class="fa fa-bars fa-lg"></i></a>
+            </div>
+            <div id="searchbox" class="pull-right">
+                <form>
+                    <div class="form-group">
+                        <label class="sr-only" for="searchfield">Searchbox</label>
+                        <input type="text" class="form-control" id="searchfield" placeholder="Type keywords and press enter">
+                    </div>
+                </form>
+            </div>
+            <div id="search" class="pull-right">
+                <a><i class="fa fa-search fa-lg"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ HEADER END ============ -->
+
 </body>
 </html>

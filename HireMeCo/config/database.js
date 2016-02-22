@@ -1,7 +1,7 @@
 ﻿// configures our database connection
 
-exports = {
-    url: 'mongodb://localhost/templateDb'
+module.exports = {
+    url: 'mongodb://localhost/HireMeDb'
 }
 
 //var mongoose = require('mongoose');

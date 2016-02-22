@@ -1,4 +1,4 @@
-﻿// public/js/services/NerdService.js
+﻿// public/js/services/PersonService.js
 angular.module('PersonService', []).factory('Person', ['$http', function ($http) {
         
         return {
@@ -6,8 +6,7 @@ angular.module('PersonService', []).factory('Person', ['$http', function ($http)
             get : function () {
                 return $http.get('/api/people');
             },
-            
-            
+                        
             // these will work when more API routes are defined on the Node side of things
             // call to POST and create a new person
             create : function (nerdData) {

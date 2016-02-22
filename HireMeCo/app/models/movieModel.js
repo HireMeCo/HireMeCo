@@ -16,11 +16,8 @@ db.once('open', function () {
     
     MovieModel.find().exec(function (error, results) {
         if (results.length === 0) {
-            MovieModel.create({ name: "The Amazing Spider-Man 2", released: true, watched: false });
-            MovieModel.create({ name: "The Other Woman", released: true, watched: true });
-            MovieModel.create({ name: "Shaadi ke Side Effects", released: false, watched: false });
-            MovieModel.create({ name: "Walk of Shame", released: true, watched: false });
-            MovieModel.create({ name: "Lucky Kabootar", released: false, watched: false });
+            console.log("Fetched Movies")
+            MovieModel.create({ name: "This means there was nothing in the db", released: false, watched: true });
         }
     });
 });
@@ -31,6 +28,7 @@ exports.fetch = function (request, response) {
             response.send(500, { error: err });
         }
         else {
+            console.log("Fetched Movies from API call.")
             response.send(res);
         }
     });
