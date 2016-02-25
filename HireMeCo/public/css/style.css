@@ -101,6 +101,8 @@ a (hover):              #a0205f (darker cyan)
 
 /* 1. GLOBAL STYLES
 -------------------------------------------------------------------*/
+/*Angular Bootstrap UI fix*/
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 body {
 	min-width: 320px;

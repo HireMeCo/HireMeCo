@@ -1,34 +1,19 @@
-﻿<!-- public/views/modules/login.html -->
-<!--<div class="jumbotron text-center">
-    <h1>{{ header }}</h1>
-
-    <p>{{ tagline }}</p>
-</div>-->
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <img src="../pics/TileIcon.jpg">
-            <h3>User Login</h3>
-            <form>
+﻿<div class="col-md-offset-2 col-md-8">
+    <h1>Login</h2>
+    <div ng-show="error" class="alert alert-danger"></div>
+    <form class="form" ng-submit="login()">
                 <div class="form-group">
-                    <label>E-mail Address</label>
-                    <input type="email" class="form-control" id="user_email" placeholder="abc@hireme.co">
+                    <label>Username</label>
+                    <input type="text" class="form-control" name="username" ng-model="loginForm.username" required>
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" class="form-control" id="user_pw" placeholder="*****">
+                    <input type="password" class="form-control" name="password" ng-model="loginForm.password" required>
                 </div>
-                <a class="btn btn-default" href="#" role="button">Submit</a>
-            </form>
-            <a class="btn btn-primary" href="splash.html" role="button">Back</a>
-        </div>
-        <div class="col-md-4"></div>
-    </div>
+                <div>
+                    <button type="submit" class="btn btn-primary" ng-disabled="disabled">Login</button>
+                </div>
+             </form>
+        
+    <a href="/register.html">Register</a>
 </div>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>

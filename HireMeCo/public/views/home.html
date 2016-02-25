@@ -1,7 +1,141 @@
 ﻿<!-- public/views/home.html -->
+<!-- ============ TITLE START ============ -->
 
-<div class="jumbotron text-center"  ng-controller="MainController">
-    <h1>Home Page 4 Life</h1>
+<section id="title">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>Home/splash page</h1>
+                <h4>We can put whatever here! Slideshow? Cool text? idk! </h4>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <p>{{ tagline }}</p>
+<div class="container text-center">
+
+    
+    <!-- this is if we have time to make these modal pop ups. for now they'll be seperate pages -->
+    <!-- ===================== LOGIN MODAL ===================== -->
+    <!--<div ng-controller="LoginModuleCtrl">
+        <script type="text/ng-template" id="loginModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Login</h3>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <ul class="social-login">
+                        <li><a class="btn btn-facebook"><i class="fa fa-facebook"></i>Sign In with Facebook</a></li>
+                        <li><a class="btn btn-google"><i class="fa fa-google-plus"></i>Sign In with Google</a></li>
+                        <li><a class="btn btn-linkedin"><i class="fa fa-linkedin"></i>Sign In with LinkedIn</a></li>
+                    </ul>
+                    <hr>
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" class="form-control" id="login-username">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" class="form-control" id="login-password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+        <button type="button" ng-click="open()">Login</button>
+        <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+    </div>-->
+    <!-- ===================== LOGIN MODAL END ========================== -->
+    <!-- ===================== REGISTER MODAL =========================== -->
+    <!--<div ng-controller="RegisterCtrl">
+        <script type="text/ng-template" id="registerModal.html">
+            <div class="modal-header">
+                <h2>Register!</h2>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <ul class="social-login">
+                        <li><a class="btn btn-facebook"><i class="fa fa-facebook"></i>Register with Facebook</a></li>
+                        <li><a class="btn btn-google"><i class="fa fa-google-plus"></i>Register with Google</a></li>
+                        <li><a class="btn btn-linkedin"><i class="fa fa-linkedin"></i>Register with LinkedIn</a></li>
+                    </ul>
+                    <hr>
+                    <div class="form-group">
+                        <label for="register-name">Name</label>
+                        <input type="text" class="form-control" id="register-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-surname">Surname</label>
+                        <input type="text" class="form-control" id="register-surname">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" class="form-control" id="register-email">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="register-username">Username</label>
+                        <input type="text" class="form-control" id="register-username">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password1">Password</label>
+                        <input type="password" class="form-control" id="register-password1">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password2">Repeat Password</label>
+                        <input type="password" class="form-control" id="register-password2">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="ok()">Next?</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">On to attitudinal survey?</button>
+            </div>
+        </script>
+        <button type="button" ng-click="open()">Register</button>
+        <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+    </div>-->
+    <!-- ===================== REGISTER MODAL END ======================= -->
+
 </div>
+
+<!-- ============ TESTIMONIALS START ============ -->
+
+<section id="testimonials-long">
+    <div class="container">
+
+        <!-- Testimonial 1 -->
+        <div class="row">
+            <div class="col-sm-3 col-md-2">
+                <img src="http://placehold.it/140x140.jpg" class="img-circle img-responsive" alt="testimonial" />
+            </div>
+            <div class="col-sm-9 col-md-10">
+                <blockquote>
+                    <p>
+                        Thanks for the great service. Jobseek has completely surpassed our expectations. Jobseek is the most valuable business resource
+                        we have ever purchased.
+                    </p>
+                    <footer>
+                        Anthony Walsh
+                        <cite title="Brand Manager in Ebay Inc.">Brand Manager in Ebay Inc.</cite>
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ TITLE END ============ -->
+
+<div ng-include="'/views/modules/contact.html'"></div>

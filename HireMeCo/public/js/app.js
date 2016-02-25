@@ -1,13 +1,19 @@
 ﻿// this is the module that controlls everything the user can see
-angular.module('sampleApp',
+angular.module('hiremeApp',
      [
+    'ui.bootstrap',
+    'ngAnimate',
+    'ngTouch',
     'ngRoute',
     'appRoutes',
     'MainModule',
     'PersonModule',
     'PersonService',
     'EmployeeModule',
-    'EmployeeService'
+    'EmployeeService',
+    'LoginModule',
+    'RegisterModule',
+    'AuthServiceApp'
 ]
 )
 
