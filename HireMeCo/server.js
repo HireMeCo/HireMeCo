@@ -1,6 +1,6 @@
 ﻿// Jarrett Long
 // server.js
-
+console.log("Starting...");
 // modules ===========================================
 var http          = require('http');
 var express       = require('express');
@@ -11,6 +11,7 @@ var mongoose      = require('mongoose');
 var passport      = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+console.log("Declared all variables...");
 
 
 // set the port =======================================
@@ -24,12 +25,12 @@ var database = require('./config/database.js');
 mongoose.connect(database.url);
 
 // begin account authentication setup
-var Account = require('./app/models/account');
+var Account = require('./app/models/account.js');
 
 var app = express();
 console.log("Created express app");
 
-var routes = require('./app/routes/index');
+var routes = require('./app/index.js');
 
 // set the static files location so users do /img instead of /public/img
 app.use(express.static(path.join(__dirname, '/public')));

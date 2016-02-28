@@ -1,55 +1,99 @@
-﻿// this is the module that controlls everything the user can see
+﻿// this is the guy that controller everything on the front end
 angular.module('hiremeApp',
-     [
+     [ // all the dependencies
     'ui.bootstrap',
     'ngAnimate',
     'ngTouch',
     'ngRoute',
-    'appRoutes',
-    'MainModule',
-    'PersonModule',
-    'PersonService',
-    'EmployeeModule',
-    'EmployeeService',
     'LoginModule',
     'RegisterModule',
     'AuthServiceApp'
-]
-);
+])
 
+// set local routes
+.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+        
+        $routeProvider
+        .when('/', {
+            templateUrl: 'views/pages/home.html'
+        })
+        .when('/login', {
+            templateUrl: 'views/pages/login.html', 
+            controller: 'LoginCtrl'
+        })
+        .when('/logout', {
+            controller: 'LogoutCtrl'
+        })
+        .when('/register', {
+            templateUrl: 'views/pages/register.html',
+            controller: 'RegisterCtrl'
+        })
+        .when('/about', {
+            templateUrl: 'views/pages/about.html',
+            access: {restricted: false}
+        })
+        .otherwise({ redirectTo: '/' });
+        
+        $locationProvider.html5Mode(true);
+}])
 
-//adminModue.config(function($stateProvider, $urlRouterProvider) {
+// set up the navigation (contextual based on if you're logged in and who is logged in) 
+.controller('navigationController', ['$scope', '$rootScope',
+    function ($scope, $rootScope, $location, AuthService) {
+    
+    //initialize variables
+    $rootScope.isLoggedIn = false;
+    $rootScope.firstname = " ";
+    
+    $scope.updateNav = function() {
+        
+        if($rootScope.isLoggedIn){
+            
+            // nav items for an employer
+            if($rootScope.accountType == "employer"){
+                
+                $scope.greeting = "Company: " + $rootScope.firstname;
+                $scope.navItems = [
+                { name: "Dashboard", path: "/dashboard" },
+                { name: "Edit Profile", path: "/profile" },
+                { name: "Post A Job", path: "/postjob"}
+                ];
+            }
+            
+            // nav items for a job-seeker
+            else{
+                $scope.greeting = "Welcome, " + $rootScope.firstname;
+                $scope.navItems = [
+                    { name: "Dashboard", path: "/dashboard" },
+                    { name: "Profile", path: "/profile" },
+                    { name: "Search For Jobs", path: "/search"}
+                ];
+            }
+            
+           
+        }
+        
+        // default nav items
+        $scope.globalNav = [
+            { name: "About", path: "/about"}, 
+            { name: "Contact", path: "/contact"}
+        ];
+    };
+    
+    $scope.updateNav();
+    
+    $scope.navHeadName = "Home";
 
-//    $urlRouterProvider.otherwise("/main/tab1");
+}])
 
-//    $stateProvider
-//        .state("main", { abstract: true, url: "/main", templateUrl: "main.html" })
-//            .state("main.tab1", { url: "/tab1", templateUrl: "tab1.html" })
-//            .state("main.tab2", { url: "/tab2", templateUrl: "tab2.html" })
-//            .state("main.tab3", { url: "/tab3", templateUrl: "tab3.html" });
-//});
+// redirects to login screen if attempting to access restricted page
+.run(function ($rootScope, $location, $route, AuthService) {
+  $rootScope.$on('$routeChangeStart', function (event, next, current) {
+    if (next.access.restricted && AuthService.isLoggedIn() === false) {
+      $location.path('/login');
+      $route.reload();
+    }
+  });
+})
 
-
-//adminModule.controller('AdminTabsControl', ['$scope', function ($scope) {
-//        $scope.tabs = [
-//            {
-//                title: 'Job Seekers',
-//                url: '/admin/viewEmployees'
-//            },
-//            {
-//                title: 'Employers',
-//                url: '/admin/viewEmployers'
-//            }
-//        ];
-
-//        $scope.currentTab = '/admin/viewEmployees';
-
-//        $scope.onClickTab = function (tab) {
-//            $scope.currentTab = tab.url;
-//        }
-
-//        $scope.isActiveTab = function (tabUrl) {
-//            return tabUrl == $scope.currentTab;
-
-//        }
-//    }]);
+;

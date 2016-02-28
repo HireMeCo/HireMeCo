@@ -31,30 +31,17 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\index.js" />
     <Compile Include="app\models\account.js" />
     <Compile Include="app\models\employeeModel.js" />
     <Compile Include="app\models\employerModel.js" />
     <Compile Include="app\models\jobModel.js" />
-    <Compile Include="app\routes\index.js" />
-    <Compile Include="app\routes\users.js" />
     <Compile Include="config\database.js" />
-    <Compile Include="app\routes.js" />
     <Compile Include="app\models\personModel.js" />
-    <Compile Include="public\js\adminApp.js" />
-    <Compile Include="public\js\controllers\AngularTest.js" />
     <Compile Include="public\js\app.js" />
-    <Compile Include="public\js\appRoutes.js" />
-    <Compile Include="public\js\controllers\AdminModule.js" />
-    <Compile Include="public\js\controllers\Components\AttitudinalSurvey.js" />
-    <Compile Include="public\js\controllers\EmployeeModule.js" />
     <Compile Include="public\js\controllers\LoginModule.js" />
-    <Compile Include="public\js\controllers\MainModule.js" />
-    <Compile Include="public\js\controllers\movie.js" />
-    <Compile Include="public\js\controllers\PersonModule.js" />
     <Compile Include="public\js\controllers\RegisterModule.js" />
     <Compile Include="public\js\services\AuthService.js" />
-    <Compile Include="public\js\services\EmployeeService.js" />
-    <Compile Include="public\js\services\PersonService.js" />
     <Compile Include="public\js\template\bootstrap.js" />
     <Compile Include="public\js\template\bootstrap.min.js" />
     <Compile Include="public\js\template\bootstrap3-wysihtml5.all.min.js" />
@@ -457,41 +444,22 @@
     <Content Include="public\libs\jquery\LICENSE.txt" />
     <Content Include="public\libs\jquery\README.md" />
     <Content Include="public\libs\jquery\src\.jshintrc" />
-    <Content Include="public\views\admin\adminDashboard.html" />
-    <Content Include="public\views\admin\viewEmployees.html" />
-    <Content Include="public\views\admin\viewEmployers.html" />
-    <Content Include="public\views\admin\viewJobs.html" />
-    <Content Include="public\views\employee\editEmployeeProfile.html" />
-    <Content Include="public\views\employee\employeeDashboard.html" />
-    <Content Include="public\views\employer\editEmployerProfile.html" />
-    <Content Include="public\views\employee\employeeProfile.html" />
-    <Content Include="public\views\employer\employerDashboard.html" />
-    <Content Include="public\views\employer\employerProfile.html" />
-    <Content Include="public\views\global\about.html" />
-    <Content Include="public\views\global\contact.html" />
-    <Content Include="public\views\home.html" />
-    <Content Include="public\views\index.html" />
-    <Content Include="public\views\modules\register.html" />
-    <Content Include="public\views\modules\contact.html" />
-    <Content Include="public\views\modules\footer.html" />
-    <Content Include="public\views\modules\header.html" />
-    <Content Include="public\views\modules\login.html" />
-    <Content Include="public\views\modules\navigation.html" />
-    <Content Include="public\views\modules\regristration.html" />
-    <Content Include="public\views\global\searchResults.html" />
+    <Content Include="public\views\pages\about.html" />
+    <Content Include="public\views\pages\contact.html" />
+    <Content Include="public\views\pages\home.html" />
+    <Content Include="public\views\pages\login.html" />
+    <Content Include="public\views\pages\register.html" />
+    <Content Include="public\views\partials\contact.html" />
     <Content Include="README.md" />
-    <Content Include="public\views\MoviesList.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\models\" />
     <Folder Include="app\" />
-    <Folder Include="app\routes\" />
     <Folder Include="public\" />
     <Folder Include="public\js\" />
     <Folder Include="public\css\" />
     <Folder Include="config\" />
     <Folder Include="public\js\controllers\" />
-    <Folder Include="public\js\controllers\Components\" />
     <Folder Include="public\js\template\" />
     <Folder Include="public\js\services\" />
     <Folder Include="public\libs\" />
@@ -541,11 +509,8 @@
     <Folder Include="public\fonts\" />
     <Folder Include="public\images\" />
     <Folder Include="public\views\" />
-    <Folder Include="public\views\employer\" />
-    <Folder Include="public\views\employee\" />
-    <Folder Include="public\views\modules\" />
-    <Folder Include="public\views\admin\" />
-    <Folder Include="public\views\global\" />
+    <Folder Include="public\views\pages\" />
+    <Folder Include="public\views\partials\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

@@ -1,8 +1,8 @@
 ﻿var LoginModule = angular.module('LoginModule', []);
 
 LoginModule.controller('LoginCtrl',
-  ['$scope', '$location', 'AuthService',
-    function ($scope, $location, AuthService) {
+  ['$scope', '$rootScope', '$location', 'AuthService',
+    function ($scope, $rootScope, $location, AuthService) {
         
         console.log("User Status: " + AuthService.getUserStatus());
         
@@ -17,7 +17,12 @@ LoginModule.controller('LoginCtrl',
             AuthService.login($scope.loginForm.username, $scope.loginForm.password)
         // handle success
         .then(function () {
-                console.log("Login SUCCESS! Redirecting to home page");
+                console.log("Login SUCCESS! Redirecting to home page");                
+                //update important front end stuff
+                $rootScope.isLoggedIn = true;
+                $rootScope.firstname = AuthService.getFirstname();
+                $rootScope.accountType = AuthService.getAccountType();
+                angular.element(document.getElementById('navigationElement')).scope().updateNav();
                 $location.path('/');
                 $scope.disabled = false;
                 $scope.loginForm = {};
@@ -36,53 +41,8 @@ LoginModule.controller('LoginCtrl',
     }]);
 
 
-LoginModule.controller('LoginModuleCtrl', function ($scope, $uibModal, $log) {
-    
-    $scope.items = ['item1', 'item2', 'item3'];
-    
-    
-    
-    $scope.open = function (size) {
-        
-        var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: 'loginModal.html',
-            controller: 'LoginInstanceCtrl',
-            size: size,
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-        
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
-
-});
-
-LoginModule.controller('LoginInstanceCtrl', function ($scope, $uibModalInstance, items) {
-    
-    $scope.items = items;
-    $scope.selected = {
-        item: $scope.items[0]
-    };
-    
-    $scope.ok = function () {
-        $uibModalInstance.close($scope.selected.item);
-    };
-    
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-});
-
-LoginModule.controller('LogoutCtrl', ['$scope', '$location', 'AuthService',
-    function ($scope, $location, AuthService) {
+LoginModule.controller('LogoutCtrl', ['$scope', '$rootScope', '$location', 'AuthService',
+    function ($scope, $rootScope, $location, AuthService) {
         
         $scope.logout = function () {
             
@@ -91,7 +51,11 @@ LoginModule.controller('LogoutCtrl', ['$scope', '$location', 'AuthService',
             // call logout from service
             AuthService.logout()
                 .then(function () {
-                $location.path('/login');
+                    $rootScope.isLoggedIn = true;
+                    $rootScope.firstname = AuthService.getFirstname();
+                    $rootScope.accountType = AuthService.getAccountType();
+                    angular.element(document.getElementById('navigationElement')).scope().updateNav();
+                    $location.path('/login');
             });
         };
     }]);
