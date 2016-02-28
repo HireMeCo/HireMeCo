@@ -32,6 +32,10 @@ angular.module('hiremeApp',
             templateUrl: 'views/pages/about.html',
             access: {restricted: false}
         })
+        .when('/employerDashboard', {
+            templateUrl: 'views/pages/employerDashboard.html',
+            access: {restricted: true}
+        })
         .otherwise({ redirectTo: '/' });
         
         $locationProvider.html5Mode(true);
@@ -54,7 +58,7 @@ angular.module('hiremeApp',
                 
                 $scope.greeting = "Company: " + $rootScope.firstname;
                 $scope.navItems = [
-                { name: "Dashboard", path: "/dashboard" },
+                { name: "View Matched Employees", path: "/employerDashboard" },
                 { name: "Edit Profile", path: "/profile" },
                 { name: "Post A Job", path: "/postjob"}
                 ];

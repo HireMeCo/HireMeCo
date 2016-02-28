@@ -51,10 +51,11 @@ LoginModule.controller('LogoutCtrl', ['$scope', '$rootScope', '$location', 'Auth
             // call logout from service
             AuthService.logout()
                 .then(function () {
-                    $rootScope.isLoggedIn = true;
-                    $rootScope.firstname = AuthService.getFirstname();
-                    $rootScope.accountType = AuthService.getAccountType();
-                    angular.element(document.getElementById('navigationElement')).scope().updateNav();
+                    $rootScope.isLoggedIn = false;
+                    $scope.$apply(
+                        angular.element(document.getElementById('navigationElement')).scope().updateNav()
+                        );
+                    //$scope.$apply();
                     $location.path('/login');
             });
         };
