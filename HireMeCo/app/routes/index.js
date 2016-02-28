@@ -5,28 +5,46 @@ var path = require("path");
 var router = express.Router();
 
 
+
 router.get('/', function (req, res) {
     //res.render('index', { user : req.user });
+    console.log("index.js: directing to: " + path.join(__dirname, '../../public', '/views/index.html'));
     res.sendFile(path.join(__dirname, '../../public', '/views/index.html'), { user : req.user } );
 });
 
+
 // ================== LOGIN ===============================
 router.get('/login', function (req, res) {
+    console.log("index.js: GET /login, sendfile:" + path.join(__dirname, '../../public', '/views/modules/login.html'));
     res.sendFile(path.join(__dirname, '../../public', '/views/modules/login.html'), { user : req.user } );
 });
 
-router.post('/login', passport.authenticate('local'), function (req, res) {
-    res.redirect('/');
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return res.status(500).json({err: err});
+    }
+    if (!user) {
+      return res.status(401).json({err: info});
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return res.status(500).json({err: 'Could not log in user'});
+      }
+      res.status(200).json({status: 'Login successful!'});
+    });
+  })(req, res, next);
 });
 
 router.get('/logout', function (req, res) {
     req.logout();
-    res.redirect('/');
+    res.sendFile(path.join(__dirname, '../../public', '/views/index.html'), { user : req.user } );
 });
 
 
 // ================== REGISTRATION ===============================
 router.get('/register', function (req, res) {
+    console.log("index.js: GET /register, sendfile:" + path.join(__dirname, '../../public', '/views/modules/register.html'));
     res.sendFile(path.join(__dirname, '../../public', '/views/modules/register.html'), { } );
 });
 

@@ -8,13 +8,20 @@
                 <h1>Home/splash page</h1>
                 <h4>We can put whatever here! Slideshow? Cool text? idk! </h4>
             </div>
+
+            <a href="/login" class="btn btn-primary">Login</a>
+            <a href="/register" class="btn btn-primary">Register</a>
+
+            <div ng-controller="LogoutCtrl">
+                <a ng-click='logout()' class="btn btn-primary">Logout</a>
+            </div>
         </div>
     </div>
 </section>
 
 <div class="container text-center">
 
-    
+
     <!-- this is if we have time to make these modal pop ups. for now they'll be seperate pages -->
     <!-- ===================== LOGIN MODAL ===================== -->
     <!--<div ng-controller="LoginModuleCtrl">

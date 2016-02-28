@@ -32,7 +32,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         var deferred = $q.defer();
 
         // send a post request to the server
-        $http.post('/user/login', { username: username, password: password })
+        $http.post('/api/login', { username: username, password: password })
         // handle success
             .success(function (data, status) {
                 if (status === 200 && data.status) {
@@ -60,7 +60,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         var deferred = $q.defer();
 
         // send a get request to the server
-        $http.get('/user/logout')
+        $http.get('/api/logout')
         // handle success
             .success(function (data) {
                 user = false;
@@ -83,7 +83,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         var deferred = $q.defer();
 
         // send a post request to the server
-        $http.post('/user/register', { username: username, password: password })
+        $http.post('/api/register', { username: username, password: password })
         // handle success
             .success(function (data, status) {
                 if (status === 200 && data.status) {

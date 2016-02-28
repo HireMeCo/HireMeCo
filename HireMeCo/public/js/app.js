@@ -15,19 +15,7 @@ angular.module('hiremeApp',
     'RegisterModule',
     'AuthServiceApp'
 ]
-)
-
-.controller('navigationController', function ($scope) {
-    
-    $scope.navHeadName = "Home";
-
-    $scope.navItems = [
-        { navName: "Dashboard", navPath: "/dashboard" },
-        { navName: "Profile", navPath: "/profile" },
-        { navName: "Search Jobs", navPath: "/search"}
-    ];
-
-});
+);
 
 
 //adminModue.config(function($stateProvider, $urlRouterProvider) {
