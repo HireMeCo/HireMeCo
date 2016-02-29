@@ -78,6 +78,8 @@
     <Compile Include="public\libs\angular-touch\angular-touch.js" />
     <Compile Include="public\libs\angular-touch\angular-touch.min.js" />
     <Compile Include="public\libs\angular-touch\index.js" />
+    <Compile Include="public\libs\angular-ui-sortable\sortable.js" />
+    <Compile Include="public\libs\angular-ui-sortable\sortable.min.js" />
     <Compile Include="public\libs\angular\angular.js" />
     <Compile Include="public\libs\angular\angular.min.js" />
     <Compile Include="public\libs\angular\index.js" />
@@ -279,6 +281,9 @@
     <Content Include="public\libs\angular-touch\bower.json" />
     <Content Include="public\libs\angular-touch\package.json" />
     <Content Include="public\libs\angular-touch\README.md" />
+    <Content Include="public\libs\angular-ui-sortable\.bower.json" />
+    <Content Include="public\libs\angular-ui-sortable\.travis.yml" />
+    <Content Include="public\libs\angular-ui-sortable\bower.json" />
     <Content Include="public\libs\angular\.bower.json" />
     <Content Include="public\libs\angular\angular-csp.css" />
     <Content Include="public\libs\angular\angular.min.js.gzip" />
@@ -444,6 +449,7 @@
     <Content Include="public\libs\jquery\LICENSE.txt" />
     <Content Include="public\libs\jquery\README.md" />
     <Content Include="public\libs\jquery\src\.jshintrc" />
+    <Content Include="public\views\index.html" />
     <Content Include="public\views\pages\about.html" />
     <Content Include="public\views\pages\contact.html" />
     <Content Include="public\views\pages\home.html" />
@@ -467,6 +473,7 @@
     <Folder Include="public\libs\angular-bootstrap\" />
     <Folder Include="public\libs\angular-route\" />
     <Folder Include="public\libs\angular-touch\" />
+    <Folder Include="public\libs\angular-ui-sortable\" />
     <Folder Include="public\libs\angular\" />
     <Folder Include="public\libs\animate.css\" />
     <Folder Include="public\libs\bootstrap\" />
