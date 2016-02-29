@@ -31,8 +31,6 @@ router.post('/login', function(req, res, next) {
       if (err) {
         return res.status(500).json({err: 'Could not log in user'});
       }
-      // about to fuck some shit UP! XD
-      //res.sendFile(path.join(__dirname, '../../public', '/views/index.html'), { user : req.user } );
       res.status(200).json({
           status: 'Login successful!',
           firstname: req.user.firstname, 
@@ -77,6 +75,13 @@ router.post('/register', function(req, res) {
 
 router.get('/ping', function (req, res) {
     res.status(200).send("pong!");
+});
+
+
+//=============================== JOB STUFF ================
+
+router.post('/job', function (req, res) {
+    
 });
 
 module.exports = router;
