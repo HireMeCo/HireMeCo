@@ -80,8 +80,7 @@ router.get('/ping', function (req, res) {
 
 //=============================== JOB STUFF ================
 
-router.post('/job', function (req, res) {
-    
-});
+var Job = require('./models/jobModel.js');
+router.post('/job', Job.add);
 
 module.exports = router;

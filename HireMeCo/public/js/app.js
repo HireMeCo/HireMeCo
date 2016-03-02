@@ -8,6 +8,8 @@ angular.module('hiremeApp',
     'LoginModule',
     'RegisterModule',
     'AuthServiceApp',
+    'JobModule',
+    'JobServiceApp',
     'ui.sortable'
 ])
 
@@ -35,6 +37,11 @@ angular.module('hiremeApp',
         })
         .when('/employerDashboard', {
             templateUrl: 'views/pages/employerDashboard.html',
+            access: {restricted: true}
+        })
+        .when('/postjob', {
+            templateUrl: 'views/pages/postjob.html',
+            controller: 'JobCtrl',
             access: {restricted: true}
         })
         .otherwise({ redirectTo: '/' });

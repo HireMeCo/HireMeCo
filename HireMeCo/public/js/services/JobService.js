@@ -5,8 +5,8 @@ angular.module('JobServiceApp', []).factory('JobService', function ($q, $timeout
     //TODO: everything
     
     // instantiate local variables
-    var skills = {};
-    var attitudes = {};
+    var skills = [];
+    var attitudes = [];
     var company = " ";
     var jobtitle = "";
     
@@ -35,24 +35,33 @@ angular.module('JobServiceApp', []).factory('JobService', function ($q, $timeout
         return jobtitle;
     }
     
-    function postJob(jobtitle, company, attitudes, skills){
+    function postJob(jobtitle, company, skilllist, surveylist){
         
         var deferred = $q.defer();
-        
+        console.log("Entered the job service");
+        console.log("This is whats getting sent: ");
+        console.log("jobtitle: " + jobtitle);
+        console.log("company: " + company);
+        console.log("skilllist: " + skilllist);
+        console.log("surveylist: " + surveylist);
+
         $http.post('/api/job', {
             jobtitle: jobtitle,
             company: company,
-            attitudes: attitudes,
-            skills: skills,
+            skilllist: skilllist,
+            surveylist: surveylist
+            
           })
-          .success(function(data, status){
+            .success(function (data, status) {
+                console.log("Successful service post to api/job");
               if(status === 200 && data.status){
                   deferred.resolve();
               } else {
                   deferred.reject();
               }
           })
-          .error(function (data) {
+            .error(function (data) {
+                console.log("Unsuccessful service post to api/job");
               deferred.reject();
           });
           

@@ -38,22 +38,28 @@ exports.fetch = function (request, response) {
 };
 
 exports.add = function (request, response) {
-    
+    console.log("Entered the job model api.");
+    console.log("This is what's getting passed to mongoose: ");
+    console.log("This is whats getting sent: ");
+    console.log("jobtitle: " + request.body.jobtitle);
+    console.log("company: " + request.body.company);
+    console.log("skilllist: " + request.body.skilllist);
+    console.log("surveylist: " + request.body.surveylist);
     var newjob = {
         JobTitle: request.body.jobtitle,
         Company: request.body.company,
-        skillslist: request.body.age,
-        email: request.body.email
+        SkillList: request.body.skilllist,
+        SurveyList: request.body.surveylist
     };
     
         
-    JobModel.create(newEmployee, function (addError, addedEmployee) {
+    JobModel.create(newjob, function (addError, addedEmployee) {
         if (addError) {
-            console.log("Error adding employee to database.")
-            response.send(500, { error: addError });
+            console.log("Error adding employee to database.");
+            response.status(500).json({ error: addError });
         }
         else {
-            response.send({ success: true, employee: addedEmployee });
+            response.status(200).json({ status: 'Job Posting Success!' });
         }
     });
 };
