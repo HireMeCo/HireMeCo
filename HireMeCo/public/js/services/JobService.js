@@ -5,51 +5,53 @@ angular.module('JobServiceApp', []).factory('JobService', function ($q, $timeout
     //TODO: everything
     
     // instantiate local variables
-    var skills = [];
-    var attitudes = [];
-    var company = " ";
-    var jobtitle = "";
+    var SkillList = [];
+    var SurveyList = [];
+    var Company = " ";
+    var JobTitle = "";
     
     // return available functions for use in controllers
     return ({
         postJob: postJob,
-        getSkills: getSkills,
-        getAttitudes: getAttitudes,
+        getSkillList: getSkillList,
+        getSurveyList: getSurveyList,
         getCompany: getCompany,
         getJobTitle: getJobTitle
     });
     
-    function getSkills(){
+    function getSkillList(){
         return skills;
     }
     
-    function getAttitudes() {
+    function getSurveyList() {
         return attitudes;
     }
     
     function getCompany(){
-        return company;
+        return Company;
     }
     
     function getJobTitle(){
-        return jobtitle;
+        return JobTitle;
     }
     
-    function postJob(jobtitle, company, skilllist, surveylist){
+    
+    function postJob(JobTitle, Company, Description, SkillList, SurveyList){
         
         var deferred = $q.defer();
         console.log("Entered the job service");
         console.log("This is whats getting sent: ");
-        console.log("jobtitle: " + jobtitle);
-        console.log("company: " + company);
-        console.log("skilllist: " + skilllist);
-        console.log("surveylist: " + surveylist);
+        console.log("JobTitle: " + JobTitle);
+        console.log("Company: " + Company);
+        console.log("SkillList: " + SkillList);
+        console.log("SurveyList: " + SurveyList);
 
         $http.post('/api/job', {
-            jobtitle: jobtitle,
-            company: company,
-            skilllist: skilllist,
-            surveylist: surveylist
+            JobTitle: JobTitle,
+            Company: Company,
+            Description: Description,
+            SkillList: SkillList,
+            SurveyList: SurveyList
             
           })
             .success(function (data, status) {

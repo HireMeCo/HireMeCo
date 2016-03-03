@@ -11,36 +11,39 @@ JobModule.controller('JobCtrl',
             //initial values
             $scope.error = false;
             $scope.disabled = true;
-            var skilllist = [];
-            var surveylist = [];
+            var SkillList = [];
+            var SkillList = [];
             
-            //populate list of strings
+            //populate list of skills
             $scope.list.forEach(function (skill) {
-                skilllist.push(skill.value);
-            });
-            $scope.survey.forEach(function (item) {
-                surveylist.push(item.value);
+                SkillList.push(skill.value);
             });
             
-            $scope.jobForm.skillList = $scope.list;
-            $scope.jobForm.surveyList = $scope.survey;
+            //populate survey list
+            $scope.survey.forEach(function (item) {
+                SkillList.push(item.value);
+            });
+            
+            $scope.JobForm.SkillList = $scope.list;
+            $scope.JobForm.SkillList = $scope.survey;
             
             JobService.postJob(
-                $scope.jobForm.jobtitle,
-                $scope.jobForm.company,
-                skilllist,
-                surveylist)
+                $scope.JobForm.JobTitle,
+                $scope.JobForm.Company,
+                $scope.JobForm.Description,
+                SkillList,
+                SkillList)
             // on success
             .then(function (){
                 console.log("Job Posting Success!");
                 $location.path('/viewjobs');
-                $scope.jobForm = {};
+                $scope.JobForm = {};
             })
             .catch(function() {
                 console.log("Invalid Job Posting");
                 $scope.error = true;
                 $scope.errorMessage = "Invalid shit";
-                $scope.jobForm = {};
+                $scope.JobForm = {};
             });
         };
         

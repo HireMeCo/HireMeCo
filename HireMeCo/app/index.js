@@ -33,7 +33,7 @@ router.post('/login', function(req, res, next) {
       }
       res.status(200).json({
           status: 'Login successful!',
-          firstname: req.user.firstname, 
+          firstname: req.user.firstname,
           accountType: req.user.accountType
           });
     });
@@ -54,20 +54,23 @@ router.get('/register', function (req, res) {
 
 
 router.post('/register', function(req, res) {
+  console.log("index.js: Entered Register Post.")
   Account.register(
       new Account(
-          { 
+          {
               username: req.body.username,
               firstname: req.body.firstname,
               accountType: req.body.accountType
           }),
-          req.body.password, 
+          req.body.password,
           function(err, account) {
                if (err) {
-                   return res.status(500).json({err: err});
+                 console.log("index.js: What! What happened! :o ");
+                 console.log(err);
+                 return res.status(500).json({err: err});
                }
                passport.authenticate('local')(req, res, function () {
-                   
+
       return res.status(200).json({status: 'Registration successful!'});
     });
   });

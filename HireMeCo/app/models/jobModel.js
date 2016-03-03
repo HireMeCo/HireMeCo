@@ -1,31 +1,39 @@
-﻿// initialize the model
+﻿"use strict";
+
+// configure
 var mongoose = require('mongoose');
+var LinkedList = require('linkedlist');
+var Heap = require('binaryheap');
+var LinkedList = require('linkedlist');
+var Heap = require('binaryheap');
 var db = mongoose.connection;
 
-// define structure of the data
+// define structure of the Mongo data
 var JobSchema = new mongoose.Schema({
+
     JobTitle: String,
     Company: String,
+    Description: String,
     SkillList: [String],
-    SurveyList: [String]
-});
-//    matchedJobs: [jobs] //this needs editing, obviously
+    SurveyList: [String],
+    AdjacentJobIds: [Number],
+    Index: Number
 
+});
+
+// Provides all of the functions necessary to communicate with the database
 var JobModel = mongoose.model('Job', JobSchema);
 
+// Log to the console for sanity
 db.on('error', console.error.bind(console, "connection error in jobModel.js"));
 db.once('open', function () {
-    console.log("employeesDb is open...");
-    
-    JobModel.find().exec(function (error, results) {
-        if (results.length === 0) {
-            console.log("Initial fetch of job seekers (employees)")
-            JobModel.create({ name: "This means there was nothing in the db", released: false, watched: true });
-        }
-    });
+    console.log("JobDB is open...");
 });
 
-exports.fetch = function (request, response) {
+
+// Grab ALL jobs (no A Star)
+exports.getAllJobs = function (request, response) {
+
     JobModel.find().exec(function (err, res) {
         if (err) {
             response.send(500, { error: err });
@@ -38,36 +46,288 @@ exports.fetch = function (request, response) {
 };
 
 exports.add = function (request, response) {
+
     console.log("Entered the job model api.");
-    console.log("This is what's getting passed to mongoose: ");
-    console.log("This is whats getting sent: ");
-    console.log("jobtitle: " + request.body.jobtitle);
-    console.log("company: " + request.body.company);
-    console.log("skilllist: " + request.body.skilllist);
-    console.log("surveylist: " + request.body.surveylist);
-    var newjob = {
-        JobTitle: request.body.jobtitle,
-        Company: request.body.company,
-        SkillList: request.body.skilllist,
-        SurveyList: request.body.surveylist
-    };
-    
-        
-    JobModel.create(newjob, function (addError, addedEmployee) {
-        if (addError) {
-            console.log("Error adding employee to database.");
-            response.status(500).json({ error: addError });
-        }
-        else {
-            response.status(200).json({ status: 'Job Posting Success!' });
-        }
-    });
+    console.log("Coming from the request: ");
+    console.log("jobtitle: " + request.body.JobTitle);
+    console.log("company: " + request.body.Company);
+    console.log("skilllist: " + request.body.SkillList);
+    console.log("surveylist: " + request.body.SurveyList);
+
+    // Create new JobObject
+    var newjob = new JobObject(
+        request.body.JobTitle,
+        request.body.Company,
+        request.body.Description,
+        request.body.SkillList,
+        request.body.SurveyList,
+        [], // empty list of AdjacentJobIds
+        0   // empty index number
+        );
+
+        // In the case this is the first job posting...
+    if (JobModel.count() == 0)
+    {
+        console.log("No jobs in database, adding first.");
+        newjob.Index = 1;
+        JobModel.create(newjob, function (addError, job)
+        {
+            if (addError)
+            {
+                console.log("Error adding first job to database.");
+                response.status(500).json({ error: addError });
+            }
+            else
+            {
+                response.status(200).json({ status: 'Job Posting Success!' });
+            }
+        });
+    }
+    // if this is the second or more job
+    else
+    {
+        //find the root job
+        console.log("Finding adjacent jobs...");
+        JobModel.findOne({ Index: 1 }, 'SkillList SurveyList', function (err, firstJob)
+        {
+            if (err)
+            {  // Error check
+                console.log("Error finding start job node.");
+                response.status(500).json({ erro: err });
+            }
+            else
+            {  // Calculate the difference similarity root job and newjob
+                var skillDiff = ListDiff(newjob.SkillList, firstJob.SkillList);
+                var surveyDiff = ListDiff(newjob.SurveyList, firstJob.SurveyList);
+                if (skillDiff + surveyDiff <= 2)
+                {   //update start nodes adjacencies
+                    JobModel.update({ Index: 1 }, { $push: { AdjacentJobIds: firstJob.id } });
+                    newjob.AdjacentJobIds.push(firstJob.id);
+                }
+
+                // RECURSIVE CALL TO SET ALL ADJACANT JOBS
+                recurseAdjacencies(firstJob, newjob, [firstJob.id]);
+
+                //add new job to database
+                JobModel.create(newjob, function (addError, job)
+                {
+                    if (addError)
+                    {
+                        console.log("Error adding first job to database.");
+                        response.status(500).json({ error: addError });
+                    }
+                    else
+                    {
+                        response.status(200).json({ status: 'Successfully posted job!'})
+                    }
+                });
+            }
+        });
+    }
+
+    // takes two JobObjects and a list of ids to track previousy inspected items
+    function recurseAdjacencies(startjob, newjob, markedIds)
+    {
+        startjob.AdjacentJobIds.forEach(function(adj)
+        {
+            if (markedIds.indexOf(adj) > -1)
+            { // if we're already inspected the adjacency, don't bother
+                return;
+            }
+
+            markedIds.push(adj);
+
+            JobModel.findOne({ _id: adj }, 'SkillList SurveyList', function(err, aJob)
+            { // find adjacent job
+                if (err)
+                {
+                    console.log("Error finding start job node.");
+                    response.status(500).json({ erro: err });
+                }
+                else
+                {  // add to adjacency if they are related
+                    var skillDiff = ListDiff(aJob.SkillList, newjob.SkillList);
+                    var surveyDiff = ListDiff(aJob.SurveyList, newjob.SurveyList);
+                    if (skillDiff + surveyDiff <= 2)
+                    {
+                        JobModel.update({ _id: adj }, { $push: { AdjacentJobIds: newjob.id } }); newjob.AdjacentJobIds.push(aJob.id);
+                        recurseAdjacencies(aJob, newjob);
+                    }
+                }
+             });
+        });
+    }
+    function ListDiff(First, Second) {
+        var Same = 0;
+        var Max = Math.max(First.length, Second.length);
+
+        //loop through list of sortables. Example: ( { text: "JavaScript" } )
+        First.forEach(function (item) {
+            Second.forEach(function (secondItem) {
+                if (item.Value == secondItem.Value) {
+                    Same += 1;
+                }
+            });
+        });
+        return Max - Same;
+    }
 };
 
+
+
+// Just a helper method that returns an object with all the necessary fields
+var JobObject = function (JobTitle, Company, Description, SkillList, SurveyList, AdjacentJobIds, Index)
+{
+    this.JobTitle = JobTitle;
+    this.Company = Company;
+    this.Description = Description;
+    this.SkillList = SkillList;
+    this.SurveyList = SurveyList;
+    this.AdjacentJobIds = AdjacentJobIds;
+    this.Index = Index;
+}
+
+
+// The object that is used to create the heap and will eventually be returned
+var AStarNode = function(StarNode, g, h, Parent)
+{
+    this.JobNode = JobObject;
+    this.g = g;
+    this.h = h;
+    this.f = g + h;
+    this.Parent = Parent;
+}
+
+// returns a score for how well two lists match
+var Heauristic = function SkillHeuristic(First, Second)
+{
+    var Score = 0,
+        IsMatch = false,
+        MatchList = [];
+
+    for (i = 0; i < First.length; i++)
+    { // loop throught the first list...
+        for(j = 0; i < Second.length; j++)
+        { // loop throught the seccond
+			if(First[i] == Second[j])
+            {  // if the two match, get abs value
+                var Num = Math.abs(i - j);
+				Score += Num * Num;
+				IsMatch = true;
+				MatchList[j] = true;
+				break;
+			}
+		}
+        // if no matchs in the first loop, increase score
+		if(IsMatch == false)
+        { // why
+			var Num = First.length - i;
+			Score += Num * Num;
+        }
+        else
+        { // why
+            IsMatch = false;
+        }
+
+    }
+    for(i = 0; i < Second.length; i++)
+    { // loop through the second list and increase score if no matches
+        if(MatchList[i] == false)
+        { // why David, why
+            var Num = Second.length - i;
+            Score += Num * Num;
+        }
+    }
+	return Score;
+}
+
+// returns an AStarNode of scores (nodes) in reverse so that the most relevant job to the jobseeker
+// the RootJob is job where index equal 1
+// the JobSeeker is the person whose jobs we're trying to match
+var AStar = function(RootJob, JobSeeker, Heuristic)
+{
+    // Keeps track of every node we've already visited
+    var AlreadyVisited = []; //new LinkedList(); an array is much easier here
+    // This will structure the data nicely
+    var OpenHeap = new Heap(true);
+    var OpenArray = [];
+	//Binary heap doesn't allow you to index its elements so create a
+	//linked list that contains the same amount of elements as the open list.
+	var BestNode = null; // assures we return the best used path in case we don't hit goal
+    var CurrentNode = null;
+
+    BestNode = new AStarNode(RootJob, 0, Heuristic(RootJob, JobSeeker), null);
+
+    OpenHeap.insert(BestNode, BestNode.f);
+    OpenArray.push(BestNode);
+
+    while (OpenHeap.size() > 0)
+    {
+        CurrentNode = OpenHeap.pop();
+        if (BestNode.f > CurrentNode.f) BestNode = CurrentNode;
+
+        // check if current node is perfect match.  if so, then stop the while loop
+        if (CurrentNode.JobNode.SkillList.length == JobSeeker.SkillList.length &&
+            SkillHeuristic(CurrentNode.JobNode.SkillList, JobSeeker.SkillList) == 0){
+            break;
+        }
+
+        //
+        for (i = 0; i < CurrentNode.JobNode.AdjacentJobIds.length; i++)
+        {
+            var AdjacentJob = new JobObject;
+            var ID = CurrentNode.JobNode.AdjacentJobId[i];
+            JobModel.findOne({ _id: ID }, function(err, jobe){
+                if(err){
+                    console.log("There was an error getting adj job: " + adj.toString());
+                }
+                else{
+                    AdjacentJob.JobTitle = jobe.JobTitle;
+                    AdjacentJob.Company = jobe.Company;
+                    AdjacentJob.Description = jobe.Description;
+                    AdjacentJob.SkillList = jobe.SkillList;
+                    AdjacentJob.SurveyList = jobe.SurveyList;
+                    AdjacentJob.AdjacentJobIds = jobe.AdjacentJobIds;
+
+                    // Celebrate success
+                    console.log("Successfully got ", jobe.JobTitle, " from the database.");
+                }
+            });
+            // if this adjacent job has not yet been inspected...
+            var skipInsert = false;
+            if (!AlreadyVisited.indexOf(AdjacentJob) > -1){
+                for(starNode in OpenArray){
+                    if(starNode.JobNode == AdjacentJob) {
+                        var gCost = CurrentNode.g + Heuristic(Node.Node, CurrentNode.JobNode.AdjacentJobIds[i]);
+                        if(gCost < starNode.g) {
+                            starNode.g = gCost;
+                            //BinaryHeap as no function to increase a node's value so I'm reinserting it.
+                            OpenHeap.remove(starNode);
+				            OpenHeap.insert(starNode, starNode.f);
+                            OpenArray.push( starNode );
+
+                        }
+                        skipInsert = true;
+                    }
+                }
+            }
+            if(skipInsert)
+            { // Insert Adjacent Job onto the heap, with currentnode as parent
+                var newNode = new AStarNode(AdjacentJob, CurrentNode.g + 1, SkillHeuristic(CurrentNode.JobNode.SkillList,JobSeeker.SkillList), CurrentNode);
+                OpenHeap.insert( newNode, CurrentNode.f );
+                OpenArray.push( newNode );
+            }
+        }
+        // push to AlreadyVisited bc we've looked at it
+        AlreadyVisited.push(CurrentNode.JobNode);
+    }
+    return BestNode;
+}
+
 // exports.modify = function (request, response) {
-//     
+//
 //     var employeeId = request.params.employeeId;
-//     
+//
 //     JobModel.update(
 //         { _id: employeeId },
 //         {

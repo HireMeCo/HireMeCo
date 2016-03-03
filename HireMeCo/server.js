@@ -11,17 +11,13 @@ var mongoose      = require('mongoose');
 var passport      = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-console.log("Declared all variables...");
-
+console.log("Declared all variables.");
 
 // set the port =======================================
 var port = process.env.port || 1337;
 
-
-// configure stuff ====================================
+// configure database ====================================
 var database = require('./config/database.js');
-
-// connect to database =================================
 mongoose.connect(database.url);
 
 // begin account authentication setup
