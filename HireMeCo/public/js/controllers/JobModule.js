@@ -1,38 +1,38 @@
 var JobModule = angular.module('JobModule', []);
 
-JobModule.controller('JobCtrl', 
+JobModule.controller('JobCtrl',
 ['$scope', '$rootScope', '$location', 'JobService',
     function ($scope, $rootScope, $location, JobService) {
-        
+
         console.log("Hey, we're in the job posting.");
-        
+
         $scope.post = function() {
-            
+
             //initial values
             $scope.error = false;
             $scope.disabled = true;
             var SkillList = [];
-            var SkillList = [];
-            
+            var SurveyList = [];
+
             //populate list of skills
             $scope.list.forEach(function (skill) {
                 SkillList.push(skill.value);
             });
-            
+
             //populate survey list
             $scope.survey.forEach(function (item) {
-                SkillList.push(item.value);
+                SurveyList.push(item.value);
             });
-            
+
             $scope.JobForm.SkillList = $scope.list;
-            $scope.JobForm.SkillList = $scope.survey;
-            
+            $scope.JobForm.SurveyList = $scope.survey;
+
             JobService.postJob(
                 $scope.JobForm.JobTitle,
                 $scope.JobForm.Company,
                 $scope.JobForm.Description,
                 SkillList,
-                SkillList)
+                SurveyList)
             // on success
             .then(function (){
                 console.log("Job Posting Success!");
@@ -42,11 +42,11 @@ JobModule.controller('JobCtrl',
             .catch(function() {
                 console.log("Invalid Job Posting");
                 $scope.error = true;
-                $scope.errorMessage = "Invalid shit";
+                $scope.errorMessage = "Invalid Content";
                 $scope.JobForm = {};
             });
         };
-        
+
         // SORTABLE LIST!
         $scope.list = [
             { text: "Java", value: "Java" },
@@ -55,7 +55,7 @@ JobModule.controller('JobCtrl',
             { text: "CSS", value: "CSS" },
             { text: "JavaScript", value: "JavaScript" }
         ];
-        
+
         $scope.survey = [
             { text: "Item 1", value: "1" },
             { text: "Item 2", value: "2" },

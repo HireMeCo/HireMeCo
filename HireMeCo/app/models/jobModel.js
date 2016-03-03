@@ -16,7 +16,7 @@ var JobSchema = new mongoose.Schema({
     Description: String,
     SkillList: [String],
     SurveyList: [String],
-    AdjacentJobIds: [Number],
+    AdjacentJobIds: [String],
     Index: Number
 
 });
@@ -36,11 +36,11 @@ exports.getAllJobs = function (request, response) {
 
     JobModel.find().exec(function (err, res) {
         if (err) {
-            response.send(500, { error: err });
+            response.status(500).json({ error: err });
         }
         else {
             console.log("Fetched Jobs from API call.")
-            response.send(res);
+            response.statuc(200).send(res);
         }
     });
 };
@@ -66,47 +66,48 @@ exports.add = function (request, response) {
         );
 
         // In the case this is the first job posting...
-    if (JobModel.count() == 0)
-    {
-        console.log("No jobs in database, adding first.");
-        newjob.Index = 1;
-        JobModel.create(newjob, function (addError, job)
-        {
-            if (addError)
-            {
-                console.log("Error adding first job to database.");
-                response.status(500).json({ error: addError });
-            }
-            else
-            {
-                response.status(200).json({ status: 'Job Posting Success!' });
-            }
-        });
-    }
-    // if this is the second or more job
-    else
-    {
-        //find the root job
-        console.log("Finding adjacent jobs...");
-        JobModel.findOne({ Index: 1 }, 'SkillList SurveyList', function (err, firstJob)
-        {
+    JobModel.count({ 'Index': 1 }, function (err, count) {
+        if (err) {
+            console.log('Trouble Counting');
+            response.status(500).json({ error: 'Trouble Counting.' });
+        } else if (count == 0 || count == null) {
+            console.log("Counted " + count.toString() + "of these in the db.");
+            console.log("No jobs in database, adding first.");
+            newjob.Index = 1;
+            JobModel.create(newjob, function (addError, job) {
+                if (addError) {
+                    console.log("Error adding first job to database: " + addError);
+                    response.status(500).json({ error: addError });
+                } else {
+                    console.log("Successfully added first job to database :)");
+                    response.status(200).json({ status: 'Job Posting Success!' });
+                }
+            });
+        }
+        else{
+            console.log("Finding adjacent jobs...");
+            JobModel.findOne({ 'Index': 1 }, function (err, firstJob){
             if (err)
             {  // Error check
                 console.log("Error finding start job node.");
-                response.status(500).json({ erro: err });
+                console.log("err: " + err);
+                console.log("firstJob" + firstJob);
+                response.status(500).json({ error: err });
             }
             else
             {  // Calculate the difference similarity root job and newjob
+                console.log("jobModel.js: calculating adjacency information!")
                 var skillDiff = ListDiff(newjob.SkillList, firstJob.SkillList);
                 var surveyDiff = ListDiff(newjob.SurveyList, firstJob.SurveyList);
                 if (skillDiff + surveyDiff <= 2)
                 {   //update start nodes adjacencies
-                    JobModel.update({ Index: 1 }, { $push: { AdjacentJobIds: firstJob.id } });
-                    newjob.AdjacentJobIds.push(firstJob.id);
+                    JobModel.update({ Index: 1 }, { $push: { AdjacentJobIds: firstJob.id.valueOf() } });
+                    newjob.AdjacentJobIds.push(firstJob.id.valueOf());
                 }
 
                 // RECURSIVE CALL TO SET ALL ADJACANT JOBS
-                recurseAdjacencies(firstJob, newjob, [firstJob.id]);
+                console.log("Begin Recursive Stuff");
+                recurseAdjacencies(firstJob, newjob, [firstJob.id.valueOf]);
 
                 //add new job to database
                 JobModel.create(newjob, function (addError, job)
@@ -123,7 +124,8 @@ exports.add = function (request, response) {
                 });
             }
         });
-    }
+        }
+    });
 
     // takes two JobObjects and a list of ids to track previousy inspected items
     function recurseAdjacencies(startjob, newjob, markedIds)
@@ -146,11 +148,12 @@ exports.add = function (request, response) {
                 }
                 else
                 {  // add to adjacency if they are related
+                    console.log("Comparing skill diffs and survey diffs");
                     var skillDiff = ListDiff(aJob.SkillList, newjob.SkillList);
                     var surveyDiff = ListDiff(aJob.SurveyList, newjob.SurveyList);
                     if (skillDiff + surveyDiff <= 2)
                     {
-                        JobModel.update({ _id: adj }, { $push: { AdjacentJobIds: newjob.id } }); newjob.AdjacentJobIds.push(aJob.id);
+                        JobModel.update({ _id: adj }, { $push: { AdjacentJobIds: newjob.id.valueOf() } }); newjob.AdjacentJobIds.push(aJob.id.valueOf());
                         recurseAdjacencies(aJob, newjob);
                     }
                 }
@@ -199,7 +202,7 @@ var AStarNode = function(StarNode, g, h, Parent)
 }
 
 // returns a score for how well two lists match
-var Heauristic = function SkillHeuristic(First, Second)
+var SkillHeuristic = function(First, Second)
 {
     var Score = 0,
         IsMatch = false,
@@ -230,7 +233,7 @@ var Heauristic = function SkillHeuristic(First, Second)
         }
 
     }
-    for(i = 0; i < Second.length; i++)
+    for(var i = 0; i < Second.length; i++)
     { // loop through the second list and increase score if no matches
         if(MatchList[i] == false)
         { // why David, why
@@ -246,14 +249,10 @@ var Heauristic = function SkillHeuristic(First, Second)
 // the JobSeeker is the person whose jobs we're trying to match
 var AStar = function(RootJob, JobSeeker, Heuristic)
 {
-    // Keeps track of every node we've already visited
-    var AlreadyVisited = []; //new LinkedList(); an array is much easier here
-    // This will structure the data nicely
+    var AlreadyVisited = [];
     var OpenHeap = new Heap(true);
     var OpenArray = [];
-	//Binary heap doesn't allow you to index its elements so create a
-	//linked list that contains the same amount of elements as the open list.
-	var BestNode = null; // assures we return the best used path in case we don't hit goal
+	var BestNode = null;
     var CurrentNode = null;
 
     BestNode = new AStarNode(RootJob, 0, Heuristic(RootJob, JobSeeker), null);
@@ -295,8 +294,8 @@ var AStar = function(RootJob, JobSeeker, Heuristic)
             });
             // if this adjacent job has not yet been inspected...
             var skipInsert = false;
-            if (!AlreadyVisited.indexOf(AdjacentJob) > -1){
-                for(starNode in OpenArray){
+            if (!(AlreadyVisited.indexOf(AdjacentJob) > -1)){
+                for(var starNode in OpenArray){
                     if(starNode.JobNode == AdjacentJob) {
                         var gCost = CurrentNode.g + Heuristic(Node.Node, CurrentNode.JobNode.AdjacentJobIds[i]);
                         if(gCost < starNode.g) {

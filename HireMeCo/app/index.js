@@ -85,5 +85,6 @@ router.get('/ping', function (req, res) {
 
 var Job = require('./models/jobModel.js');
 router.post('/job', Job.add);
+router.get('/job', Job.getAllJobs);
 
 module.exports = router;
