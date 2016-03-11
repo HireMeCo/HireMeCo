@@ -2,9 +2,6 @@
 
 // configure
 var mongoose = require('mongoose');
-var LinkedList = require('linkedlist');
-var Heap = require('binaryheap');
-var LinkedList = require('linkedlist');
 var Heap = require('binaryheap');
 var db = mongoose.connection;
 
@@ -16,7 +13,7 @@ var JobSchema = new mongoose.Schema({
     Description: String,
     SkillList: [String],
     SurveyList: [String],
-    AdjacentJobIds: [String],
+    AdjacentJobIds: [{}],
     Index: Number
 
 });
@@ -101,8 +98,13 @@ exports.add = function (request, response) {
                 var surveyDiff = ListDiff(newjob.SurveyList, firstJob.SurveyList);
                 if (skillDiff + surveyDiff <= 2)
                 {   //update start nodes adjacencies
-                    JobModel.update({ Index: 1 }, { $push: { AdjacentJobIds: firstJob.id.valueOf() } });
-                    newjob.AdjacentJobIds.push(firstJob.id.valueOf());
+					/*var score =	new SkillHeuristic(firstJob.SkillList, newjob.SkillList) +
+						new SkillHeuristic(firstJob.SurveyList, newjob.SurveyList);
+					var newAdj = new AdjacentJob(newjob.id.valueOf(), score);
+                    JobModel.update({ Index: 1 }, { $push: { AdjacentJobIds: newAdj } });
+                    newjob.AdjacentJobIds.push({ new AdjacentJob(firstJob.id.valueOf(), score);
+					*/
+					connectNewJob(firstJob, newjob);
                 }
 
                 // RECURSIVE CALL TO SET ALL ADJACANT JOBS
@@ -126,6 +128,28 @@ exports.add = function (request, response) {
         });
         }
     });
+
+	function checkParent(parentJob, newJob, score, markedIds) 
+	{
+		parentJob.AdjacentJobIds.forEach(function(adj)
+		{
+			if(LiftDiff(adj.SkillList, parentJob.SkillList) + ListDiff(adj.SurveyList, newJob.SurveyList) == score)
+			{
+				connectNewJob(adj, newjob);
+				//JobModel.update({ _id: adj }, { $push: {AdjacentJobIds: newjob.id.valueOf() } } ); newjob.AdjacentJobIds.push(adj.id.valueOf());
+			}
+		})
+	}
+
+	function connectNewJob(firstJob, secondJob) {
+		var score =	new SkillHeuristic(firstJob.SkillList, secondJob.SkillList) +
+			new SkillHeuristic(firstJob.SurveyList, secondJob.SurveyList);
+		var newAdj = new AdjacentJob(secondJob.id.valueOf(), score);
+
+		JobModel.update({ id: firstJob.id.valueOf() }, { $push: { AdjacentJobIds: newAdj } });
+		secondJob.AdjacentJobIds.push({ new AdjacentJob(firstJob.id.valueOf(), score);
+
+	}
 
     // takes two JobObjects and a list of ids to track previousy inspected items
     function recurseAdjacencies(startjob, newjob, markedIds)
@@ -153,7 +177,9 @@ exports.add = function (request, response) {
                     var surveyDiff = ListDiff(aJob.SurveyList, newjob.SurveyList);
                     if (skillDiff + surveyDiff <= 2)
                     {
-                        JobModel.update({ _id: adj }, { $push: { AdjacentJobIds: newjob.id.valueOf() } }); newjob.AdjacentJobIds.push(aJob.id.valueOf());
+						connectNewJob(aJob, newjob);
+                        //JobModel.update({ _id: adj }, { $push: { AdjacentJobIds: newjob.id.valueOf() } }); newjob.AdjacentJobIds.push(aJob.id.valueOf());
+						checkParent(aJob, newjob, SkillDiff + surveyDiff, markedIds);
                         recurseAdjacencies(aJob, newjob);
                     }
                 }
@@ -188,6 +214,12 @@ var JobObject = function (JobTitle, Company, Description, SkillList, SurveyList,
     this.SurveyList = SurveyList;
     this.AdjacentJobIds = AdjacentJobIds;
     this.Index = Index;
+}
+
+var AdjacentJob = function(Id, RelCost)
+{
+	this.id = Id;
+	this.RelCost;
 }
 
 
@@ -293,7 +325,7 @@ var AStar = function(RootJob, JobSeeker, Heuristic)
                 }
             });
             // if this adjacent job has not yet been inspected...
-            var skipInsert = false;
+            var skipInsert = true;
             if (!(AlreadyVisited.indexOf(AdjacentJob) > -1)){
                 for(var starNode in OpenArray){
                     if(starNode.JobNode == AdjacentJob) {
@@ -306,7 +338,7 @@ var AStar = function(RootJob, JobSeeker, Heuristic)
                             OpenArray.push( starNode );
 
                         }
-                        skipInsert = true;
+                        skipInsert = false;
                     }
                 }
             }
