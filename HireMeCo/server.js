@@ -22,6 +22,8 @@ mongoose.connect(database.url);
 
 // begin account authentication setup
 var Account = require('./app/models/account.js');
+// var JobSeeker = require('./app/models/jobseekerModel.js');
+// var Company = require('./app/models/companyModel.js');
 
 var app = express();
 console.log("Created express app");
@@ -47,9 +49,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // passport config
+//authenticate jobseekers
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
+
+//authenticate jobseekers
+// passport.use(new LocalStrategy(JobSeeker.authenticate()));
+// passport.serializeUser(JobSeeker.serializeUser());
+// passport.deserializeUser(JobSeeker.deserializeUser());
 
 
 // handle routing =======================================
@@ -58,7 +66,7 @@ app.use('/api/', routes);
 console.log("server.js: using /api/ + routes. (index.js)");
 
 app.get('/', function (req, res) {
-    console.log("server.js: req.originalUrl: " + req.originalUrl); 
+    console.log("server.js: req.originalUrl: " + req.originalUrl);
     console.log("server.js: directing app to: " + path.join(__dirname, '/public', '/views/index.html'));
     res.sendFile(path.join(__dirname, '/public', '/views/index.html'));
 });

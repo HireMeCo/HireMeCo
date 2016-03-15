@@ -22,15 +22,19 @@ router.get('/login', function (req, res) {
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) {
+      console.log("index.js: An error occured: " + err);
       return res.status(500).json({err: err});
     }
     if (!user) {
+      console.log("index.js: cannot find user: " + info);
       return res.status(401).json({err: info});
     }
     req.logIn(user, function(err) {
       if (err) {
+        console.log("index.js: could not log in user: " + err);
         return res.status(500).json({err: 'Could not log in user'});
       }
+      console.log("Login successful!");
       res.status(200).json({
           status: 'Login successful!',
           firstname: req.user.firstname,
@@ -70,21 +74,19 @@ router.post('/register', function(req, res) {
                  return res.status(500).json({err: err});
                }
                passport.authenticate('local')(req, res, function () {
-
-      return res.status(200).json({status: 'Registration successful!'});
+                 console.log("Successful Registration");
+                 return res.status(200).json({ status: 'Registration successful!' });
     });
   });
 });
 
-router.get('/ping', function (req, res) {
-    res.status(200).send("pong!");
-});
+
 
 
 //=============================== JOB STUFF ================
 
 var Job = require('./models/jobModel.js');
 router.post('/job', Job.add);
-router.get('/job', Job.getAllJobs);
+router.get('/job', Job.matchSeeker);
 
 module.exports = router;

@@ -1,10 +1,26 @@
 ﻿var RegisterModule = angular.module('RegisterModule', []);
 
 RegisterModule.controller('RegisterCtrl',
-  ['$scope', '$location', 'AuthService',
-    function ($scope, $location, AuthService) {
+  ['$scope', '$rootScope', '$location', 'AuthService',
+    function ($scope, $rootScope, $location, AuthService) {
         'use strict';
         console.log(AuthService.getUserStatus());
+
+//================== SORTABLE LIST ==============================
+        // $scope.skillSort = [
+        //     { text: "Java", value: "Java" },
+        //     { text: "C#",   value: "C#" },
+        //     { text: "Python", value: "Python" },
+        //     { text: "CSS", value: "CSS" },
+        //     { text: "JavaScript", value: "JavaScript" }
+        // ];
+        // $scope.surveyList = [
+        //     { text: "Item 1", value: "1" },
+        //     { text: "Item 2", value: "2" },
+        //     { text: "Item 3", value: "3" },
+        //     { text: "Item 4", value: "4" },
+        //     { text: "Item 5", value: "5" }
+        // ];
 
         // =========== REGISTER ====================
         $scope.register = function () {
@@ -18,19 +34,32 @@ RegisterModule.controller('RegisterCtrl',
                 $scope.registerForm.username,
                 $scope.registerForm.password,
                 $scope.registerForm.firstname,
-                $scope.registerForm.accountType
+                $scope.registerForm.accountType,
+                [
+            { text: "Java", value: "Java" },
+            { text: "C#",   value: "C#" },
+            { text: "Python", value: "Python" },
+            { text: "CSS", value: "CSS" },
+            { text: "JavaScript", value: "JavaScript" }
+        ],
+                [
+            { text: "Item 1", value: "1" },
+            { text: "Item 2", value: "2" },
+            { text: "Item 3", value: "3" },
+            { text: "Item 4", value: "4" },
+            { text: "Item 5", value: "5" }
+        ]
             )
-
-        // handle success
-        .then(function () {
+            // handle success
+            .then(function () {
                 console.log("Register success: " + $scope.registerForm.username + " " + $scope.registerForm.password);
                 $location.path('/login');
                 $scope.disabled = false;
                 $scope.registerForm = {};
             })
-        // handle error
-        .catch(function () {
-                console.log("RegisterModulejs:  ")
+            // handle error
+            .catch(function () {
+                console.log("RegisterModulejs:  ");
                 $scope.error = true;
                 $scope.errorMessage = "Something went wrong!";
                 $scope.disabled = false;
@@ -38,62 +67,4 @@ RegisterModule.controller('RegisterCtrl',
             });
 
         };
-
-        //================== SORTABLE LIST ==============================
-
-
-
-        $scope.list = [
-            { text: "hello", value: "world" },
-            { text: "hello", value: "world" },
-            { text: "hello", value: "world" },
-            { text: "hello", value: "world" },
-            { text: "hello", value: "world" }
-        ];//myapp.buildArray('Item', 5);
-
-        $scope.sortingLog = [];
-
-        $scope.sortableOptions = {
-            // called after a node is dropped
-            stop: function (e, ui) {
-                var logEntry = {
-                    ID: $scope.sortingLog.length + 1,
-                    Text: 'Moved element: ' + ui.item.scope().item.text
-                };
-                $scope.sortingLog.push(logEntry);
-            }
-        };
-
-
-        $scope.sortSkills = function () {
-            var sortableEle;
-
-            $scope.sortableArray = [
-                'One', 'Two', 'Three'
-            ];
-
-            $scope.add = function () {
-                $scope.sortableArray.push('Item: ' + $scope.sortableArray.length);
-
-                sortableEle.refresh();
-            }
-
-            $scope.dragStart = function (e, ui) {
-                ui.item.data('start', ui.item.index());
-            }
-            $scope.dragEnd = function (e, ui) {
-                var start = ui.item.data('start'),
-                    end = ui.item.index();
-
-                $scope.sortableArray.splice(end, 0,
-            $scope.sortableArray.splice(start, 1)[0]);
-
-                $scope.$apply();
-            }
-
-            sortableEle = $('#sortable').sortable({
-                start: $scope.dragStart,
-                update: $scope.dragEndw
-            });
-        }
     }]);
