@@ -149,7 +149,7 @@ hr {
 	}
 
 	h2::after {
-		background: #14b1bb;
+		background: #0185F5;
 		content: "";
 		display: block;
 		height: 5px;
@@ -162,7 +162,7 @@ hr {
 	}
 
 	h4 {
-		color: #14b1bb;
+		color: #0185F5;
 	}
 
 		h4 span {
@@ -205,12 +205,12 @@ hr {
 
 		article .btn-default {
 			border: 1px solid #14b1bb;
-			color: #14b1bb;
+			color: #0185F5;
 		}
 
 			article .btn-default:hover {
-				border: 1px solid #0f858d;
-				color: #0f858d;
+				border: 1px solid #006AC4;
+				color: #006AC4;
 			}
 
 			article .btn-default.btn-lg {
@@ -286,7 +286,7 @@ hr {
 	}
 
 		#loader i {
-			color: #14b1bb;
+			color: #0185F5;
 			left: 50%;
 			margin: -24px 0 0 -24px;
 			position: absolute;
@@ -311,7 +311,7 @@ hr {
 -------------------------------------------------------------------*/
 
 header {
-	background: #14b1bb;
+	background: #0185F5;
 	color: #fff;
 	line-height: 40px;
 	left: 0;
@@ -339,7 +339,7 @@ header {
 }
 
 #header-background {
-	background: #14b1bb;
+	background: #0185F5;
 	display: none;
 	height: 100%;
 	left: 0;
@@ -351,6 +351,20 @@ header {
 
 #menu-open {
 	margin: 0 0 0 15px;
+}
+
+#login {
+	margin-right: 30px;
+}
+
+#headlogo{
+	font-size: 20px;
+}
+
+#headlogo img {
+	width: 20%;
+	padding-bottom: 5px;
+	padding-right: 5px;
 }
 
 	/* 2.1. SEARCHBOX
@@ -457,7 +471,7 @@ header {
 			}
 
 		.slide-content h3 {
-			color: #14b1bb;
+			color: #0185F5;
 			font-size: 18px;
 		}
 
@@ -790,7 +804,7 @@ header {
 		}
 
 			#share ul li a {
-				background: #14b1bb;
+				background: #0185F5;
 				border-radius: 50%;
 				color: #fff;
 				display: block;
@@ -895,7 +909,7 @@ header {
 
 		.jobs a.featured {
 			background: #f8f8f8;
-			border-bottom: 1px solid #14b1bb;
+			border-bottom: 1px solid #0185F5;
 		}
 
 		.jobs a:hover,
@@ -929,7 +943,7 @@ header {
 
 		.job-location:before,
 		.candidate-location:before {
-			color: #14b1bb;
+			color: #0185F5;
 			content: "\f041";
 			font-family: "FontAwesome";
 			left: 15px;
@@ -943,7 +957,7 @@ header {
 	}
 
 		.job-dates:before {
-			color: #14b1bb;
+			color: #0185F5;
 			content: "\f073";
 			font-family: "FontAwesome";
 			left: 15px;
@@ -952,7 +966,7 @@ header {
 		}
 
 	.candidate-date:before {
-		color: #14b1bb;
+		color: #0185F5;
 		content: "\f073";
 		font-family: "FontAwesome";
 		font-weight: normal;
@@ -1545,7 +1559,7 @@ header {
 				}
 
 	.fa-stack {
-		color: #14b1bb;
+		color: #0185F5;
 	}
 
 /* 13. CLIENTS
@@ -1663,6 +1677,10 @@ header {
 	---------------------------------------------------------------*/
 
 	#credits {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
 		background: #181818;
 		padding: 25px 0;
 	}
