@@ -42,12 +42,16 @@ angular.module('hiremeApp',
             controller: 'JobCtrl'
         })
         .when('/viewjobs', {
-            templateUrl: 'views/pages/viewjobs.html'//,
-            // controller: 'SeekerCtrl',
+            templateUrl: 'views/pages/viewjobs.html',
+             controller: 'ViewJobsCtrl',
         })
         .when('/viewposts', {
             templateUrl: 'views/pages/viewposts.html',
             controller: 'EmployerCtrl'
+        })
+        .when('/jobdetails', {
+            templateUrl: 'views/pages/jobdetails.html',
+            controller: 'ViewJobsCtrl'
         })
         .otherwise({ redirectTo: '/' });
 

@@ -7,7 +7,7 @@
       <div class="col-sm-12">
         <div class="jobs">
             <div ng-repeat="result in MatchedJobs">
-          <a href="#" class="featured applied">
+          <button class="featured applied" ng-click="goTo(result)">
             <div class="row">
                 <div class="col-md-1 hidden-sm hidden-xs">
                     <!--<img src="http://placehold.it/60x60.jpg" alt="" class="img-responsive" />-->
@@ -27,7 +27,7 @@
                     <p class="job-salary"><strong>$128,000</strong></p>
                 </div>
             </div>
-          </a>
+          </button>
           </div>
         </div>
 </div>

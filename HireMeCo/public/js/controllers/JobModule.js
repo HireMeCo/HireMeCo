@@ -71,11 +71,17 @@ JobModule.controller('JobCtrl',
 
 // }
 
-// JobModule.controller('SeekerCtrl',
-//     [
-//         '$scope',
-//         '$rootScope',
-//         '$location',
-//         'JobService',
-//         populateJobs($scope, $rootScope, $location, JobService)
-//     ]);
+JobModule.controller('ViewJobsCtrl',
+    [
+        '$scope',
+        '$rootScope',
+        '$location',
+        'JobService',
+        function($scope, $rootScope, $location, JobService) {
+            $scope.goTo = function(result){
+                $rootScope.CurrentJob = result;
+                console.log(result);
+                $location.path('/jobdetails');
+            }
+        }
+    ]);
