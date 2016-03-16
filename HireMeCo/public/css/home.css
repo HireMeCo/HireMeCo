@@ -1,0 +1,36 @@
+﻿body{
+    background-image: url(../images/graybackground.jpg);
+	background-size: 100% 860px;
+	background-repeat: no-repeat;
+	padding-top: 100px;
+}
+
+#hometext h1 {
+	margin-bottom: 10px;
+	color: #b3b3b3;
+}
+
+#hometext p {
+	margin-bottom: 15px;
+	font-size: 20px;
+	color: #0185F5;
+}
+
+#loginbtn {
+    margin-right: 60px;
+}
+
+#logo {
+    display: block;
+    margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.btn{
+    background-color: #0185F5;
+}
+
+.btn:hover {
+	background-color: #006AC4;
+}

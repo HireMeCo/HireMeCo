@@ -1,6 +1,8 @@
-﻿<div class="container">
+﻿<link rel="stylesheet" href="css/login.css">
+
+<div class="container" id="loginpage">
     <div class="col-md-offset-2 col-md-8">
-        <h1>Login</h1>
+        <h1>User Login</h1>
         <div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
         <form class="form" ng-submit="login()">
             <div class="form-group">
@@ -16,7 +18,7 @@
             </div>
         </form>
 
-        <a href="/register.html">Register</a>
+        <a href="/register">Register Here</a>
     </div>
 </div>
 

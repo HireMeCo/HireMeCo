@@ -34,6 +34,10 @@ angular.module('hiremeApp',
         .when('/about', {
             templateUrl: 'views/pages/about.html'
         })
+		.when('/contact', {
+            templateUrl: 'views/pages/contact.html',
+            access: {restricted: false}
+        })
         .when('/employerDashboard', {
             templateUrl: 'views/pages/employerDashboard.html'
         })

@@ -234,6 +234,7 @@
     <Content Include="public\css\site.css" />
     <Content Include="public\css\splash.css" />
     <Content Include="public\css\style.css" />
+    <Content Include="public\css\home.css" />
     <Content Include="public\fonts\fontawesome-webfont.eot" />
     <Content Include="public\fonts\fontawesome-webfont.svg" />
     <Content Include="public\fonts\fontawesome-webfont.ttf" />
