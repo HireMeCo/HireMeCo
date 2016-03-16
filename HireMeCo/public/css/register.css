@@ -4,26 +4,22 @@ body {
 	background-color: #e6e6e6;
 }
 
-#loginpage {
+#register {
 	padding-top: 100px;
 }
 
-#loginpage h1{
-	padding-bottom: 50px;
+#register h1{
+	padding-bottom: 30px;
 	color: #0185F5;
 }
 
-#loginpage form {
+#register form {
 	margin-bottom: 50px;
-}
-
-#loginpage a {
-	font-size: 20px;
-	color: #0185F5;
 }
 
 .btn {
 	background-color: #0185F5;
+	margin-top: 20px;
 }
 
 .btn:hover {

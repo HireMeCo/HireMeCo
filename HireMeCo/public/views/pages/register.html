@@ -1,11 +1,13 @@
-﻿<div class="container">
+﻿<link rel="stylesheet" href="css/register.css">
+
+<div class="container" id="register">
     <div class="col-md-offset-2 col-md-8">
         <h1>Register</h1>
         <div ng-show="error" class="alert alert-danger"></div>
         <form class="form" ng-submit="register()">
 
             <div class="form-group">
-                <lable for="accountType">Are you an employer or a job seeker?</lable>
+                <label for="accountType">Are you an employer or a job seeker?</label>
                 <select id="accountType" class="form-control" name="accountType" ng-model="registerForm.accountType" required>
                     <option value="employer">Employer</option>
                     <option value="job-seeker">Job Seeker</option>
@@ -13,7 +15,7 @@
             </div>
 
             <div class="form-group">
-                <lable>First Name</lable>
+                <label>First Name</label>
                 <input type="text" class="form-control" name="username" ng-model="registerForm.firstname" required>
             </div>
             <div class="form-group">
@@ -24,11 +26,9 @@
                 <label>Password</label>
                 <input type="password" class="form-control" name="password" ng-model="registerForm.password" required>
             </div>
-            <div class="col-md-offset-2">
-                <button type="submit" class="btn btn-primary" ng-disabled="disabled">Register</button>
-            </div>
+            <button type="submit" class="btn btn-primary" ng-disabled="disabled">Register</button>
 
-            <div class="form-group">
+       <!-- <div class="form-group">
                 <label>Skills Sort</label>
                 <ul id="sortable">
                     <li ng-repeat="item in sortableArray" ng-bind="item"></li>
@@ -47,7 +47,8 @@
                         <li ng-repeat="entry in sortingLog" class="logItem">{{entry.Text}}</li>
                     </ul>
                 </div>
-            </div>
+            </div> 
+	    -->
         </form>
 
     </div>

@@ -5,11 +5,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="shortcut icon" href="images/TileIcon.jpg">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="HireMe.Co - match jobs based on personality and skill level">
-    <meta name="author" content="Sernior Capstone Team 2">
+    <meta name="author" content="Senior Capstone Team 2">
     <base href="/">
     <title>HireMe.co</title>
 
@@ -99,18 +99,22 @@
         <div id="header-background"></div>
         <div class="container">
             <div class="pull-left">
-                <div id="logo">
-                    <a href="index.html"><img src="images/logo.png" alt="Jobseek - Job Board Responsive HTML Template" /></a>
+                <div id="headlogo">
+					<img src="images/TileIcon.jpg">
+                    <a href="index.html">HIREMECO</a>
                 </div>
             </div>
 
             <div id="menu-open" class="pull-right">
                 <a class="fm-button"><i class="fa fa-bars fa-lg"></i></a>
             </div>
-            
-            <div ng-hide="!isLoggedIn" id="profilePage" class="pull-right">
-                <p style="margin-bottom: 0em;">{{ greeting }}</p>
-                <div ng-controller="LogoutCtrl"><a ng-click='logout()'>Logout</a></div>
+
+            <div ng-hide="!isLoggedIn" ng-controller="LogoutCtrl" id="login" class="pull-right">
+				<a class="btn btn-default" ng-click='logout()' role="button">Logout</a>
+            </div>
+			
+			<div ng-hide="!isLoggedIn" id="login" class="pull-right">
+                <p>{{ greeting }}</p>
             </div>
 
             <!--<div id="searchbox" class="pull-right">
@@ -135,7 +139,7 @@
 
     <!-- ============ FOOTER START ============ -->
     <footer>
-        <div id="prefooter">
+        <!--<div id="prefooter">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-6" id="newsletter">
@@ -152,12 +156,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div id="credits">
             <div class="container text-center">
                 <div class="row">
                     <div class="col-sm-12">
-                        &copy; 2015 HireMe.Co
+                        &copy; 2016 HireMe.Co
                         <br> Developed by the Senior Capstone Team 2
                     </div>
                 </div>
