@@ -1,0 +1,45 @@
+body {
+	margin-top: auto;
+	margin-bottom: auto;
+	background: #4d4d4d;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+.jumbotron {
+	padding-bottom: 150px;
+	background-image: url("../pics/officewindow.jpg");
+	background-size: 100%;
+}
+
+.jumbotron .container img {
+	margin-left: auto;
+	margin-right: auto;
+	width: 55%;
+}
+
+.jumbotron .container h1, p {
+	font-family: "Trebuchet MS";
+}
+
+.jumbotron .container h1 {
+	color: #ffffff;
+	text-shadow: 4px 4px 6px #000000;
+}
+
+.jumbotron .container p {
+	color: #0066cc;
+	font-size: 25px;
+}
+
+.footer {
+	color: #cccccc;
+	font-size: 12px;
+	position: absolute;
+	right: 0;
+	bottom: 20px;
+	left: 0;
+	text-align: center;
+}

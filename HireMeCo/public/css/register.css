@@ -1,0 +1,27 @@
+body {
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: #e6e6e6;
+}
+
+#register {
+	padding-top: 100px;
+}
+
+#register h1{
+	padding-bottom: 30px;
+	color: #0185F5;
+}
+
+#register form {
+	margin-bottom: 50px;
+}
+
+.btn {
+	background-color: #0185F5;
+	margin-top: 20px;
+}
+
+.btn:hover {
+	background-color: #006AC4;
+}

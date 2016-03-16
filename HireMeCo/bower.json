@@ -1,11 +1,15 @@
 {
-    "name": "HireMeCo",
-    "version": "1.7.2",
-    "dependencies": {
-        "bootstrap": "latest",
-        "font-awesome": "latest",
-        "animate.css": "latest",
-        "angular": "latest",
-        "angular-route": "latest"   
-    }
+  "name": "HireMeCo",
+  "version": "1.7.2",
+  "dependencies": {
+    "bootstrap": "latest",
+    "font-awesome": "latest",
+    "animate.css": "latest",
+    "angular": "latest",
+    "angular-route": "latest",
+    "angular-ui-sortable": "latest"
+  },
+  "resolutions": {
+    "angular": "1.5.0"
+  }
 }

@@ -20,7 +20,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <NodejsPort>1337</NodejsPort>
     <StartWebBrowser>true</StartWebBrowser>
   </PropertyGroup>
@@ -31,19 +31,55 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\index.js" />
+    <Compile Include="app\models\account.js" />
+    <Compile Include="app\models\employeeModel.js" />
+    <Compile Include="app\models\employerModel.js" />
+    <Compile Include="app\models\jobModel.js" />
     <Compile Include="config\database.js" />
-    <Compile Include="app\routes.js" />
     <Compile Include="app\models\personModel.js" />
-    <Compile Include="public\js\controllers\AngularTest.js" />
     <Compile Include="public\js\app.js" />
-    <Compile Include="public\js\appRoutes.js" />
-    <Compile Include="public\js\controllers\MainModule.js" />
-    <Compile Include="public\js\controllers\movie.js" />
-    <Compile Include="public\js\controllers\PersonModule.js" />
-    <Compile Include="public\js\services\PersonService.js" />
+    <Compile Include="public\js\controllers\LoginModule.js" />
+    <Compile Include="public\js\controllers\RegisterModule.js" />
+    <Compile Include="public\js\services\AuthService.js" />
+    <Compile Include="public\js\template\bootstrap.js" />
+    <Compile Include="public\js\template\bootstrap.min.js" />
+    <Compile Include="public\js\template\bootstrap3-wysihtml5.all.min.js" />
+    <Compile Include="public\js\template\fancybox.pack.js" />
+    <Compile Include="public\js\template\html5shiv.js" />
+    <Compile Include="public\js\template\instafeed.min.js" />
+    <Compile Include="public\js\template\jflickrfeed.min.js" />
+    <Compile Include="public\js\template\jquery-1.11.2.min.js" />
+    <Compile Include="public\js\template\jquery.ba-cond.min.js" />
+    <Compile Include="public\js\template\jquery.counterup.min.js" />
+    <Compile Include="public\js\template\jquery.flexmenu.js" />
+    <Compile Include="public\js\template\jquery.nouislider.all.min.js" />
+    <Compile Include="public\js\template\jquery.slitslider.js" />
+    <Compile Include="public\js\template\magic.js" />
+    <Compile Include="public\js\template\modernizr.custom.79639.js" />
+    <Compile Include="public\js\template\owl.carousel.min.js" />
+    <Compile Include="public\js\template\parallax.js" />
+    <Compile Include="public\js\template\respond.min.js" />
+    <Compile Include="public\js\template\retina.min.js" />
+    <Compile Include="public\js\template\scrollReveal.min.js" />
+    <Compile Include="public\js\template\settings.js" />
+    <Compile Include="public\js\template\waypoints.min.js" />
+    <Compile Include="public\libs\angular-animate\angular-animate.js" />
+    <Compile Include="public\libs\angular-animate\angular-animate.min.js" />
+    <Compile Include="public\libs\angular-animate\index.js" />
+    <Compile Include="public\libs\angular-bootstrap\index.js" />
+    <Compile Include="public\libs\angular-bootstrap\ui-bootstrap-tpls.js" />
+    <Compile Include="public\libs\angular-bootstrap\ui-bootstrap-tpls.min.js" />
+    <Compile Include="public\libs\angular-bootstrap\ui-bootstrap.js" />
+    <Compile Include="public\libs\angular-bootstrap\ui-bootstrap.min.js" />
     <Compile Include="public\libs\angular-route\angular-route.js" />
     <Compile Include="public\libs\angular-route\angular-route.min.js" />
     <Compile Include="public\libs\angular-route\index.js" />
+    <Compile Include="public\libs\angular-touch\angular-touch.js" />
+    <Compile Include="public\libs\angular-touch\angular-touch.min.js" />
+    <Compile Include="public\libs\angular-touch\index.js" />
+    <Compile Include="public\libs\angular-ui-sortable\sortable.js" />
+    <Compile Include="public\libs\angular-ui-sortable\sortable.min.js" />
     <Compile Include="public\libs\angular\angular.js" />
     <Compile Include="public\libs\angular\angular.min.js" />
     <Compile Include="public\libs\angular\index.js" />
@@ -181,12 +217,74 @@
     <Content Include=".bowerrc" />
     <Content Include="bower.json" />
     <Content Include="package.json" />
+    <Content Include="public\css\about.css" />
+    <Content Include="public\css\animate.css" />
+    <Content Include="public\css\bannerscollection_zoominout.css" />
+    <Content Include="public\css\bootstrap-theme.css" />
+    <Content Include="public\css\bootstrap-theme.min.css" />
+    <Content Include="public\css\bootstrap.css" />
+    <Content Include="public\css\bootstrap.min.css" />
+    <Content Include="public\css\contact.css" />
+    <Content Include="public\css\font-awesome.min.css" />
+    <Content Include="public\css\jquery.fancybox.css" />
+    <Content Include="public\css\jquery.flexmenu.css" />
+    <Content Include="public\css\jquery.nouislider.css" />
+    <Content Include="public\css\login.css" />
+    <Content Include="public\css\owl.carousel.css" />
     <Content Include="public\css\site.css" />
+    <Content Include="public\css\splash.css" />
+    <Content Include="public\css\style.css" />
+    <Content Include="public\css\home.css" />
+    <Content Include="public\fonts\fontawesome-webfont.eot" />
+    <Content Include="public\fonts\fontawesome-webfont.svg" />
+    <Content Include="public\fonts\fontawesome-webfont.ttf" />
+    <Content Include="public\fonts\fontawesome-webfont.woff" />
+    <Content Include="public\fonts\fontawesome-webfont.woff2" />
+    <Content Include="public\fonts\FontAwesome.otf" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="public\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="public\images\background.jpg" />
+    <Content Include="public\images\bullet.png" />
+    <Content Include="public\images\empty.png" />
+    <Content Include="public\images\fancybox_loading%402x.gif" />
+    <Content Include="public\images\fancybox_loading.gif" />
+    <Content Include="public\images\fancybox_overlay.png" />
+    <Content Include="public\images\fancybox_sprite%402x.png" />
+    <Content Include="public\images\fancybox_sprite.png" />
+    <Content Include="public\images\favicon.png" />
+    <Content Include="public\images\logo%402x.png" />
+    <Content Include="public\images\logo.png" />
+    <Content Include="public\images\logoOld.png" />
+    <Content Include="public\images\map-marker.png" />
+    <Content Include="public\images\phone.png" />
+    <Content Include="public\libs\angular-animate\.bower.json" />
+    <Content Include="public\libs\angular-animate\angular-animate.min.js.map" />
+    <Content Include="public\libs\angular-animate\bower.json" />
+    <Content Include="public\libs\angular-animate\package.json" />
+    <Content Include="public\libs\angular-animate\README.md" />
+    <Content Include="public\libs\angular-bootstrap\.bower.json" />
+    <Content Include="public\libs\angular-bootstrap\.gitignore" />
+    <Content Include="public\libs\angular-bootstrap\.npmignore" />
+    <Content Include="public\libs\angular-bootstrap\bower.json" />
+    <Content Include="public\libs\angular-bootstrap\package.json" />
+    <Content Include="public\libs\angular-bootstrap\README.md" />
+    <Content Include="public\libs\angular-bootstrap\ui-bootstrap-csp.css" />
     <Content Include="public\libs\angular-route\.bower.json" />
     <Content Include="public\libs\angular-route\angular-route.min.js.map" />
     <Content Include="public\libs\angular-route\bower.json" />
     <Content Include="public\libs\angular-route\package.json" />
     <Content Include="public\libs\angular-route\README.md" />
+    <Content Include="public\libs\angular-touch\.bower.json" />
+    <Content Include="public\libs\angular-touch\angular-touch.min.js.map" />
+    <Content Include="public\libs\angular-touch\bower.json" />
+    <Content Include="public\libs\angular-touch\package.json" />
+    <Content Include="public\libs\angular-touch\README.md" />
+    <Content Include="public\libs\angular-ui-sortable\.bower.json" />
+    <Content Include="public\libs\angular-ui-sortable\.travis.yml" />
+    <Content Include="public\libs\angular-ui-sortable\bower.json" />
     <Content Include="public\libs\angular\.bower.json" />
     <Content Include="public\libs\angular\angular-csp.css" />
     <Content Include="public\libs\angular\angular.min.js.gzip" />
@@ -352,22 +450,14 @@
     <Content Include="public\libs\jquery\LICENSE.txt" />
     <Content Include="public\libs\jquery\README.md" />
     <Content Include="public\libs\jquery\src\.jshintrc" />
-    <Content Include="public\views\employee\editEmployeeProfile.html" />
-    <Content Include="public\views\employee\employeeDashboard.html" />
-    <Content Include="public\views\employer\editEmployerProfile.html" />
-    <Content Include="public\views\employee\employeeProfile.html" />
-    <Content Include="public\views\employer\employerDashboard.html" />
-    <Content Include="public\views\employer\employerProfile.html" />
-    <Content Include="public\views\home.html" />
     <Content Include="public\views\index.html" />
-    <Content Include="public\views\job.html" />
-    <Content Include="public\views\modules\login.html" />
-    <Content Include="public\views\person.html" />
-    <Content Include="public\views\modules\regristration.html" />
-    <Content Include="public\views\searchResults.html" />
+    <Content Include="public\views\pages\about.html" />
+    <Content Include="public\views\pages\contact.html" />
+    <Content Include="public\views\pages\home.html" />
+    <Content Include="public\views\pages\login.html" />
+    <Content Include="public\views\pages\register.html" />
+    <Content Include="public\views\partials\contact.html" />
     <Content Include="README.md" />
-    <Content Include="public\views\AngularJS.html" />
-    <Content Include="public\views\MoviesList.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\models\" />
@@ -377,9 +467,14 @@
     <Folder Include="public\css\" />
     <Folder Include="config\" />
     <Folder Include="public\js\controllers\" />
+    <Folder Include="public\js\template\" />
     <Folder Include="public\js\services\" />
     <Folder Include="public\libs\" />
+    <Folder Include="public\libs\angular-animate\" />
+    <Folder Include="public\libs\angular-bootstrap\" />
     <Folder Include="public\libs\angular-route\" />
+    <Folder Include="public\libs\angular-touch\" />
+    <Folder Include="public\libs\angular-ui-sortable\" />
     <Folder Include="public\libs\angular\" />
     <Folder Include="public\libs\animate.css\" />
     <Folder Include="public\libs\bootstrap\" />
@@ -419,10 +514,11 @@
     <Folder Include="public\libs\jquery\src\traversing\" />
     <Folder Include="public\libs\jquery\src\traversing\var\" />
     <Folder Include="public\libs\jquery\src\var\" />
+    <Folder Include="public\fonts\" />
+    <Folder Include="public\images\" />
     <Folder Include="public\views\" />
-    <Folder Include="public\views\employer\" />
-    <Folder Include="public\views\employee\" />
-    <Folder Include="public\views\modules\" />
+    <Folder Include="public\views\pages\" />
+    <Folder Include="public\views\partials\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

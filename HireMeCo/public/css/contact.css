@@ -1,0 +1,17 @@
+body {
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: #e6e6e6;
+}
+
+#contactpage h1 {
+	color: #0185F5;
+}
+
+#contactpage p, li {
+	color: #000000;
+}
+
+#contactpage p {
+	margin-bottom: 5px;
+}

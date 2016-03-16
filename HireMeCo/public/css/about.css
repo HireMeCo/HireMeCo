@@ -1,0 +1,14 @@
+body {
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: #e6e6e6;
+}
+
+#about h1{
+	color: #0185F5;
+}
+
+#about p {
+	font-size: 18px;
+	color: #000000;
+}
