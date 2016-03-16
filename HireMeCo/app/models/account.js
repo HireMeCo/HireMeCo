@@ -1,28 +1,36 @@
 ﻿var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
+var JobModel = require('./job.js');
 
-// okay what wer're doing here is really stupid.
-// we should really have two different schemas for two different accounts
-// but whatever, this is a school project and right now I don't have
-// time to do it the right way... :'( I'm sorry world
+
 var Account = new Schema({
     username: String,
     password: String,
     accountType: String,
+    location: String,
+    description: String,
 
-// stuff for job-seekers
+//====== JOB SEEKERS
     firstname: String,
     lastname: String,
-    SkillList: [String],   // list of the ListItem.Values
-    SurveyList: [String],  // list of the ListItem.Values
-    MatchedJobs: [String], // list of the ObjectId().valueOf()
+    major: String,
+    education: String,
+    CompanyTypePref: [String],
+    CompanySizePref: [String],
+    LocationPref: [String],
+    EmploymentTypePref: [String],
+    WagePref: String,
+    WorkEnvironmentPref: [String],
+    SkillList: [String],
+    SurveyList: [String],
+    MatchedJobs: [{}],
 
-// stuff for employers
+//====== stuff for employers
     companyname: String,
-    jobs: [Schema.Types.ObjectId], // list of id's this account has created
-    location: String,
-    description: String
+    CompanySize: String,
+    WorkEnvironment: String,
+    jobs: [{ type: Schema.Types.ObjectId, ref: 'Job' }]
 });
 
 Account.plugin(passportLocalMongoose);

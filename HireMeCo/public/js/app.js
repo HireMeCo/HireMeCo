@@ -15,13 +15,13 @@ angular.module('hiremeApp',
 
 // set local routes
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-        
-        $routeProvider
+
+    $routeProvider
         .when('/', {
             templateUrl: 'views/pages/home.html'
         })
         .when('/login', {
-            templateUrl: 'views/pages/login.html', 
+            templateUrl: 'views/pages/login.html',
             controller: 'LoginCtrl'
         })
         .when('/logout', {
@@ -32,68 +32,66 @@ angular.module('hiremeApp',
             controller: 'RegisterCtrl'
         })
         .when('/about', {
-            templateUrl: 'views/pages/about.html',
-            access: {restricted: false}
+            templateUrl: 'views/pages/about.html'
         })
         .when('/employerDashboard', {
-            templateUrl: 'views/pages/employerDashboard.html',
-            access: {restricted: true}
+            templateUrl: 'views/pages/employerDashboard.html'
         })
         .when('/postjob', {
             templateUrl: 'views/pages/postjob.html',
-            controller: 'JobCtrl',
-            access: {restricted: true}
+            controller: 'JobCtrl'
+        })
+        .when('/viewjobs', {
+            templateUrl: 'views/pages/viewjobs.html'//,
+            // controller: 'SeekerCtrl',
+        })
+        .when('/viewposts', {
+            templateUrl: 'views/pages/viewposts.html',
+            controller: 'EmployerCtrl'
         })
         .otherwise({ redirectTo: '/' });
-        
+
         $locationProvider.html5Mode(true);
 }])
 
-// set up the navigation (contextual based on if you're logged in and who is logged in) 
+// set up the navigation (contextual based on if you're logged in and who is logged in)
 .controller('navigationController', ['$scope', '$rootScope',
     function ($scope, $rootScope, $location, AuthService) {
-    
+
     //initialize variables
     $rootScope.isLoggedIn = false;
     $rootScope.firstname = " ";
-    
+
     $scope.updateNav = function() {
-        
         if($rootScope.isLoggedIn){
-            
             // nav items for an employer
             if($rootScope.accountType == "employer"){
-                
                 $scope.greeting = "Company: " + $rootScope.firstname;
                 $scope.navItems = [
-                { name: "View Matched Employees", path: "/employerDashboard" },
+                { name: "View Posted Jobs", path: "/viewposts" },
                 { name: "Edit Profile", path: "/profile" },
                 { name: "Post A Job", path: "/postjob"}
                 ];
             }
-            
             // nav items for a job-seeker
             else{
                 $scope.greeting = "Welcome, " + $rootScope.firstname;
                 $scope.navItems = [
-                    { name: "Dashboard", path: "/dashboard" },
-                    { name: "Profile", path: "/profile" },
-                    { name: "Search For Jobs", path: "/search"}
+                    { name: "View Matches", path: "/viewjobs" },
+                    { name: "Profile", path: "/profile" }
                 ];
             }
-            
-           
         }
-        
+
         // default nav items
         $scope.globalNav = [
-            { name: "About", path: "/about"}, 
+            { name: "About", path: "/about"},
             { name: "Contact", path: "/contact"}
         ];
     };
-    
+
     $scope.updateNav();
-    
+
     $scope.navHeadName = "Home";
 
 }])

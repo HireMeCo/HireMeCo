@@ -6,6 +6,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
     var user = null;
     var firstname = " ";
     var accountType = "job-seeker";
+    var MatchedJobs = [];
 
     // return available functions for use in controllers
     return ({
@@ -13,6 +14,8 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         getUserStatus: getUserStatus,
         getFirstname: getFirstname,
         getAccountType: getAccountType,
+        isJobSeeker: isJobSeeker,
+        getMatchedJobs: getMatchedJobs,
         login: login,
         logout: logout,
         register: register
@@ -34,9 +37,18 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         return accountType;
     }
 
+    function isJobSeeker() {
+        if (accountType == "job-seeker") return true;
+        return false;
+    }
+
 
     function getFirstname() {
         return firstname;
+    }
+
+    function getMatchedJobs() {
+        return MatchedJobs;
     }
 
     function login(username, password) {
@@ -49,8 +61,9 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         // handle success
             .success(function (data, status) {
             if (status === 200 && data.status) {
-                accountType = data.accountType;
-                firstname = data.firstname;
+                accountType = data.user.accountType;
+                firstname = data.user.firstname;
+                MatchedJobs = data.user.MatchedJobs;
                 user = true;
                 deferred.resolve();
             } else {

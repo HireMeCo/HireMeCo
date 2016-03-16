@@ -3,29 +3,30 @@ var mongoose = require('mongoose');
 var Heap = require('binaryheap');
 var db = mongoose.connection;
 var Account = require('./account.js');
+var JobModel = require('./job.js');
+var EdgeModel = require('./edge.js');
 
-// represents an edge from job to job
-var EdgeSchema = new mongoose.Schema({
-    ComingFrom: { type: mongoose.Schema.Types.ObjectId, ref: 'Job'},
-    PointsTo: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
-    Score: Number
-});
+var Skill = function(name, relevancy) {
+    this.name == name;
+    this.relevancy = relevancy;
+}
 
-// define structure of the Mongo data
-var JobSchema = new mongoose.Schema({
-    JobTitle: String,
-    Company: String,
-    Description: String,
-    SkillList: [String],
-    SurveyList: [String],
-    // AdjacentJobs: [EdgeSchema],
-    // ParentJob: EdgeSchema,
-    Root: Boolean
-});
+var AddJob = function(SkillList) {
+    for (var i = 0; i < SkillList.Length; i++){
+        Job.Set.push(new Skill(SkillList[i], i));
+    }
+}
 
-// Provides all of the functions necessary to communicate with the database
-var JobModel = mongoose.model('Job', JobSchema);
-var EdgeModel = mongoose.model('Edge', EdgeSchema);
+var Find = function(SkillList) {
+    var matches = [];
+    var stop = false;
+    while (matches.length < 10 || stop == false) {
+        JobModel.find.where(Set == Seeker.Set).exec(function(results) {
+
+        });
+        stop = true;
+    }
+}
 
 // Log to the console for sanity
 db.on('error', console.error.bind(console, "connection error in jobModel.js"));
@@ -35,6 +36,8 @@ var handleError = function(err, response) {
     console.log(err);
     response.status(500).json({ error: 'Trouble in paradise. Check console.' });
 }
+
+exports.handleError = handleError;
 
 var returnJob = function(newjob, edge, response) {
     console.log("Inserted new job: " + newjob);
@@ -97,6 +100,8 @@ var Heuristic = function(First, Second) {
     return (skillScore + surveyScore) / 2;
 }
 
+exports.Heuristic = Heuristic;
+
 var AddConnection = function(newjob, bestMatch, score, request, response) {
     var newEdge1 = new EdgeModel({
         ComingFrom: bestMatch._id,
@@ -110,9 +115,9 @@ var AddConnection = function(newjob, bestMatch, score, request, response) {
     });
 
     newEdge1.save(function(err) {
-        if (err) handleError(err);
+        if (err) handleError(err, response);
         newEdge2.save(function(err) {
-            if (err) handleError(err);
+            if (err) handleError(err, response);
             returnJob(newjob, newEdge2, response);
         });
     });
@@ -129,7 +134,7 @@ var InsertJob = function(newjob, parent, visited, request, response) {
         .find({ ComingFrom: parent._id })
         .populate('PointsTo')
         .exec(function(err, edges) {
-            if (err) handleError(err);
+            if (err) handleError(err, response);
             if (!edges) {
                 console.log("Reached a leaf, add adjacent job to: " + parent.JobTitle);
                 AddConnection(newjob, parent, scoreToParent, request, response);
@@ -161,7 +166,7 @@ var InsertJob = function(newjob, parent, visited, request, response) {
 //updates the associated account
 var UpdateAccount = function(accountId, jobId, response) {
     Account.findOne({ id: accountId }, function(err, account) {
-        if (err) handleError(err);
+        if (err) handleError(err, response);
         account.jobs.push(jobId);
         Account.save(function(err) { if (err) handleError(err, response); });
     });
@@ -220,12 +225,14 @@ var Result = function(job, score) {
     this.job = job;
     this.score = score;
 }
+exports.ResultItem = Result;
+
 exports.matchSeeker = function(request, response) {
     Account.findOne({ id: request.body.Account.id }, function(err, seeker) {
-        if (err) handleError(err);
+        if (err) handleError(err, response);
         results = [];
         JobModel.find().exec(function(err, jobs) {
-            if (err) handleError(err);
+            if (err) handleError(err, response);
             jobs.forEach(function(job) {
                 results.push(new Result(job, Heuristic(seeker, job)));
             });

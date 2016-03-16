@@ -60,8 +60,7 @@ angular.module('JobServiceApp', []).factory('JobService', function ($q, $timeout
             Description: Description,
             SkillList: SkillList,
             SurveyList: SurveyList
-
-          })
+            })
             .success(function (data, status) {
                 console.log("Successful service post to api/job");
                 if(status === 200 && data.status){

@@ -66,13 +66,16 @@ JobModule.controller('JobCtrl',
     }
 ]);
 
-JobModule.controller('ViewJobsCtrl',
-    ['$scope', '$rootScope', '$location', 'JobService',
-        function($scope, $rootScope, $location, JobService) {
-            JobService.getAllJobs().then(function() {
-                $scope.jobs = JobService.jobs();
-            }).catch(function() {
-                $scope.error = "Couldn't get jobs."
-            });
-        }
-    ]);
+// var populateJobs = function($scope, $rootScope, $location, JobService)
+// {
+
+// }
+
+// JobModule.controller('SeekerCtrl',
+//     [
+//         '$scope',
+//         '$rootScope',
+//         '$location',
+//         'JobService',
+//         populateJobs($scope, $rootScope, $location, JobService)
+//     ]);
