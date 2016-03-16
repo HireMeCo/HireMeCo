@@ -15,21 +15,25 @@ angular.module('hiremeApp',
 
 // set local routes
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-        
+
         $routeProvider
         .when('/', {
-            templateUrl: 'views/pages/home.html'
+            templateUrl: 'views/pages/home.html',
+            access: {restricted: false}
         })
         .when('/login', {
-            templateUrl: 'views/pages/login.html', 
-            controller: 'LoginCtrl'
+            templateUrl: 'views/pages/login.html',
+            controller: 'LoginCtrl',
+            access: {restricted: false}
         })
         .when('/logout', {
-            controller: 'LogoutCtrl'
+            controller: 'LogoutCtrl',
+            access: {restricted: false}
         })
         .when('/register', {
             templateUrl: 'views/pages/register.html',
-            controller: 'RegisterCtrl'
+            controller: 'RegisterCtrl',
+            access: {restricted: false}
         })
         .when('/about', {
             templateUrl: 'views/pages/about.html',
@@ -49,25 +53,25 @@ angular.module('hiremeApp',
             access: {restricted: true}
         })
         .otherwise({ redirectTo: '/' });
-        
+
         $locationProvider.html5Mode(true);
 }])
 
-// set up the navigation (contextual based on if you're logged in and who is logged in) 
+// set up the navigation (contextual based on if you're logged in and who is logged in)
 .controller('navigationController', ['$scope', '$rootScope',
     function ($scope, $rootScope, $location, AuthService) {
-    
+
     //initialize variables
     $rootScope.isLoggedIn = false;
     $rootScope.firstname = " ";
-    
+
     $scope.updateNav = function() {
-        
+
         if($rootScope.isLoggedIn){
-            
+
             // nav items for an employer
             if($rootScope.accountType == "employer"){
-                
+
                 $scope.greeting = "Company: " + $rootScope.firstname;
                 $scope.navItems = [
                 { name: "View Matched Employees", path: "/employerDashboard" },
@@ -75,7 +79,7 @@ angular.module('hiremeApp',
                 { name: "Post A Job", path: "/postjob"}
                 ];
             }
-            
+
             // nav items for a job-seeker
             else{
                 $scope.greeting = "Welcome, " + $rootScope.firstname;
@@ -85,19 +89,19 @@ angular.module('hiremeApp',
                     { name: "Search For Jobs", path: "/search"}
                 ];
             }
-            
-           
+
+
         }
-        
+
         // default nav items
         $scope.globalNav = [
-            { name: "About", path: "/about"}, 
+            { name: "About", path: "/about"},
             { name: "Contact", path: "/contact"}
         ];
     };
-    
+
     $scope.updateNav();
-    
+
     $scope.navHeadName = "Home";
 
 }])
