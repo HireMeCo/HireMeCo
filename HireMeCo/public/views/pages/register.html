@@ -4,6 +4,7 @@
         <div ng-show="error" class="alert alert-danger"></div>
         <form class="form" ng-submit="register()">
 
+            <!-- accountType: Controlls what fields to show -->
             <div class="form-group">
                 <lable for="accountType">Are you an employer or a job seeker?</lable>
                 <select id="accountType" class="form-control" name="accountType" ng-model="registerForm.accountType" required>
@@ -11,82 +12,63 @@
                     <option value="job-seeker">Job Seeker</option>
                 </select>
             </div>
+            <!-- accountType end -->
 
-            <div class="form-group">
-                <lable>First Name</lable>
-                <input type="text" class="form-control" name="username" ng-model="registerForm.firstname" required>
-            </div>
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" class="form-control" name="username" ng-model="registerForm.username" required>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" name="password" ng-model="registerForm.password" required>
-            </div>
-            <div class="col-md-offset-2">
-                <button type="submit" class="btn btn-primary" ng-disabled="disabled">Register</button>
-            </div>
+            <!-- job seeker fields -->
+            <div id='jobseekerfields' ng-show="registerForm.accountType=='job-seeker'">
 
-            <div class="form-group">
-                <label>Skills Sort</label>
-                <ul id="sortable">
-                    <li ng-repeat="item in sortableArray" ng-bind="item"></li>
-                </ul>
-            </div>
-
-            <h1>Sortable items</h1>
-            <div class="section row">
-                <div class="col-sm-offset-2 col-sm-4">
-                    <ul ui-sortable="sortableOptions" ng-model="list" class="list">
-                        <li ng-repeat="item in list" class="item">{{item.text}}</li>
-                    </ul>
+                <!-- username -->
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control" name="username" ng-model="registerForm.username" required>
                 </div>
-                <div class="col-sm-4">
-                    <ul class="list logList">
-                        <li ng-repeat="entry in sortingLog" class="logItem">{{entry.Text}}</li>
-                    </ul>
+                <!-- password -->
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" ng-model="registerForm.password" required>
                 </div>
+                <!-- First name -->
+                <div class="form-group">
+                    <lable><b>First Name</b></lable>
+                    <input type="text" class="form-control" name="firstname" ng-model="registerForm.firstname" required>
+                </div>
+                <!-- Last name -->
+                <div class="form-group">
+                    <lable><b>Last Name</b></lable>
+                    <input type="text" class="form-control" name="firstname" ng-model="registerForm.lastname" required>
+                </div>
+                <!-- Sortable Lists -->
+                <!-- skills list -->
+                <!--<div class="section row">
+                    <div class="col-sm-offset-2 col-sm-4">
+                        <label for="skillSort">Sort these skills from most to least important</label>
+                        <ul id="skillSort" ui-sortable="sortableOptions" ng-model="skillSort" class="list-group">
+                            <li ng-repeat="item in skillSort" class="list-group-item">{{item.text}}</li>
+                        </ul>
+                    </div>
+                </div>-->
+                <!-- survey list -->
+                <!--<div class="section row">
+                    <div class="col-sm-4">
+                        <label for="surveySort">Sort these preferences from highest to lowest</label>
+                        <ul id="surveySort" ui-sortable="sortableOptions" ng-model="surveySort" class="list-group">
+                            <li ng-repeat="item in surveySort" class="list-group-item">{{item.text}}</li>
+                        </ul>
+                    </div>
+                </div>-->
+                <!-- skils end -->
+                <!-- Register button -->
+                <div class="col-md-offset-2">
+                    <button type="submit" class="btn btn-primary" ng-disabled="disabled">Register</button>
+                </div>
+            </div>
+            <!-- Job Seeker fields end -->
+
+            <!-- Company Fields start -->
+            <!--<div id="companyfields" ng-show="registerForm.accountType=='employer'">-->
+
             </div>
         </form>
 
     </div>
 </div>
-
-
-
-
-<!--<div id="register">
-    <div>
-        <a class="close"><i class="fa fa-remove fa-lg"></i></a>
-        <h2>Register</h2>
-    </div>
-    <form>
-        <div class="form-group">
-            <label for="register-name">Name</label>
-            <input type="text" class="form-control" id="register-name">
-        </div>
-        <div class="form-group">
-            <label for="register-surname">Surname</label>
-            <input type="text" class="form-control" id="register-surname">
-        </div>
-        <div class="form-group">
-            <label for="register-email">Email</label>
-            <input type="email" class="form-control" id="register-email">
-        </div>
-        <hr>
-        <div class="form-group">
-            <label for="register-username">Username</label>
-            <input type="text" class="form-control" id="register-username">
-        </div>
-        <div class="form-group">
-            <label for="register-password1">Password</label>
-            <input type="password" class="form-control" id="register-password1">
-        </div>
-        <div class="form-group">
-            <label for="register-password2">Repeat Password</label>
-            <input type="password" class="form-control" id="register-password2">
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
-</div>-->

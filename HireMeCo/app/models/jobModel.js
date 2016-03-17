@@ -1,212 +1,247 @@
-﻿"use strict";
-
-// configure
+﻿// configure
 var mongoose = require('mongoose');
 var Heap = require('binaryheap');
 var db = mongoose.connection;
+var Account = require('./account.js');
+var JobModel = require('./job.js');
+var EdgeModel = require('./edge.js');
 
-// define structure of the Mongo data
-var JobSchema = new mongoose.Schema({
+var Skill = function(name, relevancy) {
+    this.name == name;
+    this.relevancy = relevancy;
+}
 
-    JobTitle: String,
-    Company: String,
-    Description: String,
-    SkillList: [String],
-    SurveyList: [String],
-    AdjacentJobIds: [{}],
-    Index: Number
+var AddJob = function(SkillList) {
+    for (var i = 0; i < SkillList.Length; i++){
+        Job.Set.push(new Skill(SkillList[i], i));
+    }
+}
 
-});
+var Find = function(SkillList) {
+    var matches = [];
+    var stop = false;
+    while (matches.length < 10 || stop == false) {
+        JobModel.find.where(Set == Seeker.Set).exec(function(results) {
 
-// Provides all of the functions necessary to communicate with the database
-var JobModel = mongoose.model('Job', JobSchema);
+        });
+        stop = true;
+    }
+}
 
 // Log to the console for sanity
 db.on('error', console.error.bind(console, "connection error in jobModel.js"));
-db.once('open', function () {
-    console.log("JobDB is open...");
-});
+db.once('open', function() { console.log("JobDB is open..."); });
 
+var handleError = function(err, response) {
+    console.log(err);
+    response.status(500).json({ error: 'Trouble in paradise. Check console.' });
+}
 
-// Grab ALL jobs (no A Star)
+exports.handleError = handleError;
+
+var returnJob = function(newjob, edge, response) {
+    console.log("Inserted new job: " + newjob);
+    response.status(200).json({
+        status: 'Job Posting Success!',
+        job: newjob.JobTitle,
+        //connectedto: edge
+    });
+}
+
+//====================== HELPER METHODS =============================
+var dcgItem = function(rank, value, relevancy, idealRelevancy, dcgval, ndcgval) {
+    this.rank = rank;
+    this.value = value;
+    this.relevancy = relevancy;
+    this.idealRelevancy = idealRelevancy;
+    this.dcgval = dcgval;
+    this.ndcgval = ndcgval;
+}
+
+var computeDCG = function(First, Second) {
+    // ==== DCG similarity heuristic ===
+
+    // construct list of dcg items with their relevancy
+    var DCG = [];
+    for (var i = 0; i < First.length; i++){
+        var relevancy = Second.length - Second.indexOf(First[i]);
+        var idealRelevancy = First.length - i;
+        DCG.push(new dcgItem(i + 1, First[i], relevancy, idealRelevancy));
+    }
+	console.trace("DCg here!");
+    //perform DCG heuristic
+    var rel1 = DCG[0].relevancy;
+    var idealRel1 = DCG[0].idealRelevancy;
+    var avgDCG = 0;
+    var navgDCG = 0;
+    for (var i = 0; i < DCG.length; i++){
+        var dcg = 0;
+        var ndcg = 0;
+        for (var j = 1; j <= i; j++){
+            dcg += (DCG[i].relevancy / (Math.log(j + 1) / Math.log(2)));
+            ndcg += (DCG[i].idealRelevancy / (Math.log(j + 1) / Math.log(2)))
+        }
+        DCG[i].dcgval = rel1 + dcg;
+        DCG[i].ndcgval = idealRel1 + ndcg;
+        avgDCG += DCG[i].dcgval;
+        navgDCG += DCG[i].ndcgval;
+    }
+    avgDCG = avgDCG / DCG.length;
+    navgDCG = navgDCG / DCG.length;
+    return avgDCG / navgDCG; // this is how well First Matches to Second.
+}
+
+// see https://en.wikipedia.org/wiki/Discounted_cumulative_gain
+// returns a score for how well two lists match
+var Heuristic = function(First, Second) {
+    skillScore = computeDCG(First.SkillList, Second.SkillList);
+    surveyScore = computeDCG(Second.SurveyList, Second.SurveyList);
+    console.log("Skill Score: " + skillScore);
+    console.log("Survey Score: " + surveyScore);
+    return (skillScore + surveyScore) / 2;
+}
+
+exports.Heuristic = Heuristic;
+
+var AddConnection = function(newjob, bestMatch, score, request, response) {
+    var newEdge1 = new EdgeModel({
+        ComingFrom: bestMatch._id,
+        PointsTo: newjob._id,
+        Score: score
+    });
+    var newEdge2 = new EdgeModel({
+        ComingFrom: newjob._id,
+        PointsTo: bestMatch._id,
+        Score: score
+    });
+
+    newEdge1.save(function(err) {
+        if (err) handleError(err, response);
+        newEdge2.save(function(err) {
+            if (err) handleError(err, response);
+            returnJob(newjob, newEdge2, response);
+        });
+    });
+}
+
+// inserts job and updates adjacencies
+var InsertJob = function(newjob, parent, visited, request, response) {
+
+    var scoreToParent = Heuristic(newjob, parent);
+    console.log("Currently on " + parent.JobTitle);
+    console.log("Score from " + newjob.JobTitle + " to " + parent.JobTitle + ": " + scoreToParent);
+
+    EdgeModel
+        .find({ ComingFrom: parent._id })
+        .populate('PointsTo')
+        .exec(function(err, edges) {
+            if (err) handleError(err, response);
+            if (!edges) {
+                console.log("Reached a leaf, add adjacent job to: " + parent.JobTitle);
+                AddConnection(newjob, parent, scoreToParent, request, response);
+            }
+            else {
+                var max = scoreToParent;//Heuristic(newjob, adjacencies[0]);
+                var bestMatch = parent;
+
+                console.log("Visiting adjacencies...");
+                edges.forEach(function(edge) {
+                    var score = Heuristic(newjob, edge.PointsTo);
+
+                    console.log("Looking at " + edge.PointsTo._id);
+                    if (score >= max && visited.indexOf(edge.PointsTo.id) == -1) {
+                        max = score;
+                        bestMatch = edge.PointsTo;
+                    }
+                });
+                // if after checking all the adjacencies the current job is still the best..
+                if (bestMatch == parent) {
+                    AddConnection(newjob, parent, max, request, response);
+                } else {
+                    visited.push(parent.id); // to make sure we don't get an infinite recursion...
+                    InsertJob(newjob, bestMatch, visited, request, response);
+                }
+            }
+        });
+}
+
+//updates the associated account
+var UpdateAccount = function(accountId, jobId, response) {
+    Account.findOne({ id: accountId }, function(err, account) {
+        if (err) handleError(err, response);
+        account.jobs.push(jobId);
+        Account.save(function(err) { if (err) handleError(err, response); });
+    });
+}
+
+//============================= ADD JOB =============================
+// adds the job with the appropriate references
+exports.add = function (request, response) {
+
+    //add the new job to the database
+    var newjob = new JobModel({
+        JobTitle: request.body.JobTitle,
+        Description: request.body.Description,
+        SkillList: request.body.SkillList,
+        SurveyList: request.body.SurveyList
+	 });
+
+    console.log("Adding new job: " + newjob.JobTitle);
+
+	//NOTE: SkillList is assumed to be integers not a string.
+	newjob.Marker = bestMarker(request.body.SkillList);
+	newjob.save(function(err) {
+		if(err) handleError(err, response);
+		returnJob(newjob, null, response);
+	});
+};
+
+// Grab ALL jobs (no A Star) worry about this in a sec
 exports.getAllJobs = function (request, response) {
 
     JobModel.find().exec(function (err, res) {
         if (err) {
+            console.log(err);
             response.status(500).json({ error: err });
         }
         else {
-            console.log("Fetched Jobs from API call.")
-            response.statuc(200).send(res);
+            console.log("Fetched All Jobs from API call.")
+            response.status(200).send(res);
         }
     });
 };
 
-exports.add = function (request, response) {
+var Result = function(job, score) {
+    this.job = job;
+    this.score = score;
+}
+exports.ResultItem = Result;
 
-    console.log("Entered the job model api.");
-    console.log("Coming from the request: ");
-    console.log("jobtitle: " + request.body.JobTitle);
-    console.log("company: " + request.body.Company);
-    console.log("skilllist: " + request.body.SkillList);
-    console.log("surveylist: " + request.body.SurveyList);
-
-    // Create new JobObject
-    var newjob = new JobObject(
-        request.body.JobTitle,
-        request.body.Company,
-        request.body.Description,
-        request.body.SkillList,
-        request.body.SurveyList,
-        [], // empty list of AdjacentJobIds
-        0   // empty index number
-        );
-
-        // In the case this is the first job posting...
-    JobModel.count({ 'Index': 1 }, function (err, count) {
-        if (err) {
-            console.log('Trouble Counting');
-            response.status(500).json({ error: 'Trouble Counting.' });
-        } else if (count == 0 || count == null) {
-            console.log("Counted " + count.toString() + "of these in the db.");
-            console.log("No jobs in database, adding first.");
-            newjob.Index = 1;
-            JobModel.create(newjob, function (addError, job) {
-                if (addError) {
-                    console.log("Error adding first job to database: " + addError);
-                    response.status(500).json({ error: addError });
-                } else {
-                    console.log("Successfully added first job to database :)");
-                    response.status(200).json({ status: 'Job Posting Success!' });
-                }
+exports.matchSeeker = function(request, response) {
+    Account.findOne({ id: request.body.Account.id }, function(err, seeker) {
+        if (err) handleError(err, response);
+        results = [];
+        JobModel.find().exec(function(err, jobs) {
+            if (err) handleError(err, response);
+            jobs.forEach(function(job) {
+                results.push(new Result(job, Heuristic(seeker, job)));
             });
-        }
-        else{
-            console.log("Finding adjacent jobs...");
-            JobModel.findOne({ 'Index': 1 }, function (err, firstJob){
-            if (err)
-            {  // Error check
-                console.log("Error finding start job node.");
-                console.log("err: " + err);
-                console.log("firstJob" + firstJob);
-                response.status(500).json({ error: err });
-            }
-            else
-            {  // Calculate the difference similarity root job and newjob
-                console.log("jobModel.js: calculating adjacency information!")
-                var skillDiff = ListDiff(newjob.SkillList, firstJob.SkillList);
-                var surveyDiff = ListDiff(newjob.SurveyList, firstJob.SurveyList);
-                if (skillDiff + surveyDiff <= 2)
-                {   //update start nodes adjacencies
-					/*var score =	new SkillHeuristic(firstJob.SkillList, newjob.SkillList) +
-						new SkillHeuristic(firstJob.SurveyList, newjob.SurveyList);
-					var newAdj = new AdjacentJob(newjob.id.valueOf(), score);
-                    JobModel.update({ Index: 1 }, { $push: { AdjacentJobIds: newAdj } });
-                    newjob.AdjacentJobIds.push({ new AdjacentJob(firstJob.id.valueOf(), score);
-					*/
-					connectNewJob(firstJob, newjob);
-                }
-
-                // RECURSIVE CALL TO SET ALL ADJACANT JOBS
-                console.log("Begin Recursive Stuff");
-                recurseAdjacencies(firstJob, newjob, [firstJob.id.valueOf]);
-
-                //add new job to database
-                JobModel.create(newjob, function (addError, job)
-                {
-                    if (addError)
-                    {
-                        console.log("Error adding first job to database.");
-                        response.status(500).json({ error: addError });
-                    }
-                    else
-                    {
-                        response.status(200).json({ status: 'Successfully posted job!'})
-                    }
-                });
-            }
+            results.sort(function(a, b) {
+                b.score - a.score;
+            });
+            seeker.MatchedJobs.$set(results);
+            response.status(200).json({
+                status: "Returning matches :)",
+                matches: results
+            });
         });
-        }
     });
-
-	function checkParent(parentJob, newJob, score, markedIds) 
-	{
-		parentJob.AdjacentJobIds.forEach(function(adj)
-		{
-			if(LiftDiff(adj.SkillList, parentJob.SkillList) + ListDiff(adj.SurveyList, newJob.SurveyList) == score)
-			{
-				connectNewJob(adj, newjob);
-				//JobModel.update({ _id: adj }, { $push: {AdjacentJobIds: newjob.id.valueOf() } } ); newjob.AdjacentJobIds.push(adj.id.valueOf());
-			}
-		})
-	}
-
-	function connectNewJob(firstJob, secondJob) {
-		var score =	new SkillHeuristic(firstJob.SkillList, secondJob.SkillList) +
-			new SkillHeuristic(firstJob.SurveyList, secondJob.SurveyList);
-		var newAdj = new AdjacentJob(secondJob.id.valueOf(), score);
-
-		JobModel.update({ id: firstJob.id.valueOf() }, { $push: { AdjacentJobIds: newAdj } });
-		secondJob.AdjacentJobIds.push({ new AdjacentJob(firstJob.id.valueOf(), score);
-
-	}
-
-    // takes two JobObjects and a list of ids to track previousy inspected items
-    function recurseAdjacencies(startjob, newjob, markedIds)
-    {
-        startjob.AdjacentJobIds.forEach(function(adj)
-        {
-            if (markedIds.indexOf(adj) > -1)
-            { // if we're already inspected the adjacency, don't bother
-                return;
-            }
-
-            markedIds.push(adj);
-
-            JobModel.findOne({ _id: adj }, 'SkillList SurveyList', function(err, aJob)
-            { // find adjacent job
-                if (err)
-                {
-                    console.log("Error finding start job node.");
-                    response.status(500).json({ erro: err });
-                }
-                else
-                {  // add to adjacency if they are related
-                    console.log("Comparing skill diffs and survey diffs");
-                    var skillDiff = ListDiff(aJob.SkillList, newjob.SkillList);
-                    var surveyDiff = ListDiff(aJob.SurveyList, newjob.SurveyList);
-                    if (skillDiff + surveyDiff <= 2)
-                    {
-						connectNewJob(aJob, newjob);
-                        //JobModel.update({ _id: adj }, { $push: { AdjacentJobIds: newjob.id.valueOf() } }); newjob.AdjacentJobIds.push(aJob.id.valueOf());
-						checkParent(aJob, newjob, SkillDiff + surveyDiff, markedIds);
-                        recurseAdjacencies(aJob, newjob);
-                    }
-                }
-             });
-        });
-    }
-    function ListDiff(First, Second) {
-        var Same = 0;
-        var Max = Math.max(First.length, Second.length);
-
-        //loop through list of sortables. Example: ( { text: "JavaScript" } )
-        First.forEach(function (item) {
-            Second.forEach(function (secondItem) {
-                if (item.Value == secondItem.Value) {
-                    Same += 1;
-                }
-            });
-        });
-        return Max - Same;
-    }
-};
+}
 
 
 
 // Just a helper method that returns an object with all the necessary fields
-var JobObject = function (JobTitle, Company, Description, SkillList, SurveyList, AdjacentJobIds, Index)
-{
+var JobObject = function (JobTitle, Company, Description, SkillList, SurveyList, AdjacentJobIds, Index){
     this.JobTitle = JobTitle;
     this.Company = Company;
     this.Description = Description;
@@ -224,8 +259,7 @@ var AdjacentJob = function(Id, RelCost)
 
 
 // The object that is used to create the heap and will eventually be returned
-var AStarNode = function(StarNode, g, h, Parent)
-{
+var AStarNode = function(StarNode, g, h, Parent){
     this.JobNode = JobObject;
     this.g = g;
     this.h = h;
@@ -233,56 +267,14 @@ var AStarNode = function(StarNode, g, h, Parent)
     this.Parent = Parent;
 }
 
-// returns a score for how well two lists match
-var SkillHeuristic = function(First, Second)
-{
-    var Score = 0,
-        IsMatch = false,
-        MatchList = [];
-
-    for (i = 0; i < First.length; i++)
-    { // loop throught the first list...
-        for(j = 0; i < Second.length; j++)
-        { // loop throught the seccond
-			if(First[i] == Second[j])
-            {  // if the two match, get abs value
-                var Num = Math.abs(i - j);
-				Score += Num * Num;
-				IsMatch = true;
-				MatchList[j] = true;
-				break;
-			}
-		}
-        // if no matchs in the first loop, increase score
-		if(IsMatch == false)
-        { // why
-			var Num = First.length - i;
-			Score += Num * Num;
-        }
-        else
-        { // why
-            IsMatch = false;
-        }
-
-    }
-    for(var i = 0; i < Second.length; i++)
-    { // loop through the second list and increase score if no matches
-        if(MatchList[i] == false)
-        { // why David, why
-            var Num = Second.length - i;
-            Score += Num * Num;
-        }
-    }
-	return Score;
-}
 
 // returns an AStarNode of scores (nodes) in reverse so that the most relevant job to the jobseeker
 // the RootJob is job where index equal 1
 // the JobSeeker is the person whose jobs we're trying to match
-var AStar = function(RootJob, JobSeeker, Heuristic)
+var AStar = function(RootJob, JobSeeker)
 {
     var AlreadyVisited = [];
-    var OpenHeap = new Heap(true);
+    var OpenHeap = new Heap(false); //max sorted heap
     var OpenArray = [];
 	var BestNode = null;
     var CurrentNode = null;
@@ -304,7 +296,7 @@ var AStar = function(RootJob, JobSeeker, Heuristic)
         }
 
         //
-        for (i = 0; i < CurrentNode.JobNode.AdjacentJobIds.length; i++)
+        for (var i = 0; i < CurrentNode.JobNode.AdjacentJobIds.length; i++)
         {
             var AdjacentJob = new JobObject;
             var ID = CurrentNode.JobNode.AdjacentJobId[i];
@@ -355,30 +347,14 @@ var AStar = function(RootJob, JobSeeker, Heuristic)
     return BestNode;
 }
 
-// exports.modify = function (request, response) {
-//
-//     var employeeId = request.params.employeeId;
-//
-//     JobModel.update(
-//         { _id: employeeId },
-//         {
-//             firstname: request.body.firstname,
-//             lastname: request.body.lastname,
-//             age: request.body.age,
-//             email: request.body.email
-//         },
-//         { multi: false },
-//         function (error, rowsAffected) {
-//             if (error) {
-//                 console.log("Error updating employee (job seeker) data")
-//                 response.send(500, { error: error });
-//             }
-//             else if (rowsAffected == 0) {
-//                 response.send(500, { error: "No employees match id: " + employeeId });
-//             }
-//             else {
-//                 response.send(200);
-//             }
-//         }
-//     );
-// };
+var bestMarker = function(List) {
+	var MarkIndex = 0;
+
+	console.log("bestMarker length: " + List.length);
+	for(var i = 0; i < List.length; i++) {
+		//NOTE: 5 is used as how many skills there are dont know how to turn it to a constant.
+		MarkIndex = 5 * MarkIndex + 1 + List[i];
+		console.log("MarkIndex: " + MarkIndex);
+	}
+	return MarkIndex;
+}

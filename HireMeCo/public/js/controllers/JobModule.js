@@ -65,3 +65,17 @@ JobModule.controller('JobCtrl',
         ];
     }
 ]);
+
+// var populateJobs = function($scope, $rootScope, $location, JobService)
+// {
+
+// }
+
+// JobModule.controller('SeekerCtrl',
+//     [
+//         '$scope',
+//         '$rootScope',
+//         '$location',
+//         'JobService',
+//         populateJobs($scope, $rootScope, $location, JobService)
+//     ]);
