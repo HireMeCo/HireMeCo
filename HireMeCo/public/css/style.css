@@ -31,7 +31,7 @@ Footer background:      #222 (dark gray)
 a (standard):           #14b1bb (cyan)
 a (visited):            #14b1bb (cyan)
 a (active):             #14b1bb (cyan)
-a (hover):              #a0205f (darker cyan)
+a (hover):              #0185F5(darker cyan)
 
 ------------------------------------------------------------------
 
@@ -204,7 +204,7 @@ hr {
 	}
 
 		article .btn-default {
-			border: 1px solid #14b1bb;
+			border: 1px solid #006AC4;
 			color: #0185F5;
 		}
 
@@ -701,7 +701,7 @@ header {
 		}
 
 			.pagination li a:hover {
-				color: #14b1bb;
+				color: #006AC4;
 			}
 
 	/* 4.3. WYSIWYG
@@ -816,7 +816,7 @@ header {
 			}
 
 				#share ul li a:hover {
-					background: #0f858d;
+					background: #006AC4;
 				}
 
 	/* 4.5. SIDEBAR
