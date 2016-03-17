@@ -260,7 +260,7 @@ hr {
 		.color2 .form-control {
 			background: #fff;
 			border: 0;
-		} 
+		}
 
 	#title {
 		padding-bottom: 0;
@@ -401,15 +401,15 @@ header {
 		}
 
 		#searchfield:-moz-placeholder { /* Firefox 18- */
-			color: #fff;  
+			color: #fff;
 		}
 
 		#searchfield::-moz-placeholder {  /* Firefox 19+ */
-			color: #fff;  
+			color: #fff;
 		}
 
-		#searchfield:-ms-input-placeholder {  
-			color: #fff;  
+		#searchfield:-ms-input-placeholder {
+			color: #fff;
 		}
 
 /* 3. SLIDER
@@ -439,7 +439,7 @@ header {
 		height: 100%;
 		top: 0;
 		left: 0;
-	} 
+	}
 
 	.sl-slide {
 		z-index: 1;
@@ -596,7 +596,7 @@ header {
 		text-indent: -90000px;
 		margin-top: -40px;
 		cursor: pointer;
-		
+
 		-webkit-transform: rotate(45deg);
 		-moz-transform: rotate(45deg);
 		-o-transform: rotate(45deg);
@@ -643,8 +643,8 @@ header {
 			background: #ddd;
 			background: rgba(150,150,150,0.4);
 			cursor: pointer;
-			box-shadow: 
-				0 1px 1px rgba(255,255,255,0.4), 
+			box-shadow:
+				0 1px 1px rgba(255,255,255,0.4),
 				inset 0 1px 1px rgba(0,0,0,0.1);
 		}
 
@@ -1533,7 +1533,7 @@ header {
 
 	.sidebar-links {
 		margin-bottom: 50px;
-	} 
+	}
 
 		.sidebar-links ul {
 			list-style: none;
@@ -1677,7 +1677,7 @@ header {
 	---------------------------------------------------------------*/
 
 	#credits {
-        position: fixed;
+        position: relative;
         bottom: 0;
         left: 0;
         right: 0;
