@@ -44,7 +44,7 @@ var returnJob = function(newjob, edge, response) {
     response.status(200).json({
         status: 'Job Posting Success!',
         job: newjob.JobTitle,
-        connectedto: edge
+        //connectedto: edge
     });
 }
 
@@ -68,6 +68,7 @@ var computeDCG = function(First, Second) {
         var idealRelevancy = First.length - i;
         DCG.push(new dcgItem(i + 1, First[i], relevancy, idealRelevancy));
     }
+	console.trace("DCg here!");
     //perform DCG heuristic
     var rel1 = DCG[0].relevancy;
     var idealRel1 = DCG[0].idealRelevancy;
@@ -142,6 +143,7 @@ var InsertJob = function(newjob, parent, visited, request, response) {
             else {
                 var max = scoreToParent;//Heuristic(newjob, adjacencies[0]);
                 var bestMatch = parent;
+
                 console.log("Visiting adjacencies...");
                 edges.forEach(function(edge) {
                     var score = Heuristic(newjob, edge.PointsTo);
@@ -182,28 +184,16 @@ exports.add = function (request, response) {
         Description: request.body.Description,
         SkillList: request.body.SkillList,
         SurveyList: request.body.SurveyList
-    });
+	 });
 
     console.log("Adding new job: " + newjob.JobTitle);
 
-    //inserts job, handling case that it's the first job
-    JobModel.findOne({ Root: true }, function(err, root) {
-        if (err) handleError(err, response);
-        if (root == null) {
-            newjob.Root = true;
-            newjob.save(function(err) {
-                if (err) handleError(err, response);
-                //updateAccount(request.body.account.id, newjob.id);
-                returnJob(newjob, null, response);
-            });
-        } else {
-            newjob.save(function(err) {
-                if (err) handleError(err, response);
-                var visited = [];
-                InsertJob(newjob, root, visited, request, response);
-            });
-        }
-    });
+	//NOTE: SkillList is assumed to be integers not a string.
+	newjob.Marker = bestMarker(request.body.SkillList);
+	newjob.save(function(err) {
+		if(err) handleError(err, response);
+		returnJob(newjob, null, response);
+	});
 };
 
 // Grab ALL jobs (no A Star) worry about this in a sec
@@ -349,4 +339,16 @@ var AStar = function(RootJob, JobSeeker)
         AlreadyVisited.push(CurrentNode.JobNode);
     }
     return BestNode;
+}
+
+var bestMarker = function(List) {
+	var MarkIndex = 0;
+
+	console.log("bestMarker length: " + List.length);
+	for(var i = 0; i < List.length; i++) {
+		//NOTE: 5 is used as how many skills there are dont know how to turn it to a constant.
+		MarkIndex = 5 * MarkIndex + 1 + List[i];
+		console.log("MarkIndex: " + MarkIndex);
+	}
+	return MarkIndex;
 }
