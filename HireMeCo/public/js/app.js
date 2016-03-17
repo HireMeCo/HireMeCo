@@ -16,7 +16,7 @@ angular.module('hiremeApp',
 // set local routes
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
-        $routeProvider
+    $routeProvider
         .when('/', {
             templateUrl: 'views/pages/home.html',
             access: {restricted: false}
@@ -45,12 +45,27 @@ angular.module('hiremeApp',
         })
         .when('/employerDashboard', {
             templateUrl: 'views/pages/employerDashboard.html',
-            access: {restricted: true}
+            access: {restricted: false}
         })
         .when('/postjob', {
             templateUrl: 'views/pages/postjob.html',
             controller: 'JobCtrl',
-            access: {restricted: true}
+            access: {restricted: false}
+        })
+        .when('/viewjobs', {
+            templateUrl: 'views/pages/viewjobs.html',
+             controller: 'ViewJobsCtrl',
+            access: {restricted: false}
+        })
+        .when('/viewposts', {
+            templateUrl: 'views/pages/viewposts.html',
+            controller: 'EmployerCtrl',
+            access: {restricted: false}
+        })
+        .when('/jobdetails', {
+            templateUrl: 'views/pages/jobdetails.html',
+            controller: 'ViewJobsCtrl',
+            access: {restricted: false}
         })
         .otherwise({ redirectTo: '/' });
 
@@ -66,31 +81,24 @@ angular.module('hiremeApp',
     $rootScope.firstname = " ";
 
     $scope.updateNav = function() {
-
         if($rootScope.isLoggedIn){
-
             // nav items for an employer
             if($rootScope.accountType == "employer"){
-
-                $scope.greeting = "Company: " + $rootScope.firstname;
+                $scope.greeting = "Company: " + $rootScope.companyName;
                 $scope.navItems = [
-                { name: "View Matched Employees", path: "/employerDashboard" },
+                { name: "View Posted Jobs", path: "/viewposts" },
                 { name: "Edit Profile", path: "/profile" },
                 { name: "Post A Job", path: "/postjob"}
                 ];
             }
-
             // nav items for a job-seeker
             else{
                 $scope.greeting = "Welcome, " + $rootScope.firstname;
                 $scope.navItems = [
-                    { name: "Dashboard", path: "/dashboard" },
-                    { name: "Profile", path: "/profile" },
-                    { name: "Search For Jobs", path: "/search"}
+                    { name: "View Matches", path: "/viewjobs" },
+                    { name: "Profile", path: "/profile" }
                 ];
             }
-
-
         }
 
         // default nav items
