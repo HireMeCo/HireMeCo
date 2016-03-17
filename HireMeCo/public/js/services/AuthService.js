@@ -7,6 +7,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
     var firstname = " ";
     var accountType = "job-seeker";
     var MatchedJobs = [];
+    var account = null;
 
     // return available functions for use in controllers
     return ({
@@ -16,10 +17,51 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         getAccountType: getAccountType,
         isJobSeeker: isJobSeeker,
         getMatchedJobs: getMatchedJobs,
+        getAccount: getAccount,
+        baseSkillList: baseSkillList,
+        baseSurveyList: baseSurveyList,
         login: login,
         logout: logout,
         register: register
     });
+
+    function baseSkillList() {
+        return [
+            { text: "Bash", value: 10 },
+            { text: "C", value: 20 },
+            { text: "C++", value: 30 },
+            { text: "C#", value: 40 },
+            { text: "HTML", value: 50 },
+            { text: "Java", value: 60 },
+            { text: "JavaScript", value: 70 },
+            { text: "Perl", value: 80 },
+            { text: "PHP", value: 90 },
+            { text: "Python", value: 100 },
+            { text: "Ruby", value: 110 },
+            { text: "SQL", value: 120 }
+
+        ];
+    }
+
+    function baseSurveyList() {
+        return [
+            { text: "Good Listener", value: 130 },
+            { text: "Strong Public Speaker", value: 140 },
+            { text: "Problem Solver", value: 150 },
+            { text: "Strong Leadership", value: 160 },
+            { text: "Takes Initiative", value: 170 },
+            { text: "Team Cooperation", value: 180 },
+            { text: "Strong Written Communication", value: 190 },
+            { text: "Strong Social Network", value: 200 },
+            { text: "Attention to Detail", value: 210 },
+            { text: "Strong Multi-Tasker", value: 220 },
+            { text: "Punctual", value: 230 },
+            { text: "Logical", value: 240 },
+            { text: "Analytical", value: 250 },
+            { text: "Creative", value: 260 },
+            { text: "Ability to Work Under Pressure", value: 270 }
+        ];
+    }
 
     function isLoggedIn() {
         if (user) {
@@ -40,6 +82,10 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
     function isJobSeeker() {
         if (accountType == "job-seeker") return true;
         return false;
+    }
+
+    function getAccount() {
+        return account;
     }
 
 
@@ -65,6 +111,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
                 firstname = data.user.firstname;
                 MatchedJobs = data.user.MatchedJobs;
                 user = true;
+                account = data.user;
                 deferred.resolve();
             } else {
                 user = false;

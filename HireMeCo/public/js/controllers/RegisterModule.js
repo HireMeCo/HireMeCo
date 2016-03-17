@@ -6,25 +6,11 @@ RegisterModule.controller('RegisterCtrl',
         'use strict';
         console.log(AuthService.getUserStatus());
 
-//================== SORTABLE LIST ==============================
-        // $scope.skillSort = [
-        //     { text: "Java", value: "Java" },
-        //     { text: "C#",   value: "C#" },
-        //     { text: "Python", value: "Python" },
-        //     { text: "CSS", value: "CSS" },
-        //     { text: "JavaScript", value: "JavaScript" }
-        // ];
-        // $scope.surveyList = [
-        //     { text: "Item 1", value: "1" },
-        //     { text: "Item 2", value: "2" },
-        //     { text: "Item 3", value: "3" },
-        //     { text: "Item 4", value: "4" },
-        //     { text: "Item 5", value: "5" }
-        // ];
+        $scope.skillList = AuthService.baseSkillList();
+        $scope.surveyList = AuthService.baseSurveyList();
 
         // =========== REGISTER ====================
         $scope.register = function () {
-
             // initial values
             $scope.error = false;
             $scope.disabled = true;
@@ -35,8 +21,8 @@ RegisterModule.controller('RegisterCtrl',
                 $scope.registerForm.password,
                 $scope.registerForm.firstname,
                 $scope.registerForm.accountType,
-                ["Java", "C#", "JavaScript", "Python", "CSS"],
-                ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
+                $scope.skillList,
+                $scope.surveyList
             )
             // handle success
             .then(function () {
@@ -56,17 +42,3 @@ RegisterModule.controller('RegisterCtrl',
 
         };
     }]);
-
-        //     { text: "Java", value: "Java" },
-        //     { text: "C#",   value: "C#" },
-        //     { text: "Python", value: "Python" },
-        //     { text: "CSS", value: "CSS" },
-        //     { text: "JavaScript", value: "JavaScript" }
-        // ],
-        //         [
-        //     { text: "Item 1", value: "1" },
-        //     { text: "Item 2", value: "2" },
-        //     { text: "Item 3", value: "3" },
-        //     { text: "Item 4", value: "4" },
-        //     { text: "Item 5", value: "5" }
-        // ]
