@@ -1,93 +1,166 @@
 ﻿<link rel="stylesheet" href="css/register.css">
-
+<!-- ng-show="registerForm.accountType=='job-seeker'" -->
 <div class="container" id="register">
     <div class="col-md-offset-2 col-md-8">
         <h1>Register</h1>
         <div ng-show="error" class="alert alert-danger"></div>
+
         <form class="form" ng-submit="register()">
 
             <div class="form-group">
-                <label for="accountType">Are you an employer or a job seeker?</label>
+                <lable for="accountType">Are you an employer or a job seeker?</lable>
                 <select id="accountType" class="form-control" name="accountType" ng-model="registerForm.accountType" required>
                     <option value="employer">Employer</option>
                     <option value="job-seeker">Job Seeker</option>
                 </select>
             </div>
 
+            <!-- JOB SEEKER REGISTRATION -->
+
+            <div id="job-seeker-survey" ng-show='registerForm.accountType=="job-seeker"'>
             <div class="form-group">
-                <label>First Name</label>
-                <input type="text" class="form-control" name="username" ng-model="registerForm.firstname" required>
-            </div>
-            <div class="form-group">
-                <label>Username</label>
+                <label>Email</label>
                 <input type="text" class="form-control" name="username" ng-model="registerForm.username" required>
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" class="form-control" name="password" ng-model="registerForm.password" required>
             </div>
-            <button type="submit" class="btn btn-primary" ng-disabled="disabled">Register</button>
-
-       <!-- <div class="form-group">
-                <label>Skills Sort</label>
-                <ul id="sortable">
-                    <li ng-repeat="item in sortableArray" ng-bind="item"></li>
-                </ul>
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control" name="firstname" ng-model="registerForm.firstname" required>
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" name="lastname" ng-model="registerForm.lastname" required>
+            </div>
+            <div class="form-group">
+                <label>About Me</label>
+                <textarea class="form-control" name="description"
+                ng-model="registerForm.description" required>
+                </textarea>
+            </div>
+            <br><br>
+            <h4>Education</h4>
+            <div class="form-group">
+                <label>Level of Education</label>
+                <select id="education" class="form-control" name="education" ng-model="registerForm.education" required>
+                    <option value="high-school">High School Diploma</option>
+                    <option value="associates">Associate's Degree</option>
+                    <option value="bachelors">Bachelor's Degree</option>
+                    <option value="masters">Master's Degree</option>
+                    <option value="doctorate">Doctorate Degree</option>
+                    <option value="none">None</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Major</label>
+                <select id="major" class="form-control" name="major" ng-model="registerForm.major" required>
+                    <option value="Computer-Science">Computer Science</option>
+                    <option value="Inormation-Technology">Information technology</option>
+                    <option value="Inormation-Systems">Information Systems</option>
+                    <option value="Network-Engineering">Network Engineering</option>
+                    <option value="Software-Engineering">Software Engineering</option>
+                    <option value="none">N/A</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Concntration</label>
+                <select id="concentration" class="form-control" name="concentration" ng-model="registerForm.concentration" required>
+                    <option value="Database Administrator">Database Administrator</option>
+                    <option value="Game Development">Game Development</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Mobile Development">Mobile Development</option>
+                    <option value="Software Development">Software Development</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="none">N/A</option>
+                </select>
+            </div>
+            <br><br>
+            <h1 style = "font-size: 30px">Languages</h1>
+            <h2 style = "font-size: 15px">Drag known languages into empty box (first being the most proficient)</h2>
+            <div class="section row">
+                <div class="col-sm-offset-100 col-sm-4">
+                    <ul ui-sortable="sortableOptions" ng-model="skillList" class="list-group">
+                        <li ng-repeat="item in skillList" class="list-group-item">{{item.text}}</li>
+                    </ul>
+                </div>
+                <div class="col-sm-offset-100 col-sm-4">
+                    <ul ui-sortable="sortableOptions" ng-model="surveyList" class="list-group">
+                        <li ng-repeat="item in surveyList" class="list-group-item">{{item.text}}</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <div class="col-md-offset-2">
+                <button type="submit" class="btn btn-primary" ng-disabled="disabled">Register</button>
+            </div>
+            <br>
             </div>
 
-            <h1>Sortable items</h1>
-            <div class="section row">
-                <div class="col-sm-offset-2 col-sm-4">
-                    <ul ui-sortable="sortableOptions" ng-model="list" class="list">
-                        <li ng-repeat="item in list" class="item">{{item.text}}</li>
-                    </ul>
-                </div>
-                <div class="col-sm-4">
-                    <ul class="list logList">
-                        <li ng-repeat="entry in sortingLog" class="logItem">{{entry.Text}}</li>
-                    </ul>
-                </div>
-            </div> 
-	    -->
+            <!-- END JOB SEEKER SURVEY -->
+
+            <!-- EMPLOYER REGISTRATION -->
+
+            <div id="employer-registration" ng-show='registerForm.accountType=="employer"'>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" name="username" ng-model="registerForm.username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" ng-model="registerForm.password" required>
+            </div>
+            <div class="form-group">
+                <label>Company Name</label>
+                <input type="text" class="form-control" name="companyName"
+                ng-model="registerForm.companyName">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" name="description"
+                ng-model="registerForm.description" required>
+                </textarea>
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" class="form-control" name="location"
+                ng-model="registerForm.location">
+            </div>
+            <div class="form-group">
+                <label>Company Size</label>
+                <select id="CompanySize" class="form-control" name="CompanySize" ng-model="registerForm.CompanySize" required>
+                    <option value="Large">Large</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Small">Small</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Company Type</label>
+                <select id="CompanyType" class="form-control" name="CompanyType" ng-model="registerForm.CompanyType" required>
+                    <option value="Non-Profit">Non-Profit</option>
+                    <option value="Startup">Startup</option>
+                    <option value="Established">Established</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Work Environment</label>
+                <select id="WorkEnvironment" class="form-control" name="WorkEnvironment" ng-model="registerForm.WorkEnvironment" required>
+                    <option value="cubicles">Cubicles</option>
+                    <option value="open-areas">Open Areas</option>
+                </select>
+            </div>
+            <br><br>
+            <div class="col-md-offset-2">
+                <button type="submit" class="btn btn-primary" ng-disabled="disabled">Register</button>
+            </div>
+            <br>
+            </div>
+
+            <!-- END JOB EMPLOYER REGISTRATION -->
+
+
         </form>
 
     </div>
 </div>
-
-
-
-
-<!--<div id="register">
-    <div>
-        <a class="close"><i class="fa fa-remove fa-lg"></i></a>
-        <h2>Register</h2>
-    </div>
-    <form>
-        <div class="form-group">
-            <label for="register-name">Name</label>
-            <input type="text" class="form-control" id="register-name">
-        </div>
-        <div class="form-group">
-            <label for="register-surname">Surname</label>
-            <input type="text" class="form-control" id="register-surname">
-        </div>
-        <div class="form-group">
-            <label for="register-email">Email</label>
-            <input type="email" class="form-control" id="register-email">
-        </div>
-        <hr>
-        <div class="form-group">
-            <label for="register-username">Username</label>
-            <input type="text" class="form-control" id="register-username">
-        </div>
-        <div class="form-group">
-            <label for="register-password1">Password</label>
-            <input type="password" class="form-control" id="register-password1">
-        </div>
-        <div class="form-group">
-            <label for="register-password2">Repeat Password</label>
-            <input type="password" class="form-control" id="register-password2">
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
-</div>-->

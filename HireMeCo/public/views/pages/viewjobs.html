@@ -2,31 +2,35 @@
 <!-- Jobs Listing-->
 
 <section id="jobs">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="jobs">
-                    <a href="#" class="featured applied">
-                        <div class="row">
-                            <div class="col-md-1 hidden-sm hidden-xs">
-                                <img src="http://placehold.it/60x60.jpg" alt="" class="img-responsive" />
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-7 col-xs-12 job-title">
-                                <h5>{{JobTitle}}</h5>
-                                    <p><strong>{{Company}}</strong></p>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 job-location">
-                                <p><strong>Chicago, IL, USA</strong></p>
-                                <!--<p class="hidden-xs">126.3 miles away</p>-->
-                            </div>
-                            <div class="col-lg-2 col-md-2 hidden-sm hidden-xs job-type text-center">
-                                <p class="job-salary"><strong>$128,000</strong></p>
-                                <p class="badge full-time">Full time</p>
-                            </div>
-                        </div>
-                    </a>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="jobs">
+            <div ng-repeat="result in MatchedJobs">
+          <button class="featured applied" ng-click="goTo(result)">
+            <div class="row">
+                <div class="col-md-1 hidden-sm hidden-xs">
+                    <!--<img src="http://placehold.it/60x60.jpg" alt="" class="img-responsive" />-->
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-7 col-xs-12 job-title">
+                    <h5>{{result.job.JobTitle}}</h5>
+                        <p><strong>A Company name will go here eventually. I can possibly even be a link to their page.</strong></p>
+                </div>
+                <div>
+                    <p><strong>Score: {{result.score}}</strong></p>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 job-location">
+                    <p><strong>Chicago, IL, USA</strong></p>
+                    <!--<p class="hidden-xs">126.3 miles away</p>-->
+                </div>
+                <div class="col-lg-2 col-md-2 hidden-sm hidden-xs job-type text-center">
+                    <p class="job-salary"><strong>$128,000</strong></p>
                 </div>
             </div>
+          </button>
+          </div>
         </div>
-    </div>
+</div>
+</div>
+</div>
 </section>

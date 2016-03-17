@@ -53,7 +53,7 @@
     <script src="libs/angular/angular.min.js"></script>
     <script src="libs/angular-route/angular-route.min.js"></script>
     <script src="libs/angular-animate/angular-animate.min.js"></script>
-    
+
 
     <!--<script src="libs/angular-bootstrap/ui-bootstrap.min.js"></script>-->
     <script src="libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -69,7 +69,8 @@
 
 </head>
 
-<body ng-app="hiremeApp">
+<body>
+<div ng-app="hiremeApp">
 
     <!-- Loader GIF -->
     <div id="loader">
@@ -77,7 +78,7 @@
     </div>
 
     <div id="navigationElement" ng-controller="navigationController">
-        
+
     <!-- ============ NAVBAR START ============ -->
     <div class="fm-container">
         <!-- Menu -->
@@ -108,30 +109,14 @@
             <div id="menu-open" class="pull-right">
                 <a class="fm-button"><i class="fa fa-bars fa-lg"></i></a>
             </div>
-
-            <div ng-hide="!isLoggedIn" ng-controller="LogoutCtrl" id="login" class="pull-right">
-				<a class="btn btn-default" ng-click='logout()' role="button">Logout</a>
-            </div>
-			
-			<div ng-hide="!isLoggedIn" id="login" class="pull-right">
-                <p>{{ greeting }}</p>
-            </div>
-
-            <!--<div id="searchbox" class="pull-right">
-                <form>
-                    <div class="form-group">
-                        <label class="sr-only" for="searchfield">Searchbox</label>
-                        <input type="text" class="form-control" id="searchfield" placeholder="Type keywords and press enter">
-                    </div>
-                </form>
-            </div>
-            <div id="search" class="pull-right">
-                <a><i class="fa fa-search fa-lg"></i></a>
-            </div>-->
+            <div ng-hide="!isLoggedIn" id="profilePage" class="pull-right">
+                <p style="margin-bottom: 0em;">{{ greeting }}</p>
+                <div ng-controller="LogoutCtrl"><a ng-click='logout()'>Logout</a></div>
+			</div>
         </div>
     </header>
     </div>
-    
+
     <!-- ============ HEADER END ============ -->
 
     <!-- Content -->
@@ -139,24 +124,6 @@
 
     <!-- ============ FOOTER START ============ -->
     <footer>
-        <!--<div id="prefooter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6" id="newsletter">
-                    </div>
-                    <div class="col-sm-6" id="social-networks">
-                        <h2>Get in touch</h2>
-                        <a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
-                        <a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
-                        <a href="#"><i class="fa fa-2x fa-google-plus-square"></i></a>
-                        <a href="#"><i class="fa fa-2x fa-youtube-square"></i></a>
-                        <a href="#"><i class="fa fa-2x fa-vimeo-square"></i></a>
-                        <a href="#"><i class="fa fa-2x fa-pinterest-square"></i></a>
-                        <a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>-->
         <div id="credits">
             <div class="container text-center">
                 <div class="row">
@@ -169,78 +136,7 @@
         </div>
     </footer>
     <!-- ============ FOOTER END ============ -->
-
-    <!-- Login Popup -->
-    <div class="popup" id="login">
-        <div class="popup-form">
-            <div class="popup-header">
-                <a id="close" class="close"><i class="fa fa-remove fa-lg"></i></a>
-                <h2>Login</h2>
-            </div>
-            <form>
-                <ul class="social-login">
-                    <li><a class="btn btn-facebook"><i class="fa fa-facebook"></i>Sign In with Facebook</a></li>
-                    <li><a class="btn btn-google"><i class="fa fa-google-plus"></i>Sign In with Google</a></li>
-                    <li><a class="btn btn-linkedin"><i class="fa fa-linkedin"></i>Sign In with LinkedIn</a></li>
-                </ul>
-                <hr>
-                <div class="form-group">
-                    <label for="login-username">Username</label>
-                    <input type="text" class="form-control" id="login-username">
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" class="form-control" id="login-password">
-                </div>
-                <button type="submit" class="btn btn-primary">Sign In</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Register Modal Popup -->
-
-    <div class="popup" id="register">
-        <div class="popup-form">
-            <div class="popup-header">
-                <a class="close"><i class="fa fa-remove fa-lg"></i></a>
-                <h2>Register</h2>
-            </div>
-            <form>
-                <ul class="social-login">
-                    <li><a class="btn btn-facebook"><i class="fa fa-facebook"></i>Register with Facebook</a></li>
-                    <li><a class="btn btn-google"><i class="fa fa-google-plus"></i>Register with Google</a></li>
-                    <li><a class="btn btn-linkedin"><i class="fa fa-linkedin"></i>Register with LinkedIn</a></li>
-                </ul>
-                <hr>
-                <div class="form-group">
-                    <label for="register-name">Name</label>
-                    <input type="text" class="form-control" id="register-name">
-                </div>
-                <div class="form-group">
-                    <label for="register-surname">Surname</label>
-                    <input type="text" class="form-control" id="register-surname">
-                </div>
-                <div class="form-group">
-                    <label for="register-email">Email</label>
-                    <input type="email" class="form-control" id="register-email">
-                </div>
-                <hr>
-                <div class="form-group">
-                    <label for="register-username">Username</label>
-                    <input type="text" class="form-control" id="register-username">
-                </div>
-                <div class="form-group">
-                    <label for="register-password1">Password</label>
-                    <input type="password" class="form-control" id="register-password1">
-                </div>
-                <div class="form-group">
-                    <label for="register-password2">Repeat Password</label>
-                    <input type="password" class="form-control" id="register-password2">
-                </div>
-                <button type="submit" class="btn btn-primary">Register</button>
-            </form>
-        </div>
-    </div>
+</div>
 </body>
 
 </html>
