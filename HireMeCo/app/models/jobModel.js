@@ -251,12 +251,6 @@ var JobObject = function (JobTitle, Company, Description, SkillList, SurveyList,
     this.Index = Index;
 }
 
-var AdjacentJob = function(Id, RelCost)
-{
-	this.id = Id;
-	this.RelCost;
-}
-
 
 // The object that is used to create the heap and will eventually be returned
 var AStarNode = function(StarNode, g, h, Parent){
@@ -317,7 +311,7 @@ var AStar = function(RootJob, JobSeeker)
                 }
             });
             // if this adjacent job has not yet been inspected...
-            var skipInsert = true;
+            var skipInsert = false;
             if (!(AlreadyVisited.indexOf(AdjacentJob) > -1)){
                 for(var starNode in OpenArray){
                     if(starNode.JobNode == AdjacentJob) {
@@ -330,7 +324,7 @@ var AStar = function(RootJob, JobSeeker)
                             OpenArray.push( starNode );
 
                         }
-                        skipInsert = false;
+                        skipInsert = true;
                     }
                 }
             }
@@ -347,14 +341,39 @@ var AStar = function(RootJob, JobSeeker)
     return BestNode;
 }
 
+//Replace me.
+var MaxSkills = 5;
+
 var bestMarker = function(List) {
 	var MarkIndex = 0;
 
 	console.log("bestMarker length: " + List.length);
 	for(var i = 0; i < List.length; i++) {
 		//NOTE: 5 is used as how many skills there are dont know how to turn it to a constant.
-		MarkIndex = 5 * MarkIndex + 1 + List[i];
+		MarkIndex = MaxSkills * MarkIndex + 1 + List[i];
 		console.log("MarkIndex: " + MarkIndex);
 	}
 	return MarkIndex;
+}
+
+//Returns an array of the indexes of all of List's children
+var markerRange = function(List) {
+	var Parent = bestMarker(List);
+	var Children = [];
+	var TempList = [];
+	
+	//Base case: We have reached the bottom of the tree and there are
+	//no more combinations to process return an empty array.
+	if(List.length >= MaxSkills)
+		return [];
+	TempList = List.slice(0);
+	for(var i = 0; i < MaxSkills; i++) {
+		Children.push(MaxSkills * MarkIndex + 1 + i);
+		//Add an element to the TempList then get all of the Children
+		//of that list.
+		TempList.push(Children[Children.length - 1]);
+		Children.push(markerRange(TempList));
+		//Remove last added element to the TempList to return it back to the original list.
+		TempList.pop();
+	}
 }
