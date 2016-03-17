@@ -46,7 +46,7 @@ router.post('/login', function(req, res, next) {
       if (user.accountType == "job-seeker") {
         results = [];//Job.getMatchedJobs(req.user);
         JobModel.find().populate('Company').exec(function(err, jobs) {
-          if (err) Job.handleError(err, response);
+          if (err) Job.handleError(err, res);
 
           //get every single job and match it
           jobs.forEach(function(job) {
@@ -90,6 +90,16 @@ router.get('/logout', function (req, res) {
     res.sendFile(path.join(__dirname, '../public', '/views/index.html'), { user : req.user } );
 });
 
+router.post('/getCompany', function(req, res) {
+  Account.findById(req.body._id).populate('jobs').exec(function(err, company) {
+    if (err) Job.handleError(err, res);
+    console.log(company);
+    res.status(200).json({
+      status: "We good",
+      company: company
+    });
+  });
+});
 
 // ================== REGISTRATION ===============================
 router.get('/register', function (req, res) {

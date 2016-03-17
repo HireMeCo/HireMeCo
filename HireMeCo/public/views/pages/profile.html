@@ -1,0 +1,63 @@
+<section id="title">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <h1>{{Account.firstname}} {{Account.lastname}}</h1>
+                <h4>{{Account.location}}</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============ CONTENT START ============ -->
+
+<section id="jobs">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <article>
+                    <h2>About Me</h2>
+                    <!--<img src="http://placehold.it/220x273.jpg" alt="" class="pull-left" />-->
+                    <h5>Education: </h5><p>{{Account.education}}</p>
+                    <h5>Major: </h5><p>{{Account.major}}</p>
+                    <h5>Concentration: </h5><p>{{Account.concentration}}</p>
+                    <p>{{Account.description}}</p>
+                    <h3>Skills</h3>
+                    <ul ng-repeat="skill in Account.SkillList">
+                        <li>{{skill.text}}</li>
+                    </ul>
+                    <h3>Culture Survey</h3>
+                    <ul ng-repeat="item in Account.SurveyList">
+                        <li>{{item.text}}</li>
+                    </ul>
+
+                </article>
+            </div>
+            <div class="col-sm-4" id="sidebar">
+                <div class="sidebar-widget" id="widget-contact">
+                    <h2>Contact</h2>
+                    <a href="mailto:{{Account.username}}">{{Account.username}}</a></li>
+                    </ul>
+                </div>
+                <hr>
+                <!--<div class="sidebar-widget" id="skills">
+                    <h2>Key skills</h2>
+                    <a class="badge">Photoshop</a>
+                    <a class="badge">HTML5</a>
+                    <a class="badge">CSS3</a>
+                    <a class="badge">Javascript</a>
+                    <a class="badge">jQuery</a>
+                    <a class="badge">User Experience</a>
+                    <a class="badge">User Interface</a>
+                    <a class="badge">UX</a>
+                    <a class="badge">UI</a>
+                    <a class="badge">Front End Development</a>
+                    <a class="badge">Responsive Design</a>
+                </div>-->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ CONTENT END ============ -->

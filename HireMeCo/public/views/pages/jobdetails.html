@@ -45,10 +45,10 @@
                             <p><button class="btn btn-primary" ng-click="GoToCompany(ViewingJob.Company)">Read more</button></p>
 						</div>
 						<hr>
-						<div ng-show="MatchedJobs.length > 0" class="sidebar-widget" id="company-jobs">
-							<h2>More matches from this company</h2>
-							<ul ng-repeat="result in MatchedJobs | filter:{$:ViewingJob.Company.companyName}}">>
-								<li><a href="" ng-click="GoToJob(result)">{{job.JobTitle}}</a></li>
+						<div ng-show="Account.accountType=='job-seeker'" class="sidebar-widget" id="company-jobs">
+							<h2>More matches</h2>
+							<ul ng-repeat="result in MatchedJobs | filter:{$:ViewingJob.Company.companyName}">
+								<li><a href="" ng-click="GoToJob(result)">{{result.job.JobTitle}}</a></li>
 							</ul>
 						</div>
                         <div ng-show="Account.accountType=='employer'" class="sidebar-widget" id="company-jobs">

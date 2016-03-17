@@ -9,11 +9,10 @@
                     <h4>{{ViewingCompany.location}}</h4>
                     <p>{{ViewingCompany.description}}</p>
                     <hr>
-                    <hr>
                     <h2>Jobs Posted</h2>
-                    <div class="jobs" ng-repeat="job in MatchedJobs | filter: {$:ViewingCompany.companyName}">
-                        <!-- Job offer 1 -->
-                        <a href="" ng-click="GoToPost(job)">
+                    <div class="jobs" ng-repeat="job in ViewingCompany.jobs">
+                        <!-- Job offer 1 | filter: {$:ViewingCompany.companyName -->
+                        <button ng-click="GoToPost(job)">
                             <div class="featured"></div>
                             <div class="title">
                                 <h5>{{job.JobTitle}}</h5>
@@ -24,14 +23,14 @@
                                 <span class="type full-time"><i class="fa fa-clock-o"></i>{{job.EmploymentType}}</span>
                                 <span class="sallary"><i class="fa fa-dollar"></i>{{job.Salary}}</span>
                             </div>
-                        </a>
+                        </button>
                     </div>
                 </article>
             </div>
             <div class="col-sm-4" id="sidebar">
                 <div class="sidebar-widget" id="widget-contact">
                     <h2>Contact</h2>
-                    <a href="mailto:{{job.Company.username}}">{{job.Company.username}}</a></li>
+                    <a href="mailto:{{ViewingCompany.username}}">{{ViewingCompany.username}}</a></li>
                 </div>
             </div>
         </div>

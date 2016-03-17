@@ -10,6 +10,7 @@ angular.module('JobServiceApp', []).factory('JobService', function ($q, $timeout
     var AllTheJobs = [];
     var Jobs = [];
     var Job = {};
+    var comp = {};
 
     // return available functions for use in controllers
     return ({
@@ -20,7 +21,8 @@ angular.module('JobServiceApp', []).factory('JobService', function ($q, $timeout
         getCompany: getCompany,
         getJobTitle: getJobTitle,
         getJob: getJob,
-        jobs: jobs
+        jobs: jobs,
+        company: company
     });
 
     function getJob() {
@@ -39,8 +41,28 @@ angular.module('JobServiceApp', []).factory('JobService', function ($q, $timeout
         return attitudes;
     }
 
-    function getCompany(){
-        return Company;
+    function getCompany(id) {
+        var deferred = $q.defer();
+        console.log("Getting Company");
+        $http.post("/api/getCompany", { _id: id })
+            .success(function(data, status) {
+                console.log("Successful service post to api/getCompany");
+                if (status === 200 && data.status) {
+                    comp = data.company;
+                  deferred.resolve();
+              } else {
+                  deferred.reject();
+              }
+            })
+            .error(function (data) {
+                console.log("Did not get company :/");
+                deferred.reject();
+            });
+        return deferred.promise;
+    }
+
+    function company() {
+        return comp;
     }
 
     function getJobTitle(){

@@ -59,7 +59,14 @@ JobModule.controller('ViewJobsCtrl',
             }
 
             $scope.GoToCompany = function(company) {
-                $rootScope.ViewingCompany = company;
+                JobService.getCompany(company._id)
+                    .then(function() {
+                        console.log(JobService.company())
+                        $rootScope.ViewingCompany = JobService.company();
+                     })
+                    .catch(function() {
+                        console.log("Something bad happened");
+                    });
                 console.log(company);
                 $location.path('/company');
             }

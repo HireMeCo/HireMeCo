@@ -64,24 +64,24 @@ exports.add = function (request, response) {
         });
 
     });
-    //newjob //add it to the Account schema for easy retrieval later
-        // .populate('Company')
-        // .exec(function(err, company) {
-        //     if (err) handleError(err);
-        //     console.log('Adding new job to Company jobs list');
-        //     company.jobs.push(newjob); //: [{ type: Schema.Types.ObjectId, ref: 'Job' }]
-        //     company.save(function(err) {
-        //         if (err) handleError(err, response);
-        //         newjob.save(function(err) {
-        //             if (err) handleError(err, response);
-        //             response.status(200).json({
-        //                 status: 'Job Posting Success!',
-        //                 job: newjob
-        //             });
-        //         });
-        //     });
-        // });
-};
+//     Account.findById(request.user._id) //add it to the Account schema for easy retrieval later
+//         .populate('Company')
+//         .exec(function(err, company) {
+//             if (err) handleError(err);
+//             console.log('Adding new job to Company jobs list');
+//             company.jobs.push(newjob); //: [{ type: Schema.Types.ObjectId, ref: 'Job' }]
+//             company.save(function(err) {
+//                 if (err) handleError(err, response);
+//                 newjob.save(function(err) {
+//                     if (err) handleError(err, response);
+//                     response.status(200).json({
+//                         status: 'Job Posting Success!',
+//                         job: newjob
+//                     });
+//                 });
+//             });
+//         });
+ };
 
 // Grab ALL jobs (no A Star) worry about this in a sec
 exports.getAllJobs = function (request, response) {
