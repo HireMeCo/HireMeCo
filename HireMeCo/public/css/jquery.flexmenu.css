@@ -169,7 +169,7 @@
 .flexmenu.fm-sm ul li.active a,
 .flexmenu.fm-sm ul li a:focus {
     border: 0;
-    color: #14b1bb;
+    color: #0185F5;
 }
 
 .flexmenu.fm-sm ul li a i {
@@ -212,7 +212,7 @@
 
 .flexmenu.fm-sm .navicon:after {
     border:5px solid transparent;
-    border-top-color:#14b1bb;
+    border-top-color:#0185F5;
     content:"";
     position:absolute;
     right:20px;
