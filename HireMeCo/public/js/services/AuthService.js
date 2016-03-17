@@ -8,6 +8,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
     var accountType = "job-seeker";
     var MatchedJobs = [];
     var account = null;
+    var companyName = " ";
 
     // return available functions for use in controllers
     return ({
@@ -15,6 +16,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         getUserStatus: getUserStatus,
         getFirstname: getFirstname,
         getAccountType: getAccountType,
+        getCompanyName: getCompanyName,
         isJobSeeker: isJobSeeker,
         getMatchedJobs: getMatchedJobs,
         getAccount: getAccount,
@@ -88,6 +90,10 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         return account;
     }
 
+    function getCompanyName() {
+        return companyName;
+    }
+
 
     function getFirstname() {
         return firstname;
@@ -109,6 +115,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
             if (status === 200 && data.status) {
                 accountType = data.user.accountType;
                 firstname = data.user.firstname;
+                companyName = data.user.companyName;
                 MatchedJobs = data.user.MatchedJobs;
                 user = true;
                 account = data.user;
@@ -152,17 +159,27 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
 
     }
 
-    function register(username, password, firstname, accountType, SkillList, SurveyList ) {
+    function register(accountType, username, password, firstname, lastname, description, education, major, concentration, companyName, location, CompanySize, CompanyType, WorkEnvironment, SkillList, SurveyList) {
 
         // create a new instance of deferred
         var deferred = $q.defer();
 
         // send a post request to the server
         $http.post('/api/register', {
+            accountType: accountType,
             username: username,
             password: password,
             firstname: firstname,
-            accountType: accountType,
+            lastname: lastname,
+            description: description,
+            education: education,
+            major: major,
+            concentration: concentration,
+            companyName: companyName,
+            location: location,
+            CompanySize: CompanySize,
+            CompanyType: CompanyType,
+            WorkEnvironment: WorkEnvironment,
             SkillList: SkillList,
             SurveyList: SurveyList
         })

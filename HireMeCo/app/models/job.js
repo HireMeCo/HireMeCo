@@ -13,8 +13,8 @@ var JobSchema = new mongoose.Schema({
     WorkEnvironment: String,
     EmploymentType: String,
     Description: String,
-    SkillList: [String],
-    SurveyList: [String],
+    SkillList: [{}],
+    SurveyList: [{}],
     Marker: Number,
     Root: Boolean
 });

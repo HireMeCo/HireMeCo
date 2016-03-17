@@ -8,6 +8,18 @@ RegisterModule.controller('RegisterCtrl',
 
         $scope.skillList = AuthService.baseSkillList();
         $scope.surveyList = AuthService.baseSurveyList();
+        $scope.registerForm = {};
+        $scope.registerForm.firstname = " ";
+        $scope.registerForm.lastname = " ";
+        $scope.registerForm.description = " ";
+        $scope.registerForm.education = " ";
+        $scope.registerForm.major = " ";
+        $scope.registerForm.concentration = " ";
+        $scope.registerForm.companyName = " ";
+        $scope.registerForm.location = " ";
+        $scope.registerForm.CompanySize = " ";
+        $scope.registerForm.CompanyType = " ";
+        $scope.registerForm.WorkEnvironment = " ";
 
         // =========== REGISTER ====================
         $scope.register = function () {
@@ -17,10 +29,20 @@ RegisterModule.controller('RegisterCtrl',
 
             // call register from service
             AuthService.register(
+                $scope.registerForm.accountType,
                 $scope.registerForm.username,
                 $scope.registerForm.password,
                 $scope.registerForm.firstname,
-                $scope.registerForm.accountType,
+                $scope.registerForm.lastname,
+                $scope.registerForm.description,
+                $scope.registerForm.education,
+                $scope.registerForm.major,
+                $scope.registerForm.concentration,
+                $scope.registerForm.companyName,
+                $scope.registerForm.location,
+                $scope.registerForm.CompanySize,
+                $scope.registerForm.CompanyType,
+                $scope.registerForm.WorkEnvironment,
                 $scope.skillList,
                 $scope.surveyList
             )

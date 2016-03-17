@@ -64,7 +64,7 @@ router.post('/login', function(req, res, next) {
         console.log("Login successful!");
         res.status(200).json({
           status: 'Employer login successful!',
-          user: req.user
+          user: user
         });
       }
     });
@@ -89,9 +89,19 @@ router.post('/register', function(req, res) {
   Account.register(
       new Account(
           {
+              accountType: req.body.accountType,
               username: req.body.username,
               firstname: req.body.firstname,
-              accountType: req.body.accountType,
+              lastname: req.body.lastname,
+              description: req.body.description,
+              education: req.body.education,
+              major: req.body.major,
+              concentration: req.body.concentration,
+              companyName: req.body.companyName,
+              location: req.body.location,
+              CompanySize: req.body.CompanySize,
+              CompanyType: req.body.CompanyType,
+              WorkEnvironment: req.body.WorkEnvironment,
               SkillList: req.body.SkillList,
               SurveyList: req.body.SurveyList
           }),

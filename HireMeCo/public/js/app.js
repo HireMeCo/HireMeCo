@@ -18,44 +18,54 @@ angular.module('hiremeApp',
 
     $routeProvider
         .when('/', {
-            templateUrl: 'views/pages/home.html'
+            templateUrl: 'views/pages/home.html',
+            access: {restricted: false}
         })
         .when('/login', {
             templateUrl: 'views/pages/login.html',
-            controller: 'LoginCtrl'
+            controller: 'LoginCtrl',
+            access: {restricted: false}
         })
         .when('/logout', {
-            controller: 'LogoutCtrl'
+            controller: 'LogoutCtrl',
+            access: {restricted: false}
         })
         .when('/register', {
             templateUrl: 'views/pages/register.html',
-            controller: 'RegisterCtrl'
+            controller: 'RegisterCtrl',
+            access: {restricted: false}
         })
         .when('/about', {
-            templateUrl: 'views/pages/about.html'
+            templateUrl: 'views/pages/about.html',
+            access: {restricted: false}
         })
 		.when('/contact', {
             templateUrl: 'views/pages/contact.html',
             access: {restricted: false}
         })
         .when('/employerDashboard', {
-            templateUrl: 'views/pages/employerDashboard.html'
+            templateUrl: 'views/pages/employerDashboard.html',
+            access: {restricted: false}
         })
         .when('/postjob', {
             templateUrl: 'views/pages/postjob.html',
-            controller: 'JobCtrl'
+            controller: 'JobCtrl',
+            access: {restricted: false}
         })
         .when('/viewjobs', {
             templateUrl: 'views/pages/viewjobs.html',
              controller: 'ViewJobsCtrl',
+            access: {restricted: false}
         })
         .when('/viewposts', {
             templateUrl: 'views/pages/viewposts.html',
-            controller: 'EmployerCtrl'
+            controller: 'EmployerCtrl',
+            access: {restricted: false}
         })
         .when('/jobdetails', {
             templateUrl: 'views/pages/jobdetails.html',
-            controller: 'ViewJobsCtrl'
+            controller: 'ViewJobsCtrl',
+            access: {restricted: false}
         })
         .otherwise({ redirectTo: '/' });
 

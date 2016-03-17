@@ -16,20 +16,16 @@ var Account = new Schema({
     lastname: String,
     major: String,
     education: String,
-    CompanyTypePref: [String],
-    CompanySizePref: [String],
-    LocationPref: [String],
-    EmploymentTypePref: [String],
-    WagePref: String,
-    WorkEnvironmentPref: [String],
-    SkillList: [String],
-    SurveyList: [String],
+    concentration: String,
+    SkillList: [{}],
+    SurveyList: [{}],
     MatchedJobs: [{}],
 
 //====== stuff for employers
-    companyname: String,
+    companyName: String,
     CompanySize: String,
     WorkEnvironment: String,
+    CompanyType: String,
     jobs: [{ type: Schema.Types.ObjectId, ref: 'Job' }]
 });
 
