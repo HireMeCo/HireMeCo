@@ -74,7 +74,7 @@ angular.module('hiremeApp',
         if($rootScope.isLoggedIn){
             // nav items for an employer
             if($rootScope.accountType == "employer"){
-                $scope. = "Company: " + $rootScope.firstname;
+                $scope.greeting = "Company: " + $rootScope.companyName;
                 $scope.navItems = [
                 { name: "View Posted Jobs", path: "/viewposts" },
                 { name: "Edit Profile", path: "/profile" },

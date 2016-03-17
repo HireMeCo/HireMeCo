@@ -21,6 +21,7 @@ LoginModule.controller('LoginCtrl',
                 //update important front end stuff
                 $rootScope.isLoggedIn = true;
                 $rootScope.firstname = AuthService.getFirstname();
+                $rootScope.companyName = AuthService.getAccount().companyname;
                 $rootScope.accountType = AuthService.getAccountType();
                 angular.element(document.getElementById('navigationElement')).scope().updateNav();
                 $scope.disabled = false;
