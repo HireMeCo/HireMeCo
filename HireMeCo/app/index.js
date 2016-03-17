@@ -54,8 +54,8 @@ router.post('/login', function(req, res, next) {
           });
           console.log(results);
           //sort results by best match
-          results.sort(function(a, b) {
-              b.score - a.score;
+          results = results.sort(function(a, b) {
+              return b.score - a.score;
           });
           console.log(results);
           //store the results

@@ -34,7 +34,6 @@
 							<ul ng-repeat="result in ViewingJob.SurveyList">
 								<li style="height:10px">{{result.text}}</li>
 							</ul>
-							<h3>JARRETT: NEED TO WRITE APPLICATION PROCESS</h3>
                             <p>To apply, email us here at <a href="mailto:" + {{ViewingJob.Company.username}} target="_blank">{{ViewingJob.Company.username}}</a></p>
 							<p><a href="#" class="btn btn-primary btn-lg">Apply Here</a></p>
 						</article>
@@ -48,7 +47,7 @@
 						<hr>
 						<div ng-show="MatchedJobs.length > 0" class="sidebar-widget" id="company-jobs">
 							<h2>More matches from this company</h2>
-							<ul ng-repeat="result in MatchedJobs | filter: {job: { companyName: ViewingJob.Company.companyName})">>
+							<ul ng-repeat="result in MatchedJobs | filter:{$:ViewingJob.Company.companyName}}">>
 								<li><a href="" ng-click="GoToJob(result)">{{job.JobTitle}}</a></li>
 							</ul>
 						</div>

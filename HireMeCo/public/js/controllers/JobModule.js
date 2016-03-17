@@ -60,7 +60,7 @@ JobModule.controller('ViewJobsCtrl',
 
             $scope.GoToCompany = function(company) {
                 $rootScope.ViewingCompany = company;
-                console.log("Going to " + company.companyName);
+                console.log(company);
                 $location.path('/company');
             }
 
