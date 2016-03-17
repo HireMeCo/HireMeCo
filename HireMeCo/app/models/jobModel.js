@@ -2,9 +2,6 @@
 
 // configure
 var mongoose = require('mongoose');
-var LinkedList = require('linkedlist');
-var Heap = require('binaryheap');
-var LinkedList = require('linkedlist');
 var Heap = require('binaryheap');
 var db = mongoose.connection;
 

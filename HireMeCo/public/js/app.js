@@ -44,6 +44,15 @@ angular.module('hiremeApp',
             controller: 'JobCtrl',
             access: {restricted: true}
         })
+        .when('/contact', {
+            templateUrl: 'views/pages/contact.html',
+            access: {restricted: false}
+        })
+        .when('/profile', {
+            templateUrl: 'views/pages/profile.html',
+            access: {restricted:true}
+        })
+        
         .otherwise({ redirectTo: '/' });
         
         $locationProvider.html5Mode(true);
