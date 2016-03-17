@@ -9,6 +9,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
     var MatchedJobs = [];
     var account = null;
     var companyName = " ";
+    var postedJobs = [];
 
     // return available functions for use in controllers
     return ({
@@ -24,7 +25,8 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
         baseSurveyList: baseSurveyList,
         login: login,
         logout: logout,
-        register: register
+        register: register,
+        getPostedJobs: getPostedJobs
     });
 
     function baseSkillList() {
@@ -72,7 +74,9 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
             return false;
         }
     }
-
+    function getPostedJobs() {
+        return postedJobs;
+    }
     function getUserStatus() {
         return user;
     }
@@ -118,6 +122,7 @@ angular.module('AuthServiceApp', []).factory('AuthService', function ($q, $timeo
                 companyName = data.user.companyName;
                 MatchedJobs = data.user.MatchedJobs;
                 user = true;
+                postedJobs = data.postedjobs;
                 account = data.user;
                 deferred.resolve();
             } else {

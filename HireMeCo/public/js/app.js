@@ -54,18 +54,23 @@ angular.module('hiremeApp',
         })
         .when('/viewjobs', {
             templateUrl: 'views/pages/viewjobs.html',
-             controller: 'ViewJobsCtrl',
+            controller: 'ViewJobsCtrl',
             access: {restricted: false}
         })
         .when('/viewposts', {
             templateUrl: 'views/pages/viewposts.html',
-            controller: 'EmployerCtrl',
+            controller: 'ViewJobsCtrl',
             access: {restricted: false}
         })
         .when('/jobdetails', {
             templateUrl: 'views/pages/jobdetails.html',
             controller: 'ViewJobsCtrl',
             access: {restricted: false}
+        })
+        .when('/company', {
+            templateUrl: 'views/pages/company.html',
+            controller: 'ViewJobsCtrl',
+            access: {restricted:false}
         })
         .otherwise({ redirectTo: '/' });
 
@@ -87,7 +92,7 @@ angular.module('hiremeApp',
                 $scope.greeting = "Company: " + $rootScope.companyName;
                 $scope.navItems = [
                 { name: "View Posted Jobs", path: "/viewposts" },
-                { name: "Edit Profile", path: "/profile" },
+                { name: "Profile", path: "/company" },
                 { name: "Post A Job", path: "/postjob"}
                 ];
             }
@@ -96,7 +101,7 @@ angular.module('hiremeApp',
                 $scope.greeting = "Welcome, " + $rootScope.firstname;
                 $scope.navItems = [
                     { name: "View Matches", path: "/viewjobs" },
-                    { name: "Profile", path: "/profile" }
+                    { name: "View My Profile", path: "/profile" }
                 ];
             }
         }
@@ -116,7 +121,8 @@ angular.module('hiremeApp',
 
 // redirects to login screen if attempting to access restricted page
 .run(function ($rootScope, $location, $route, AuthService) {
-  $rootScope.$on('$routeChangeStart', function (event, next, current) {
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
+        console.log(AuthService.isLoggedIn());
     if (next.access.restricted && AuthService.isLoggedIn() === false) {
       $location.path('/login');
       $route.reload();

@@ -898,7 +898,7 @@ header {
 	border-radius: 3px;
 }
 
-	.jobs a {
+	.jobs a, .jobs button {
 		border-bottom: 1px solid #e7e7e7;
 		color: #888;
 		display: block;
@@ -907,26 +907,31 @@ header {
 		width: 100%;
 	}
 
-		.jobs a.featured {
+		.jobs a.featured, .jobs button.featured {
 			background: #f8f8f8;
 			border-bottom: 1px solid #0185F5;
 		}
 
 		.jobs a:hover,
-		.jobs a.featured:hover {
+		.jobs a.featured:hover,
+        .jobs button:hover,
+        .jobs button.featured:hover, {
 			background: #f2f2f2;
 		}
 
 		.jobs a .row,
-		.jobs p {
+		.jobs p,
+        .jobs button .row {
 			margin: 0;
 		}
 
-		.jobs a h5 {
+		.jobs a h5,
+        .jobs button h5 {
 			line-height: 1.71em;
 		}
 
-		.jobs a strong {
+		.jobs a strong,
+        .jobs button strong {
 			color: #222;
 			font-weight: normal;
 		}
@@ -1156,7 +1161,7 @@ header {
 		margin: 0 0 30px;
 	}
 
-		#featured-companies li a {
+		#featured-companies li a, #featured-companies li button {
 			background: #fff;
 			display: block;
 			height: 100px;
@@ -1541,18 +1546,18 @@ header {
 			padding: 0;
 		}
 
-			.sidebar-links li a {
+			.sidebar-links li a, .sidebar-links li button {
 				background: url(../images/bullet.png) no-repeat 10px 18px;
 				border-bottom: 1px solid #e7e7e7;
 				display: block;
 				padding: 10px 10px 10px 25px;
 			}
 
-				.sidebar-links li a:hover {
+				.sidebar-links li a:hover, .sidebar-links li button:hover {
 					background: #f8f8f8 url(../images/bullet.png) no-repeat 15px 18px;
 				}
 
-				.sidebar-links li a span {
+				.sidebar-links li a span, .sidebar-links li button span {
 					display: block;
 					color: #888;
 					margin: 0;
@@ -1879,7 +1884,7 @@ header {
 			padding-top: 20px;
 		}
 
-		.jobs a div[class*="col"] {
+		.jobs a div[class*="col"], .jobs button div[class*="col"] {
 			padding-bottom: 0;
 			padding-top: 0;
 		}

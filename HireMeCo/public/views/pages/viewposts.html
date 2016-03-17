@@ -4,27 +4,28 @@
 <section id="jobs">
   <div class="container">
     <div class="row">
+        <h2>Posted Jobs</h2>
       <div class="col-sm-12">
         <div class="jobs">
-            <div ng-repeat="result in MatchedJobs">
-          <button class="featured applied" ng-click="GoToJob(result)">
+            <div ng-repeat="job in PostedJobs">
+          <button class="featured applied" ng-click="GoToPost(job)">
             <div class="row">
                 <div class="col-md-1 hidden-sm hidden-xs">
                     <!--<img src="http://placehold.it/60x60.jpg" alt="" class="img-responsive" />-->
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-7 col-xs-12 job-title">
-                    <h5>{{result.job.JobTitle}}</h5>
-                        <p><strong>{{Account.companyName}}</strong></p>
+                    <h5>{{job.JobTitle}}</h5>
+                        <p><strong>{{job.Company.companyName}}</strong></p>
                 </div>
                 <div>
-                    <p><strong>Percent Match: {{result.score}}%</strong></p>
+                    <p><strong>Posted On: 3/17/2016</strong></p>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 job-location">
-                    <p><strong>{{result.job.Location}}</strong></p>
+                    <p><strong>{{job.Location}}</strong></p>
                     <!--<p class="hidden-xs">126.3 miles away</p>-->
                 </div>
                 <div class="col-lg-2 col-md-2 hidden-sm hidden-xs job-type text-center">
-                    <p class="job-salary"><strong>${{result.job.Salary}}</strong></p>
+                    <p class="job-salary"><strong>${{job.Salary}}</strong></p>
                 </div>
             </div>
           </button>

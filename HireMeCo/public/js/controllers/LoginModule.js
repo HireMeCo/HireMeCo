@@ -23,6 +23,7 @@ LoginModule.controller('LoginCtrl',
                 $rootScope.firstname = AuthService.getFirstname();
                 $rootScope.companyName = AuthService.getCompanyName();
                 $rootScope.accountType = AuthService.getAccountType();
+                $rootScope.Account = AuthService.getAccount();
                 angular.element(document.getElementById('navigationElement')).scope().updateNav();
                 $scope.disabled = false;
                 $scope.loginForm = {};
@@ -32,6 +33,9 @@ LoginModule.controller('LoginCtrl',
                     console.log($rootScope.MatchedJobs);
                     $location.path('/viewjobs');
                 } else {
+                    $rootScope.PostedJobs = AuthService.getPostedJobs();
+                    $rootScope.ViewingCompany = AuthService.getAccount();
+                    console.log($rootScope.Account.jobs);
                     $location.path('/viewposts');
                 }
             })

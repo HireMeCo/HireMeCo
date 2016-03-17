@@ -1,8 +1,10 @@
 ﻿var express = require('express');
 var passport = require('passport');
 var Account = require('./models/account.js');
+var Heuristic = require('./models/CalculateMatch.js');
 var path = require("path");
 var router = express.Router();
+var JobModel = require('./models/job.js');
 
 
 
@@ -25,7 +27,7 @@ router.get('/login', function (req, res) {
     res.sendFile(path.join(__dirname, '../public', '/views/modules/login.html'), { user : req.user } );
 });
 
-var JobModel = require('./models/job.js');
+
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) {
@@ -43,28 +45,40 @@ router.post('/login', function(req, res, next) {
       }
       if (user.accountType == "job-seeker") {
         results = [];//Job.getMatchedJobs(req.user);
-        JobModel.find().exec(function(err, jobs) {
-            if (err) Job.handleError(err, response);
-            jobs.forEach(function(job) {
-                results.push(new Job.ResultItem(job, Job.Heuristic(user, job)));
-            });
-            results.sort(function(a, b) {
-                b.score - a.score;
-            });
-            req.user.MatchedJobs = results;
-            //or req.user.MatchedJobs.$set(results); idk
-            console.log("Login successful!");
-            res.status(200).json({
-              status: 'Employee login successful!',
-              user: user
-            });
+        JobModel.find().populate('Company').exec(function(err, jobs) {
+          if (err) Job.handleError(err, response);
+
+          //get every single job and match it
+          jobs.forEach(function(job) {
+              results.push(new Job.ResultItem(job, Heuristic(user, job)));
+          });
+          console.log(results);
+          //sort results by best match
+          results.sort(function(a, b) {
+              b.score - a.score;
+          });
+          console.log(results);
+          //store the results
+          req.user.MatchedJobs = results;
+
+          console.log("Login successful!");
+          res.status(200).json({
+            status: 'Employee login successful!',
+            user: user
+          });
         });
       }
       else {
-        console.log("Login successful!");
-        res.status(200).json({
-          status: 'Employer login successful!',
-          user: user
+        JobModel.find({ Company: user._id })
+          .populate('Company')
+          .exec(function(err, jobs) {
+          if (err) Job.handleError(error, response);
+          console.log("Login successful!");
+          res.status(200).json({
+            status: 'Employer login successful!',
+            user: user,
+            postedjobs: jobs
+          });
         });
       }
     });

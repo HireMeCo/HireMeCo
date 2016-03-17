@@ -1,42 +1,35 @@
 var JobModule = angular.module('JobModule', []);
 
 JobModule.controller('JobCtrl',
-['$scope', '$rootScope', '$location', 'JobService',
-    function ($scope, $rootScope, $location, JobService) {
+['$scope', '$rootScope', '$location', 'JobService', 'AuthService',
+    function ($scope, $rootScope, $location, JobService, AuthService) {
 
         console.log("Hey, we're in the job posting.");
+
+        $scope.JobForm = {}
+
+        $scope.JobForm.SkillList = AuthService.baseSkillList();
+        $scope.JobForm.SurveyList = AuthService.baseSurveyList();
 
         $scope.post = function() {
 
             //initial values
             $scope.error = false;
             $scope.disabled = true;
-            var SkillList = [];
-            var SurveyList = [];
-
-            //populate list of skills
-            $scope.list.forEach(function (skill) {
-                SkillList.push(skill.value);
-            });
-
-            //populate survey list
-            $scope.survey.forEach(function (item) {
-                SurveyList.push(item.value);
-            });
-
-            $scope.JobForm.SkillList = $scope.list;
-            $scope.JobForm.SurveyList = $scope.survey;
 
             JobService.postJob(
                 $scope.JobForm.JobTitle,
-                $scope.JobForm.Company,
                 $scope.JobForm.Description,
-                SkillList,
-                SurveyList)
+                $scope.JobForm.Salary,
+                $scope.JobForm.Location,
+                $scope.JobForm.EmploymentType,
+                $scope.JobForm.SkillList,
+                $scope.JobForm.SurveyList)
             // on success
             .then(function (){
                 console.log("Job Posting Success!");
-                $location.path('/viewjobs');
+                $rootScope.ViewingJob = JobService.getJob();
+                $location.path('/jobdetails');
                 $scope.JobForm = {};
             })
             .catch(function() {
@@ -46,30 +39,8 @@ JobModule.controller('JobCtrl',
                 $scope.JobForm = {};
             });
         };
-
-        // SORTABLE LIST!
-        $scope.list = [
-            { text: "Java", value: "Java" },
-            { text: "C#",   value: "C#" },
-            { text: "Python", value: "Python" },
-            { text: "CSS", value: "CSS" },
-            { text: "JavaScript", value: "JavaScript" }
-        ];
-
-        $scope.survey = [
-            { text: "Item 1", value: "1" },
-            { text: "Item 2", value: "2" },
-            { text: "Item 3", value: "3" },
-            { text: "Item 4", value: "4" },
-            { text: "Item 5", value: "5" }
-        ];
     }
 ]);
-
-// var populateJobs = function($scope, $rootScope, $location, JobService)
-// {
-
-// }
 
 JobModule.controller('ViewJobsCtrl',
     [
@@ -77,10 +48,26 @@ JobModule.controller('ViewJobsCtrl',
         '$rootScope',
         '$location',
         'JobService',
-        function($scope, $rootScope, $location, JobService) {
-            $scope.goTo = function(result){
-                $rootScope.CurrentJob = result;
+        function($scope, $rootScope, $location, JobService)
+        {
+            //$rootScope.PostedJobs = JobService.getPostedJobs($rootScope.Account._id);
+            $scope.GoToJob = function(result){
+                $rootScope.ViewingJob = result.job;
+                $rootScope.MatchResults = result.score;
                 console.log(result);
+                $location.path('/jobdetails');
+            }
+
+            $scope.GoToCompany = function(company) {
+                $rootScope.ViewingCompany = company;
+                console.log("Going to " + company.companyName);
+                $location.path('/company');
+            }
+
+            $scope.GoToPost = function(job) {
+                $rootScope.ViewingJob = job;
+                $rootScope.MatchResults = " ";
+                console.log("Faking the match results");
                 $location.path('/jobdetails');
             }
         }
